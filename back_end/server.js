@@ -18,7 +18,7 @@ connection.connect((err) => {
         console.log("connected")
     }
 })
-
+// For testing / vertical prototype purposes: These will be streamlined / changed later
 app.post('/create-user', (req, res) =>{
     //try to keep the values pulled from the front-end the same as what's used here, or change accordingly
     const username = req.body.username
