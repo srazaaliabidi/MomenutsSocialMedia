@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
-
 const app = express();
+const db = require('../config/database');
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -21,22 +21,23 @@ connection.connect((err) => {
 // For testing / vertical prototype purposes: These will be streamlined / changed later
 app.post('/create-user', (req, res) =>{
     //try to keep the values pulled from the front-end the same as what's used here, or change accordingly
-    const username = req.body.username
-    const email = req.body.email
-    const firstName = req.body.firstName
-    const lastName = req.body.lastName
-    const Gender = req.body.Gender
-    const city = req.body.city
-    const state = req.body.state
-    const DOB = req.body.DOB
+    let username = req.body.username
+    let password = req.body.password
+    let email = req.body.email
+    let firstName = req.body.firstName
+    let lastName = req.body.lastName
+    let city = req.body.city
+    let state = req.body.state
+    let DOB = req.body.DOB
 
     //query to test if sign-up for our platform gets sent to the DB
-    connection.query('INSERT INTO Users (username, firstName, lastName, Gender, city, state, DOB) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
-    [username, email, firstName, lastName, Gender, city, state, DOB], (err, result) => {
+    let registrationSQL = 'INSERT INTO users (email, username, password, firstName, lastName, city, state, DOB, registeredTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())'
+    connection.query(registrationSQL, 
+    [email, username, password, firstName, lastName, city, state, DOB], (err, result) => {
         if(err){
             console.log(err)
         } else {
-            res.send("Values successfully stored")
+            res.send("Values successfully stored, user created :-)")
         }
     }
     );
