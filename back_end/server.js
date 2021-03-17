@@ -19,7 +19,9 @@ connection.connect((err) => {
     }
 })
 // For testing / vertical prototype purposes: These will be streamlined / changed later
-app.post('/create-user', (req, res) =>{
+
+// create user
+app.post('/createUser', (req, res) =>{
     //try to keep the values pulled from the front-end the same as what's used here, or change accordingly
     let username = req.body.username
     let password = req.body.password
@@ -42,6 +44,48 @@ app.post('/create-user', (req, res) =>{
     }
     );
 })
+
+
+// return all posts - should be used only for vert. prototype, not in final version
+router.get('/getAllUsers', (req, res, next) => {
+    connection.query('SELECT * FROM users;', (err, results, fields) => 
+    {
+        if (err) {
+            next(err);
+        }
+            console.log(results);
+            res.send(results);
+    })
+    
+});
+
+// return all users - for vertical prototype
+app.get('/getAllUsers', (req, res, next) => {
+    connection.query('SELECT * FROM users;', (err, results, fields) => 
+    {
+        if (err) {
+            next(err);
+        }
+            console.log(results);
+            res.send(results);
+    })
+    
+});
+
+// return all collections - for vertical prototype
+app.get('/getAllCollections', (req, res, next) => {
+    connection.query('SELECT * FROM users;', (err, results, fields) => 
+    {
+        if (err) {
+            next(err);
+        }
+            console.log(results);
+            res.send(results);
+    })
+    
+});
+
+
 
 connection.query
 
