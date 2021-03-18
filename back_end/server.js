@@ -1,9 +1,53 @@
-const express = require('express');
-const mysql = require('mysql');
-const app = express();
-const db = require('../config/database');
+var createError = require('http-errors');
+var express = require('express');
+var mysql = require('mysql');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var cors = require('cors');
 
-var connection = mysql.createConnection({
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var prototypeRouter = require('./routes/prototype');
+
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors()); // connects front end to back
+
+
+/* These are basically forwarders - when going to localhost/{whatever is in quotes there} 
+it will show the files in the routes folder - ex: localhost/ goes to index router, loads index.js */
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/prototype', prototypeRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+// database connection
+/* var connection = mysql.createConnection({
     host: "localhost",
     user: "root", 
     password: "password",
@@ -18,78 +62,8 @@ connection.connect((err) => {
         console.log("connected")
     }
 })
-// For testing / vertical prototype purposes: These will be streamlined / changed later
-
-// create user
-app.post('/createUser', (req, res) =>{
-    //try to keep the values pulled from the front-end the same as what's used here, or change accordingly
-    let username = req.body.username
-    let password = req.body.password
-    let email = req.body.email
-    let firstName = req.body.firstName
-    let lastName = req.body.lastName
-    let city = req.body.city
-    let state = req.body.state
-    let DOB = req.body.DOB
-
-    //query to test if sign-up for our platform gets sent to the DB
-    let registrationSQL = 'INSERT INTO users (email, username, password, firstName, lastName, city, state, DOB, registeredTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())'
-    connection.query(registrationSQL, 
-    [email, username, password, firstName, lastName, city, state, DOB], (err, result) => {
-        if(err){
-            console.log(err)
-        } else {
-            res.send("Values successfully stored, user created :-)")
-        }
-    }
-    );
-})
-
-
-// return all posts - should be used only for vert. prototype, not in final version
-router.get('/getAllUsers', (req, res, next) => {
-    connection.query('SELECT * FROM users;', (err, results, fields) => 
-    {
-        if (err) {
-            next(err);
-        }
-            console.log(results);
-            res.send(results);
-    })
-    
-});
-
-// return all users - for vertical prototype
-app.get('/getAllUsers', (req, res, next) => {
-    connection.query('SELECT * FROM users;', (err, results, fields) => 
-    {
-        if (err) {
-            next(err);
-        }
-            console.log(results);
-            res.send(results);
-    })
-    
-});
-
-// return all collections - for vertical prototype
-app.get('/getAllCollections', (req, res, next) => {
-    connection.query('SELECT * FROM users;', (err, results, fields) => 
-    {
-        if (err) {
-            next(err);
-        }
-            console.log(results);
-            res.send(results);
-    })
-    
-});
+connection.query */
 
 
 
-connection.query
-
-const port = process.env.PORT || 5000;
-app.listen(port);
-
-console.log("App is listening on port: " + port);
+module.exports = app;
