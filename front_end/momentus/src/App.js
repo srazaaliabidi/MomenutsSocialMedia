@@ -1,9 +1,8 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import './App.css';
-
-
-
+import Home from './pages/home';
+import About from './pages/about';
 
 function App() {
   // used to display loading text
@@ -18,15 +17,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          test! - front end stuff will go here
-        </p>
-        <p>{!data ? "Loading..." : data}</p>
-      </header>
-    </div>
+    <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+        </Switch>
+    </BrowserRouter>
   );
 }
 
