@@ -1,7 +1,7 @@
 const {getNRecentPosts, getPostById} = require ('../models/Posts');
 const postsMiddleware = {};
 
-postsMiddleware.getRecentPosts = async function (req, res, next) {
+postsMiddleware.getNRecentPosts = async function (req, res, next) {
   try {
     let results = await getNRecentPosts (8);
     res.locals.results = results;
