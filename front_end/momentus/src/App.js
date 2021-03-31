@@ -1,20 +1,19 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Axios from "axios";
+
 
 
 
 function App() {
-  // connects front end to back
-  Axios({
-    method: "GET",
-    url: "http://localhost:3306/prototype",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(res => {
-    console.log(res.data.message);
-  });
+  // used to display loading text
+  const [data, setData] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch("/api")
+      .then((res) => res.json())
+      .then((data) => setData(data.message));
+  }, []);
 
   return (
     <div className="App">
@@ -23,14 +22,7 @@ function App() {
         <p>
           test! - front end stuff will go here
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>{!data ? "Loading..." : data}</p>
       </header>
     </div>
   );
