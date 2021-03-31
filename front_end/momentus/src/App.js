@@ -11,8 +11,10 @@ function App() {
 
   React.useEffect(() => {
     fetch("/api")
+      //.then((res) => console.log(res))
       .then((res) => res.json())
       .then((data) => setData(data.message));
+      
   }, []);
 
   return (
