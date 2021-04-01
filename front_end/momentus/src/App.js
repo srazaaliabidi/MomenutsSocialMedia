@@ -7,6 +7,7 @@ import Messages from './pages/messages';
 import Notifs from './pages/notifs';
 import Settings from './pages/settings';
 import Search from './pages/search';
+import logo from './momentuslogo.png';
 
 function App() {
   // used to display loading text
@@ -21,9 +22,15 @@ function App() {
   }, []);
 
   return (
+    <div className="App">
+    <header className="App-header">
+         <img src={logo} className="Momentus-logo" alt="Momentus"/>
+         
+       </header>
     <BrowserRouter>
         <Switch>
           <Route exact path="/">
+          <p>{!data ? "Loading..." : data}</p>
             <Home />
           </Route>
           <Route path="/about">
@@ -43,6 +50,7 @@ function App() {
           </Route>
         </Switch>
     </BrowserRouter>
+    </div>
   );
 }
 
