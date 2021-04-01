@@ -1,17 +1,12 @@
 import React from "react";
 
-
-function UserInfo(props) {
+// user info for post
+function UserInfo(username, pfpURL) {
     return (
-      <div className="UserInfo">
-          PFP:
-        <img
-        className="Profile-pic"
-        src={props.pfpURL}
-        alt={props.name}
-        />
-        <div className="UserInfo-name">Username: {props.name}</div>
-      </div>
+        <div className = "User-info">
+        <div className = "Profilepic-post"><img src = {pfpURL}></img></div>
+        <div className = "Username-post">Posted by {username}</div>
+        </div>
     );
 }
 

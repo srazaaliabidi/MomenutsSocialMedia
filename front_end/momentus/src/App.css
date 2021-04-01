@@ -29,10 +29,27 @@
     max-height: 90%;
   }
 
-  .Profile-pic {
-    max-width: 90%;
-    max-height: 90%;
+  .Profilepic-post {
+    width: 40px;
+    height: 40px;
   }
+  .Profilepic {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .Post-photo {
+    width: 400px;
+  }
+
+  .Post {
+    margin-left: auto;
+  margin-right: auto;
+  }
+}
+
+.Post-photo {
+  width: 5%;
 }
 
 .App-header {
@@ -58,7 +75,11 @@
   }
 }
 
-
+.Post {
+  margin:auto;
+  text-align: center;
+  width: 75%;
+}
 .fade-in {
   animation: fadeIn ease 1s;
   -webkit-animation: fadeIn ease 1s;

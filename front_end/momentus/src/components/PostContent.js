@@ -1,6 +1,39 @@
 import React from "react";
 
+function PostContent(props) {
+    const [userInfo, setUserInfo] = React.useState([]);
+    let id = props.post.postID;
+    let text = props.post.text;
+    let caption = props.post.caption;
+    let type = props.post.type;
+    let contentURL = props.post.contentURL;
+    let date = props.post.dateCreated;
+    let userID = props.post.userID;
+    /* // need to get username and pfp from userID
+    useEffect(() => {
+        fetch(`/api/user/${userID}`)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            setUserInfo(result);
+            console.log(result);
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      }, []) */
 
+    return (
+      <div className = "Post">
+        
+        postID: {id}
+        text: {text}
+      </div>
+    );
+}
+
+export default PostContent;
 /* function ProfilePic(props) {
     return (
     <div>

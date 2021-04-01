@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../App.css';
 import Post from '../components/Post';
+import PostContent from '../components/PostContent';
+const axios = require('axios');
 
 
 // this will house the vertical prototype for now... will change later of course
@@ -19,26 +21,67 @@ import Post from '../components/Post';
 const dummyPost = {postID: 1, text: "ppeeeep"};
 
 
-function Home() {
-  let responseData = [];
-// grab posts and user data for vertical prototype
-// returned as an array of arrays - first posts, then users
-React.useEffect(() => {
-  fetch("/api/prototype")
-    //.then((res) => console.log(res))
-    .then((res) => res.json())
-    .then((data) => console.log(data))
-    .then((data) => responseData.push(data))
-    ;
-}, []);
 
-console.log("response data: ", responseData);
+
+function Home() {
+  const [posts, setPosts] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  useEffect(() => {
+    fetch('/api/getAllPosts')
+    .then(res => res.json())
+    .then(
+      (result) => {
+        setPosts(result);
+        console.log(result);
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    .then(fetch('/api/getAllUsers')
+    .then(res => res.json())
+    .then(
+      (result) => {
+        setUsers(result);
+        console.log(result);
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    
+    
+    )
+  }, [])
+  
+
+
+
+/*   function processPosts(data) {
+    for (let i = 0; i < data.length; i++) {
+      const newPost = {
+        postID: data[0].postID,
+        userID: data[0].userID,
+        text: data[0].text
+      };
+      console.log(data[0].postID);
+      posts.push(newPost);
+    }
+  } */
+
+
     return(
         <div>
-        <div className = "Post">
-        Posts:
-            <Post postID = {dummyPost.postID} text = {dummyPost.text}/>
-            <Post postID = {dummyPost.postID} text = {dummyPost.text}/>
+
+          <div className = "Users">
+          </div>
+        <div className = "Posts">
+        {posts.map(post => (
+          <div className = "Post" key = {post.postID}>
+            <Post post = {post}/>
+          </div>
+        ))}
+            
         </div>
         </div>
         
