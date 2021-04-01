@@ -100,9 +100,12 @@ DROP TABLE IF EXISTS `Post`;
 CREATE TABLE `Post` (
   `postID` int NOT NULL AUTO_INCREMENT,
   `userID` int NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `pfpURL` varchar(225) NOT NULL,
   `caption` varchar(250) NOT NULL,
-  `type` varchar(45) NOT NULL,
-  `postURL` varchar(225) NOT NULL,
+  `type` enum('text', 'photo', 'video') NOT NULL,
+  `contentURL` varchar(225) NOT NULL,
+  `text` text(65535) NOT NULL,
   `dateCreated` date NOT NULL,
   PRIMARY KEY (`postID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -182,12 +185,10 @@ CREATE TABLE `Users` (
   `password` varchar(45) NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
-  `middleName` varchar(50) NOT NULL,
-  `Gender` varchar(45) DEFAULT NULL,
   `city` varchar(45) DEFAULT NULL,
   `state` varchar(45) NOT NULL,
-  `DOB` varchar(45) NOT NULL,
-  `registeredTime` datetime NOT NULL,
+  `DOB` date NOT NULL,
+  `pfpURL` varchar(225) NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -209,5 +210,9 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+INSERT INTO `socialmedia`.`Users` (`email`, `username`, `password`, `firstName`, `lastName`, `city`, `state`, `DOB`, `pfpURL`) VALUES ('test@test.com', 'test', 'test', 'Frederick', 'Test', 'San Francisco', 'CA', '1995-01-01', 'http://mattrbolles.com/bluecircle.png');
+INSERT INTO `socialmedia`.`Post` (`userID`, `username`, `pfpURL`, `caption`, `type`, `contentURL`, `text`, `dateCreated`) VALUES ('1', 'test', 'http://mattrbolles.com/bluecircle.png', 'test photo post', 'photo', 'http://mattrbolles.com/charles.jpg', 'none', '2021-03-31');
+INSERT INTO `socialmedia`.`Post` (`userID`, `username`, `pfpURL`, `caption`, `type`, `contentURL`, `text`, `dateCreated`) VALUES ('1', 'test', 'http://mattrbolles.com/bluecircle.png', 'none', 'text', 'none', 'This is a test text post. Yeehaw!', '2021-03-31');
+
 
 -- Dump completed on 2021-03-17 22:23:35
