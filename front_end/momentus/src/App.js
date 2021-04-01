@@ -11,16 +11,17 @@ import Search from './pages/search';
 import logo from './momentuslogo.png';
 
 function App() {
-  // used to display loading text
-  const [data, setData] = React.useState(null);
+  // used to display loading text - will reimplement later
+/*   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
     fetch("/api")
       //.then((res) => console.log(res))
       .then((res) => res.json())
-      .then((data) => setData(data.message));
-      
+      .then((data) => setData(data.message));  
   }, []);
+ */
+
 
   return (
     <div className="App">
@@ -31,7 +32,7 @@ function App() {
     <BrowserRouter>
         <Switch>
           <Route exact path="/">
-          <p>{!data ? "Loading..." : data}</p>
+          {/* <p>{!data ? "Loading..." : data}</p> */}
             <Home />
           </Route>
           <Route path="/about">

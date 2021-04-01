@@ -24,6 +24,15 @@
   -o-animation: fadeIn ease 2s;
   -ms-animation: fadeIn ease 2s;
   }
+  .Photo-post-content {
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  .Profile-pic {
+    max-width: 90%;
+    max-height: 90%;
+  }
 }
 
 .App-header {
