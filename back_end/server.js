@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const mysql = require('mysql');
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = 80; //process.env.PORT || 3001;
 
 var connection = mysql.createConnection({
   host     : "csc648db.ctbbxcp0jnib.us-west-1.rds.amazonaws.com",
