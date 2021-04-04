@@ -1,0 +1,82 @@
+:root {
+    font-size: 16px;
+    --bg-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background-color: var(--bg-color);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.container {
+    margin-top: 10%;
+}
+
+.container h1 {
+    text-align: center;
+    padding: 20px;
+}
+
+.team {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.member {
+    text-align: center;
+    width: 300px;
+    height: 400px;
+    align-items: center;
+    margin: 20px;
+
+    background-color: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    position: relative;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+}
+
+.member:hover {
+    box-shadow: 10px 25px 25px rgba(0, 0, 0, 0.15);
+    transform: translateX(-5px) translateY(-5px);
+}
+
+.team a {
+    text-decoration: none;
+    color: black;
+}
+
+.member img {
+    margin-top: 5px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.member h2 {
+    margin-top: 5%;
+}
+
+.member h3 {
+    margin-top: 5%;
+}
+
+.member p {
+    margin-top: 5%;
+}

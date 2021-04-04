@@ -1,0 +1,20 @@
+table {
+	margin: auto;
+	width: 80%;
+	text-align: center;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+tr {
+	padding: 0px;
+	margin: 0px;
+	border: 1px solid black;
+}
+
+.profile_pic {
+	display: inline-block;
+	padding: 0px;
+	margin: 0px;
+	float: left;
+}
