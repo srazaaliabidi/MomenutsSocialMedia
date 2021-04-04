@@ -7,6 +7,7 @@ const app = express();
 const fs = require('fs');
 app.use(cookieParser());
 var connection = false;
+var port = 3000;//80;
 
 app.use(express.static(path.resolve(__dirname, '../front')));
 
@@ -102,8 +103,7 @@ app.get('/getHome', function (req, res) {
     });
 });
 
-var server = app.listen(3000);
-//var server = app.listen(80);
+var server = app.listen(port);
 console.log("server online");
 
 

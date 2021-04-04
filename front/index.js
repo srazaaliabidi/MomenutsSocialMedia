@@ -1,5 +1,6 @@
 var host = "http://localhost:3000";
-//var host = "csc648db.ctbbxcp0jnib.us-west-1.rds.amazonaws.com";
+//var host = "http://csc648db.ctbbxcp0jnib.us-west-1.rds.amazonaws.com";
+//var host = "http://52.53.216.50";
 
 function fetchHomeData() {
 	$.ajax({
