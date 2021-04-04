@@ -63,7 +63,12 @@ function prepareTables() {
 }
 
 function resetDatabase() {
-    return;
+    var query = "TRUNCATE Post; TRUNCATE Users; TRUNCATE Comments; TRUNCATE Likes; TRUNCATE Messages;"
+    connection.query(query, function (error, result) {
+        if (error) {
+            console.log(error);
+        } 
+    });
 }
 
 /*---------------------Functions----------------------------*/
