@@ -4,7 +4,6 @@ import logo from '../assets/momentuslogo.png';
 
 function Login() {
   const [username, setUsername] = React.useState('');
-  const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   const handleSubmit = (e) => {
@@ -19,7 +18,6 @@ function Login() {
         <form id="/userlogin">
           <div className="input-box">
             <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} /><br />
-            <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} /><br />
             <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} /><br />
           </div>
           <input type="submit" className="submit-login" value="Login" /><br />
@@ -27,7 +25,6 @@ function Login() {
         <a href="/register">New? Create an account!</a><br />
         <p>Data testing</p>
         <p>username: {username}</p>
-        <p>email: {email}</p>
         <p>password: {password}</p>
       </div>
     </div>
