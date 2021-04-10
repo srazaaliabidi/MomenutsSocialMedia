@@ -6,15 +6,17 @@
 	<link rel="stylesheet" type="text/css" href="format/format.css">
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script  src = "format/format-level0.js" ></script>
-	<script  src = "index.js" ></script>
+	<script src = "format/format-level0.js" ></script>
+	<script src = "index.js" ></script>
 </head>
 <body>
 	<nav>
 		<script type="text/javascript"> fillNav() </script>
 	</nav>
 	<main>
-		<img src="images/momentuslogo.png">
+		<h1 id="logged">Not Logged In</h1>
+		<script type="text/javascript"> checkLogin() </script>
+		<img id="logo" src="images/momentuslogo.png">
 		<script type="text/javascript"> fetchHomeData() </script>
 	</main>
 	<footer>

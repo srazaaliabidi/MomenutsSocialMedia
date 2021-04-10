@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Momentus</title>
+	<link rel="stylesheet" type="text/css" href="../format/format.css">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script  src = "../format/format-level1.js" ></script>
+	<script type="text/javascript" src="gallery.js"></script>
+</head>
+<body>
+	<nav>
+		<script type="text/javascript"> fillNav() </script>
+	</nav>
+	<main>
+		<h1>text</h1>
+		<form onsubmit="addPostText(event)">
+			<label for="textTitle">title</label><br>
+			<input type="text" id="textTitle"><br><br>
+			<label for="content">content</label><br>
+			<input type="text" id="content"><br><br>
+			<input type="submit" value="Submit">
+		</form>
+		<br>
+		<br>
+		<h1>image</h1>
+		<form onsubmit="addPostImage(event)">
+			<label for="imageTitle">title</label><br>
+			<input type="text" id="imageTitle"><br><br>
+			<label for="contentURL">image</label><br>
+			<input type="file" id="contentURL"><br><br>
+			<label for="caption">caption</label><br>
+			<input type="text" id="caption"><br><br>
+			<input type="submit" value="Submit">
+		</form>
+	</main>
+	<footer>
+		<script type="text/javascript"> fillFooter() </script>
+	</footer>
+</body>
+

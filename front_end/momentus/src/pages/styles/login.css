@@ -1,0 +1,28 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    width: 600px;
+    height: 800px;
+    background-color: white;
+}
+
+img {
+    max-width: 128px;
+    /* max-height: 128px; */
+}
+
+h1 {
+    color: black;
+    font-size: 38px;
+}
+
+input {
+    width: 80%;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

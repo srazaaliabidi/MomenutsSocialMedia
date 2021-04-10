@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/CSC648-Team4/CSC648GroupProject#readme",
   "dependencies": {
+    "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "mysql": "^2.18.1"
   },

@@ -1,28 +1,32 @@
-var host = "http://localhost:3000";
+localStorage.setItem("host", "http://localhost:3000");
+//localStorage.setItem("host", "http://csc648db.ctbbxcp0jnib.us-west-1.rds.amazonaws.com")
+//localStorage.setItem("host", "http://52.53.216.50");
+//var host = "http://localhost:3000";
 //var host = "http://csc648db.ctbbxcp0jnib.us-west-1.rds.amazonaws.com";
 //var host = "http://52.53.216.50";
+
+
+/*----------------------main---------------------------*/
 
 function fetchHomeData() {
 	$.ajax({
 		type: "GET",
-	    url: host + '/getHome',
-	    success: function(result, status) {
-	    	var jason = JSON.parse(result);
-	    	if (jason.length == 0) {
-	    		showNothing();
-	    	} else {
-		    	prepareHome(jason);
-		    	fillHome(jason);
-	    	}
-	    },
-	    error: function(status, errorCode) {
-	    	showNothing();
-	    }
+	    url: localStorage.getItem("host") + '/getHome'
+	}).done(function(result) {
+		var jason = JSON.parse(result);
+		if (jason.length == 0) {
+			showNothing();
+		} else {
+			prepareHome(jason);
+			fillHome(jason);
+		}
+	}).fail(function(status, errorCode) {
+		showNothing();
 	});
 }
 
 function showNothing() {
-	document.getElementsByTagName('div')[0].innerHTML += "<p>got nothing</p>";
+	document.getElementsByTagName('main')[0].innerHTML += "<p>got nothing</p>";
 }
 
 function prepareHome(dataArray) {
