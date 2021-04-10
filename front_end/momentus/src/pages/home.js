@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import '../App.css';
+// import '../App.css';
 import Post from '../components/Post';
 import PostContent from '../components/PostContent';
 import logo from '../assets/momentuslogo.png';
