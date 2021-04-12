@@ -48,7 +48,7 @@ function Post(props) {
             </div>
             <div className = "Post-content">
             {text}
-            <div>Posted on {date}</div>
+            <div>Posted on {date}</div>``
           </div>
           </div>
         );
