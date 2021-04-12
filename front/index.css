@@ -1,0 +1,17 @@
+table {
+	margin: auto;
+	width: 80%;
+	text-align: center;
+}
+
+tr {
+	padding: 0px;
+	margin: 0px;
+}
+
+.profile_pic {
+	display: inline-block;
+	padding: 0px;
+	margin: 0px;
+	float: left;
+}
