@@ -13,7 +13,7 @@ const initialState = {
     switch (action.type) {
       case "LOAD_POSTS_SUCCESS":
         return { ...state, posts: action.payload };
-      case "DELETE_POST_SUCCESS":
+      case "DELETE_POSTgi_SUCCESS":
         return state;
       case "UPDATE_LISTING":
         return { ...state, ...action.payload };
