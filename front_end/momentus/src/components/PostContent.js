@@ -1,5 +1,8 @@
 import React from "react";
 
+/* 
+The actual content of the posts. Combines with userInfo to make a full post.
+*/
 function PostContent(props) {
     const [userInfo, setUserInfo] = React.useState([]);
     let id = props.post.postID;

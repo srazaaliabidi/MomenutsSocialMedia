@@ -15,6 +15,9 @@ import UserInfo from "./UserInfo";
     );
 } */
 
+/* 
+Post consists of the content and user info
+*/
 function Post(props) {
     let id = props.post.postID;
     let text = props.post.text;

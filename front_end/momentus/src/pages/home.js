@@ -7,22 +7,6 @@ import logo from '../assets/momentuslogo.png';
 const axios = require('axios');
 
 
-// this will house the vertical prototype for now... will change later of course
-
-// this won't pass through right now lol
-// const dummyPost = {
-//     date: new Date(),
-//     caption: 'Test post!!!!!',
-//     user: {
-//       name: 'Coolio',
-//       pfpurl: '../bluecircle.png',
-//     }
-//   };
-
-const dummyPost = { postID: 1, text: "ppeeeep" };
-
-
-
 
 function Home() {
   const [posts, setPosts] = React.useState([]);

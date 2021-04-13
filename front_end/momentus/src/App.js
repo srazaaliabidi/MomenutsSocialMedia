@@ -10,6 +10,7 @@ import Settings from './pages/settings';
 import Search from './pages/search';
 import Login from './pages/login';
 import Register from './pages/register';
+import { createStore, applyMiddleware, } from "redux";
 
 function App () {
   // used to display loading text - will reimplement later
