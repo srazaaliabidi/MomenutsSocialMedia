@@ -10,7 +10,21 @@ import Settings from './pages/settings';
 import Search from './pages/search';
 import Login from './pages/login';
 import Register from './pages/register';
+import NavigationBar from './components/NavigationBar'
 import { createStore, applyMiddleware, } from "redux";
+
+
+
+/* 
+Grabs states and their default values needed.
+Get whether user is logged in, and if so their name and id. 
+*/
+const select = appState => ({
+  isLoggedIn: appState.loginReducer.isLoggedIn,
+  username: appState.loginReducer.username,
+  _id: appState.loginReducer._id,
+})
+
 
 function App () {
   // used to display loading text - will reimplement later
@@ -26,36 +40,40 @@ function App () {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            {/* <p>{!data ? "Loading..." : data}</p> */}
-            <Home />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/messages">
-            <Messages />
-          </Route>
-          <Route path="/notifs">
-            <Notifs />
-          </Route>
-          <Route path="/settings">
-            <Settings />
-          </Route>
-          <Route path="/search">
-            <Search />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-
-        </Switch>
-      </BrowserRouter>
+      <Provider store={store}>
+        <React.StrictMode>
+          <BrowserRouter>
+          <NavigationBar />
+            <Switch>
+              <Route exact path="/">
+                {/* <p>{!data ? "Loading..." : data}</p> */}
+                <Home />
+              </Route>
+              <Route path="/about">
+                <About />
+              </Route>
+              <Route path="/messages">
+                <Messages />
+              </Route>
+              <Route path="/notifs">
+                <Notifs />
+              </Route>
+              <Route path="/settings">
+                <Settings />
+              </Route>
+              <Route path="/search">
+                <Search />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/register">
+                <Register />
+              </Route>
+            </Switch>
+          </BrowserRouter>
+        </React.StrictMode>
+      </Provider>
     </div>
   );
 }
