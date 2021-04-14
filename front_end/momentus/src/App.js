@@ -12,8 +12,10 @@ import Login from './pages/login';
 import Register from './pages/register';
 import NavigationBar from './components/NavigationBar'
 import { createStore, applyMiddleware, } from "redux";
+import rootReducer from "./redux/reducers/rootReducer";
 
 
+const store = createStore(rootReducer);
 
 /* 
 Grabs states and their default values needed.
@@ -25,6 +27,11 @@ const select = appState => ({
   _id: appState.loginReducer._id,
 })
 
+/*
+TODO: Dynamically change what is displayed based on whether
+the user is logged in (i.e. show the landing page if not logged in)
+But for now we will assume the user is logged in
+*/
 
 function App () {
   // used to display loading text - will reimplement later
@@ -46,7 +53,6 @@ function App () {
           <NavigationBar />
             <Switch>
               <Route exact path="/">
-                {/* <p>{!data ? "Loading..." : data}</p> */}
                 <Home />
               </Route>
               <Route path="/about">
