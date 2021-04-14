@@ -154,10 +154,11 @@ router.get('/', function (req, res) {
 	res.sendFile(path.resolve(__dirname, '../front') + '/index.html');
 });
 
+// posts for stream
 router.get('/getHome', function (req, res) {
 	console.log("/getHome");
 	getTop20Posts(function(output) {
-		res.send(output);
+		res.json(output);
 	});
 });
 

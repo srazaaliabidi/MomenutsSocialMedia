@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 //import ReactDOM from 'react-dom';
 import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
 // import './App.css';
-import Home from './pages/home';
+import Stream from './pages/stream';
 import About from './pages/about';
 import Messages from './pages/messages';
 import Notifs from './pages/notifs';
@@ -10,7 +10,8 @@ import Settings from './pages/settings';
 import Search from './pages/search';
 import Login from './pages/login';
 import Register from './pages/register';
-import NavigationBar from './components/NavigationBar'
+import NavigationBar from './components/NavigationBar';
+import SideBar from './components/SideBar';
 import { createStore, applyMiddleware, } from "redux";
 import rootReducer from "./redux/reducers/rootReducer";
 
@@ -34,26 +35,16 @@ But for now we will assume the user is logged in
 */
 
 function App () {
-  // used to display loading text - will reimplement later
-  /*   const [data, setData] = React.useState(null);
-  
-    React.useEffect(() => {
-      fetch("/api")
-        //.then((res) => console.log(res))
-        .then((res) => res.json())
-        .then((data) => setData(data.message));  
-    }, []);
-   */
-
   return (
     <div className="App">
       <Provider store={store}>
         <React.StrictMode>
           <BrowserRouter>
           <NavigationBar />
+          <SideBar />
             <Switch>
               <Route exact path="/">
-                <Home />
+                <Stream />
               </Route>
               <Route path="/about">
                 <About />
