@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import UserInfo from "./UserInfo";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import {
   submitComment,
   loadComments,
@@ -24,7 +23,7 @@ function Post({ post, userID }) {
   const type = post.type;
   // check to see if post is own, adjust options accordingly
   if (userID === post.userID) {
-    isOwnListing = true;
+    isOwnPost = true;
   }
       if (type == 'text') {
         return (

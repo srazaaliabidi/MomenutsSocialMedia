@@ -14,6 +14,7 @@ import NavigationBar from './components/NavigationBar';
 import SideBar from './components/SideBar';
 import { createStore, applyMiddleware, } from "redux";
 import rootReducer from "./redux/reducers/rootReducer";
+import { Provider, useDispatch } from "react-redux";
 
 
 const store = createStore(rootReducer);

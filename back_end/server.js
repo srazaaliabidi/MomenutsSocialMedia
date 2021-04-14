@@ -11,7 +11,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 var connection = false;
-var port = 3000;//80;
+var port = 3001;//80;
 
 app.use(express.static(path.resolve(__dirname, '../front')));
 app.use(session({secret: "CSC648csc!", resave: false,saveUninitialized: false}));
@@ -260,6 +260,6 @@ router.get('/search/', (req, res, next) => {
 
 app.use("/", router);
 var server = app.listen(port);
-console.log(`server online at port ${PORT}`);
+console.log(`server online at port ${port}`);
 
 

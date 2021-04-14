@@ -71,14 +71,14 @@ export const submitPostSuccess = (post) => {
   };
 };
 
-export const submitListing = (post) => {
+/* export const submitListing = (post) => {
   return (dispatch) => {
     axios.post(`/api/createListing`, { ...post }).then((res) => {
       dispatch(submitInquirySuccess(post));
       dispatch(loadListings());
     });
   };
-};
+}; */
 
 /* export const loadListings = () => {
   return (dispatch) => {
@@ -91,6 +91,6 @@ export const submitListing = (post) => {
 export const updatePost = (post) => {
   return {
     type: "UPDATE_POST",
-    payload: listing,
+    payload: post,
   };
 };

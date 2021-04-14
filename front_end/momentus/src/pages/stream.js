@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 // import '../App.css';
 import Post from '../components/Post';
-import PostContent from '../components/PostContent';
 import logo from '../assets/momentuslogo.png';
 const axios = require('axios');
-import axios from 'axios';
 
 /*
 20 or so most recent posts from the users the logged in users follows

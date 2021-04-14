@@ -17,7 +17,7 @@ const select = appState => ({
 Side bar - consists of logged in user profile info and trending posts
 */
 
-function SideBar() {
+function SideBar({username, pfpURL}) {
     return (
         <div classname = "SideBar">
             <ProfileInfo username = {username} pfpURL = {pfpURL}/>
