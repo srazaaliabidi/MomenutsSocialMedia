@@ -220,11 +220,43 @@ router.post('/newPostImage', function (req, res) {
 	}
 });
 
-// for loading message
-app.get("/api", (req, res) => {
-	// test to see if connected to api
-	//res.json({ message: "Welcome to Momentus." });
-  });
+// may need modification - only searches for title so far
+// localhost:3000/search?search=value
+router.get('/search/', (req, res, next) => {
+    let searchTerm = req.query.search;
+    if(!searchTerm) { // if no search term entered
+        res.send({
+            resultsStatus: "info",
+            message: "No search term given",
+            results: []
+        });
+    }
+    else {
+        let baseSQL = "SELECT * \
+        FROM posts \
+        HAVING title like ?;"
+        let sqlReadySearchTerm = "%" + searchTerm + "%"; // building proper search term
+        db.execute(baseSQL, [sqlReadySearchTerm])
+        .then(([results, fields]) => {
+            if(results && results.length) {
+                res.send({
+                    resultsStatus:"info",
+                    message: `${results.length} results found`,
+                    results: results
+                });
+            }
+            else {
+                res.send({
+                    resultsStatus: "info",
+                    message: "No results found for your search :(",
+                    results: results
+            	})
+                
+            }
+        })
+        .catch((err) => next(err));
+    }
+})
 
 app.use("/", router);
 var server = app.listen(port);
