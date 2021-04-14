@@ -15,7 +15,7 @@ right now it just pulls 20 recent posts from everyone
 */
 
 function Stream() {
-  let posts = {};
+  let posts = [];
   axios.get('/getHome')
   .then(res => {
     posts = res.data.output;
