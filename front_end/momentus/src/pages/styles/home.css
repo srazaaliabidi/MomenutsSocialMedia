@@ -15,7 +15,7 @@
     align-items: center;
     box-sizing: border-box;
     overflow: auto;
-    height: 700px;
+    height: 100%;
 }
 
 .rightside {
@@ -30,7 +30,7 @@
 
 body {
     color: #535F63;
-    margin-top: 50px;
+    margin-top: 75px;
     background-color: #e5e5e5;
     font-family: 'futura', 'Helvetica Now';
 }
