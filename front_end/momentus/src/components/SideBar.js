@@ -3,6 +3,7 @@ import App from '../App';
 import ProfileInfo from './ProfileInfo';
 import Trending from './Trending';
 import { useSelector, connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 
 // get user info to load into profile info
@@ -26,4 +27,4 @@ function SideBar({username, pfpURL}) {
     );
 }
 
-export default connect(selet)(SideBar);
+export default connect(select)(SideBar);

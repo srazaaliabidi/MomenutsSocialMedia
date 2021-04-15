@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import './styles/login-reg.css';
 import logo from '../assets/momentuslogo.png';
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { userLogin } from "../redux/actions/loginActions";
 
 function Login() {
   const dispatch = useDispatch();
   const [usernameToSubmit, setUsername] = React.useState('');
   const [passwordToSubmit, setPassword] = React.useState('');
+  let username = "";
+  let userID = "";
+  let userData = {};
 
   const handleSubmit = () => {
     axios.post('/verifyUser', {username: usernameToSubmit, password: passwordToSubmit})
@@ -32,9 +38,6 @@ function Login() {
           <button type="submit" className="submit-login" value="Login" onClick = {() => {handleSubmit()}}>Login</button>
           <br />
         </form><br />
-        
-        <p>username: {username}</p>
-        <p>password: {password}</p>
         <a href="/register">New? Create an account!</a><br />
       </div>
     </div>
