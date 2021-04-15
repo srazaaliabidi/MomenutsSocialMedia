@@ -53,14 +53,21 @@ function createDatabase () {
       database: 'mydb',
       multipleStatements: true,
     });
-    //resetDatabase();
+    resetDatabase();
     prepareTables ();
   });
 }
 
 function prepareTables () {
+	
   var preparation = fs.readFileSync (__dirname + '/prepareDB.sql').toString ();
+  var fill = fs.readFileSync (__dirname + '/prefillDB.sql').toString ();
   connection.query (preparation, function (error, result) {
+    if (error) {
+      console.log (error);
+    }
+  });
+  connection.query (fill, function (error, result) {
     if (error) {
       console.log (error);
     }
@@ -394,7 +401,7 @@ router.get ('/searchresults', function (req, res) {
 	console.log ('/searchresults');
 	let searchTerm = req.query.search;
 	var query =
-    'SELECT * FROM Post HAVING title like "%' +
+    'SELECT * FROM Post HAVING caption like "%' +
     searchTerm +
     '%";';
   connection.query (query, function (error, result) {

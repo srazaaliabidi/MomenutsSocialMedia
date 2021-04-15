@@ -29,7 +29,7 @@ function Post({post, userID}) {
   if (type == 'text') {
     return (
       <div class="post">
-        <div className="User-info">
+        <div className="userinfo">
           <div className="Profilepic-post"><img src={post.pfpURL} /></div>
           <div className="Username-post">@{post.username}</div>
         </div>
@@ -43,7 +43,7 @@ function Post({post, userID}) {
     );
   } else if (type == 'photo') {
     return (
-      <div class="Post">
+      <div class="post">
         <div class="userinfo">
           <div class="Profilepic-post">
             <img src={post.pfpURL} />
@@ -51,7 +51,7 @@ function Post({post, userID}) {
           <div class="Username-post">@{post.username}</div>
           <div class="Post-date">Posted on {post.dateCreated}</div>
         </div>
-        <div class="post-content">
+        <div class="Post-content">
           <div class="Post-photo">
             <img src={post.contentURL} />
           </div>
