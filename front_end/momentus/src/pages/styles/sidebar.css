@@ -1,0 +1,50 @@
+.sidebar {
+    max-width: inherit;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e5e5e5;
+}
+
+.collectionsidebar {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e5e5e5;
+}
+
+.sidebar-wrapper {
+    margin: 50px 75px;
+    text-align: center;
+    width: 200px;
+    height: 600px;
+    background-color: white;
+    border: 0px grey solid;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    justify-content: center;
+    align-content: center;
+    display: flex;
+}
+
+.collection-sidebar-wrapper {
+    margin: 50px 75px;
+    text-align: center;
+    width: 200px;
+    height: 600px;
+    background-color: white;
+    border: 0px grey solid;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    justify-content: center;
+    align-content: center;
+    display: flex;
+}

@@ -1,12 +1,14 @@
 import React from 'react';
 // import '../App.css';
 
-function Settings() {
-    return(
-        <div>
+function Settings () {
+  return (
+    <div class="centergrid">
+      <div>
         <h1>[Settings]</h1>
-        </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default Settings;

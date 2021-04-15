@@ -1,0 +1,39 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 0.5fr 2.0fr 0.5fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas: "leftside centergrid rightside";
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.centergrid {
+    width: 2.0fr;
+    grid-area: centergrid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.rightside {
+    grid-area: rightside;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.leftside {
+    grid-area: leftside;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+body {
+    margin-top: 50px;
+    background-color: #e5e5e5;
+}
