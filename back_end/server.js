@@ -30,6 +30,7 @@ function connectSql () {
     port: '3306',
   });
 
+<<<<<<< HEAD
   connection.connect (function (error) {
     if (error) {
       console.log (error);
@@ -37,6 +38,16 @@ function connectSql () {
       createDatabase ();
     }
   });
+=======
+	connection.connect(function(error) {
+		if (error) {
+			console.log(error);
+		} else {
+			console.log("Connected to AWS server")
+			createDatabase();
+		}
+	});
+>>>>>>> 1235101ab91d5cdfa550b7d1ee40dd39878aeb47
 }
 
 function createDatabase () {
@@ -220,11 +231,21 @@ router.get ('/', function (req, res) {
 });
 
 // posts for stream
+<<<<<<< HEAD
 router.get ('/getHome', function (req, res) {
   console.log ('/getHome');
   getTop20Posts (function (output) {
     res.json (output);
   });
+=======
+router.get('/getHome', function (req, res) {
+	console.log("/getHome");
+	getTop20Posts(function(output) {
+		console.log("Server sending posts for stream");
+		//console.log(output);
+		res.send(output);
+	});
+>>>>>>> 1235101ab91d5cdfa550b7d1ee40dd39878aeb47
 });
 
 router.post ('/newUser', function (req, res) {

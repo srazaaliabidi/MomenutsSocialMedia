@@ -142,7 +142,7 @@ body {
     gap: 0px 0px;
   }
   
-  #navigation {
+  .navigation {
     border: 1px solid #DDF4FF;
     width: 100%;
     height: 100%;
