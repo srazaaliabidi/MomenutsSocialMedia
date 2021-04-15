@@ -7,4 +7,4 @@ INSERT INTO Post (userID, username, pfpURL, caption, type, contentURL, content, 
 INSERT INTO Post (userID, username, pfpURL, caption, type, contentURL, content, dateCreated) VALUES ('123', 'Doge', 'http://mattrbolles.com/bluecircle.png', 'Another test image', 'photo', 'https://i.jpg.dog/content/images/system/logo_1530884671755_5d660e.svg', 'none', '2021-04-15');
 INSERT INTO Post (userID, username, pfpURL, caption, type, contentURL, content, dateCreated) VALUES ('123', 'Doge', 'http://mattrbolles.com/bluecircle.png', 'none', 'text', 'none', 'We love doge', '2021-04-15');
 INSERT INTO Collections (collectionID, postID, username, dateCreated) VALUES ('001', '01', 'Doge', '2021-04-15');
-INSERT INTO Collecitons (collectionID, postID, username, dateCreated) VALUES ('002', '02', 'Doge', '2021-04-15' );
+INSERT INTO Collections (collectionID, postID, username, dateCreated) VALUES ('002', '02', 'Doge', '2021-04-15' );
