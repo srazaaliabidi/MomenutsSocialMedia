@@ -32,6 +32,7 @@ function connectSql() {
 		if (error) {
 			console.log(error);
 		} else {
+			console.log("Connected to AWS server")
 			createDatabase();
 		}
 	});

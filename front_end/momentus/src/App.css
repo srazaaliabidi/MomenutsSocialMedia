@@ -143,7 +143,7 @@ body {
     grid-template-areas: "navigation search trending" "navigation maincontent trending";
   }
   
-  #navigation {
+  .navigation {
     border: 1px solid #DDF4FF;
     width: 100%;
     height: 100%;
