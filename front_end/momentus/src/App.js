@@ -17,6 +17,7 @@ import {createStore, applyMiddleware} from 'redux';
 import rootReducer from './redux/reducers/rootReducer';
 import {Provider, useDispatch} from 'react-redux';
 import {useSelector, connect} from 'react-redux';
+import './pages/styles/home.css';
 
 const store = createStore (rootReducer);
 const select = appState => ({
@@ -38,39 +39,41 @@ But for now we will assume the user is logged in
 function App({username, pfpURL}) {
   return (
     <div className="App">
-      <React.StrictMode>
-        <BrowserRouter>
+      <div class="grid-container">
+        <React.StrictMode>
           <NavigationBar />
           <SideBar />
           <CollectionSidebar />
-          <Switch>
-            <Route exact path="/">
-              <Stream />
-            </Route>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/messages">
-              <Messages />
-            </Route>
-            <Route path="/notifs">
-              <Notifs />
-            </Route>
-            <Route path="/settings">
-              <Settings />
-            </Route>
-            <Route path="/search">
-              <Search />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/register">
-              <Register />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      </React.StrictMode>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/">
+                <Stream />
+              </Route>
+              <Route path="/about">
+                <About />
+              </Route>
+              <Route path="/messages">
+                <Messages />
+              </Route>
+              <Route path="/notifs">
+                <Notifs />
+              </Route>
+              <Route path="/settings">
+                <Settings />
+              </Route>
+              <Route path="/search">
+                <Search />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/register">
+                <Register />
+              </Route>
+            </Switch>
+          </BrowserRouter>
+        </React.StrictMode>
+      </div>
     </div>
   );
 }
