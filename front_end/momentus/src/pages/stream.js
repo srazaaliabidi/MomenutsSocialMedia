@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 // import '../App.css';
 import Post from '../components/Post';
@@ -14,15 +14,19 @@ TODO: make it so it pulls posts from users you are following,
 right now it just pulls 20 recent posts from everyone
 */
 
+
 function Stream() {
-  let posts = [];
-  axios.get('/getHome')
-  .then(res => {
-    posts = res.data.output;
-  });
+  const [posts, setPosts] = useState([]);
+  const addPost = (newPost) => setPosts(state => [...state, newPost])
+  React.useEffect(() => {
+    axios.get('/getHome').then(response => 
+      response.data.forEach(post => addPost(post))
+    )
+  }, [])
 
 
   return (
+
     <div className = "Stream">
       {posts.map(post => (
         <div id = "post" className = "Post" key = {post.postID}>

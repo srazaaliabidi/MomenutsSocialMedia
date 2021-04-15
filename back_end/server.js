@@ -159,7 +159,9 @@ router.get('/', function (req, res) {
 router.get('/getHome', function (req, res) {
 	console.log("/getHome");
 	getTop20Posts(function(output) {
-		res.json(output);
+		console.log("Server sending posts for stream");
+		//console.log(output);
+		res.send(output);
 	});
 });
 
