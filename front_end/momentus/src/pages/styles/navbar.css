@@ -12,10 +12,15 @@
     display: flex;
     overflow: auto;
     align-items: center;
-}
+} 
 
 .navimg {
     margin-left: 10px;
+}
+
+.navlogo{
+   display: flex;
+   align-content: center;
 }
 
 .navigation-content {

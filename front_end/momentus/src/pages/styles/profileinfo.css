@@ -1,0 +1,25 @@
+.ProfileInfo-pfp {
+    width: 100px;
+    justify-content: center;
+    align-content: center;
+}
+
+.ProfileInfo-pfp img {
+    width: 100%;
+    height: 100%;
+}
+
+.ProfileInfo {
+    height: 100px;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    margin: auto;
+    display: block;
+}
+
+.ProfileInfo a {
+    font-size: 15px;
+    text-decoration: none;
+    color: #A2BAC2;
+}

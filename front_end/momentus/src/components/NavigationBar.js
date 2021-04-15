@@ -17,12 +17,11 @@ function NavigationBar () {
 
   return (
     <div class="NavBar">
-      {/*   
-      <div classname="NavBar-logo">
-        <img src={logo} alt="Momentus logo" height="10%" width="10%" />
-     </div>*/}
+
       <nav>
         <div class="navigation-content">
+          <img src={logo} alt="Momentus logo" height="10%" width="10%" />
+
           <span class="navimg"><a href="/">Home</a></span>
           <span class="navimg"><a href="/notifications">Notifications</a></span>
           <span class="navimg"><a href="/settings">Settings</a></span>

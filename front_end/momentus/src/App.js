@@ -43,7 +43,7 @@ function App({username, pfpURL}) {
         <React.StrictMode>
           <NavigationBar />
           <SideBar />
-          <CollectionSidebar />
+          <CollectionSidebar username={username} pfpURL={pfpURL} />
           <BrowserRouter>
             <Switch>
               <Route exact path="/">

@@ -12,6 +12,8 @@
 .collectionsidebar {
     max-width: inherit;
     box-sizing: border-box;
+    width: 200px;
+    height: 600px;
     height: 100%;
     width: 100%;
     display: flex;
@@ -31,7 +33,7 @@
     padding: 10px;
     justify-content: center;
     align-content: center;
-    display: flex;
+    display: inline-block;
 }
 
 .collection-sidebar-wrapper {
@@ -47,4 +49,17 @@
     justify-content: center;
     align-content: center;
     display: flex;
+}
+
+.collectionstext {
+    margin-top: 160px;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+}
+
+.profileinfobar {
+    display: flex;
+    position: absolute;
 }

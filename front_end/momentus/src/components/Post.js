@@ -28,29 +28,36 @@ function Post({post, userID}) {
   }
   if (type == 'text') {
     return (
-      <div className="Post">
+      <div class="post">
         <div className="User-info">
           <div className="Profilepic-post"><img src={post.pfpURL} /></div>
-          <div className="Username-post">Posted by {post.username}</div>
+          <div className="Username-post">@{post.username}</div>
         </div>
         <div className="Post-content">
           <div className="Post-date">Posted on {post.dateCreated}</div>
+          <br />
+          <br />
           {post.content}
         </div>
       </div>
     );
   } else if (type == 'photo') {
     return (
-      <div className="Post">
-        <div className="User-info">
-          <div className="Profilepic-post"><img src={post.pfpURL} /></div>
-          <div className="Username-post">Posted by {post.username}</div>
+      <div class="Post">
+        <div class="userinfo">
+          <div class="Profilepic-post">
+            <img src={post.pfpURL} />
+          </div>
+          <div class="Username-post">@{post.username}</div>
+          <div class="Post-date">Posted on {post.dateCreated}</div>
         </div>
-        <div className="Post-content">
-          <div className="Post-date">Posted on {post.dateCreated}</div>
-          <div className="Post-photo"><img src={post.contentURL} /></div>
-          <div className="Post-caption">{post.caption}</div>
+        <div class="post-content">
+          <div class="Post-photo">
+            <img src={post.contentURL} />
+          </div>
+          <div class="Post-caption">{post.caption}</div>
         </div>
+
       </div>
     );
   }
