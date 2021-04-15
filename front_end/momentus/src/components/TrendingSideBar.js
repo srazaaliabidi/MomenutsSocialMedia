@@ -18,10 +18,10 @@ const select = appState => ({
 Side bar - consists of logged in user profile info and trending posts
 */
 
-function SideBar () {
+function TrendingSideBar () {
   return (
     <div class="leftside">
-      <div class="Sidebar">
+      <div class="sidebar">
         <div class="sidebar-wrapper">
           <h3>Trending Posts</h3>
           <Trendingpost />

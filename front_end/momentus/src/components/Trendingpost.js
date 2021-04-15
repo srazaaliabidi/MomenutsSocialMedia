@@ -18,7 +18,7 @@ function Trendingpost () {
   }, []);
 
   return (
-    <div class="trending-sidebar">
+    <div class="trendingsidebar">
       <div class="trendingstream">
         {posts.map (post => <img src={post.pfpURL} />)}
       </div>
