@@ -3,12 +3,21 @@ import './styles/login-reg.css';
 import logo from '../assets/momentuslogo.png';
 
 function Login() {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const dispatch = useDispatch();
+  const [usernameToSubmit, setUsername] = React.useState('');
+  const [passwordToSubmit, setPassword] = React.useState('');
 
-  const handleSubmit = (e) => {
-    
-  }
+  const handleSubmit = () => {
+    axios.post('/verifyUser', {username: usernameToSubmit, password: passwordToSubmit})
+    // we need to get back user info if login succesful, then dispatch it to global state
+    // so we can tell who is logged in from anywhere in the app 
+    .then(res => {
+        username = res.data.username;
+        userID = res.data.userID;
+        userData = res.data; // whole user object
+    });
+    dispatch(userLogin(username, userID));
+  };
 
   return (
     <div className="login-reg-wrapper">
@@ -20,12 +29,13 @@ function Login() {
             <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} /><br />
             <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} /><br />
           </div>
-          <input type="submit" className="submit-login" value="Login" /><br />
+          <button type="submit" className="submit-login" value="Login" onClick = {() => {handleSubmit()}}>Login</button>
+          <br />
         </form><br />
-        <a href="/register">New? Create an account!</a><br />
-        <p>Data testing</p>
+        
         <p>username: {username}</p>
         <p>password: {password}</p>
+        <a href="/register">New? Create an account!</a><br />
       </div>
     </div>
   );

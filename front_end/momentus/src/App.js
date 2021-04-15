@@ -23,11 +23,15 @@ const store = createStore(rootReducer);
 /* 
 Grabs states and their default values needed.
 Get whether user is logged in, and if so their name and id. 
+We are going to put in default values for now for testing purposes.
 */
 const select = appState => ({
-  isLoggedIn: appState.loginReducer.isLoggedIn,
-  username: appState.loginReducer.username,
-  _id: appState.loginReducer._id,
+  // isLoggedIn: appState.loginReducer.isLoggedIn,
+  // username: appState.loginReducer.username,
+  // userID: appState.loginReducer.userID
+  isLoggedIn: true,
+  username: test,
+  userID: 1
 })
 
 /*

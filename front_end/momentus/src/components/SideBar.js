@@ -26,4 +26,4 @@ function SideBar({username, pfpURL}) {
     );
 }
 
-export default SideBar;
+export default connect(selet)(SideBar);
