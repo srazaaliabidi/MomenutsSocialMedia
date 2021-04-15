@@ -15,24 +15,20 @@ import SideBar from './components/SideBar';
 import { createStore, applyMiddleware, } from "redux";
 import rootReducer from "./redux/reducers/rootReducer";
 import { Provider, useDispatch } from "react-redux";
-import { connect } from 'react-redux';
+import { useSelector, connect } from "react-redux";
 
 
 const store = createStore(rootReducer);
-
-/* 
-Grabs states and their default values needed.
-Get whether user is logged in, and if so their name and id. 
-We are going to put in default values for now for testing purposes.
-*/
 const select = appState => ({
   // isLoggedIn: appState.loginReducer.isLoggedIn,
   // username: appState.loginReducer.username,
   // userID: appState.loginReducer.userID
   isLoggedIn: true,
-  username: test,
+  pfpURL: "http://mattrbolles.com/charles.jpg",
+  username: "test",
   userID: 1
 })
+
 
 /*
 TODO: Dynamically change what is displayed based on whether
@@ -40,14 +36,13 @@ the user is logged in (i.e. show the landing page if not logged in)
 But for now we will assume the user is logged in
 */
 
-function App () {
+function App ({username, pfpURL}) {
   return (
     <div className="App">
-      <Provider store={store}>
         <React.StrictMode>
           <BrowserRouter>
           <NavigationBar />
-          <SideBar />
+          <SideBar username = {username} pfpURL = {pfpURL} />
             <Switch>
               <Route exact path="/">
                 <Stream />
@@ -76,9 +71,8 @@ function App () {
             </Switch>
           </BrowserRouter>
         </React.StrictMode>
-      </Provider>
     </div>
   );
 }
 
-export default App;
+export default connect(select)(App);

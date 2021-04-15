@@ -9,8 +9,8 @@ import { useDispatch } from "react-redux";
 // get user info to load into profile info
 const select = appState => ({
     // isLoggedIn: appState.loginReducer.isLoggedIn,
-    username: appState.loginReducer.username,
-    pfpURL: appState.loginReducer.pfpURL,
+    //username: appState.loginReducer.username,
+    //pfpURL: appState.loginReducer.pfpURL,
   })
 
 
