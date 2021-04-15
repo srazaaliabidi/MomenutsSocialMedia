@@ -2,6 +2,7 @@ import React from 'react';
 import App from '../App';
 import logo from '../assets/momentuslogo.png';
 import '../pages/styles/navbar.css';
+import {useHistory} from 'react-router-dom';
 
 /*
 Nav bar for the top of the page
@@ -9,9 +10,12 @@ Nav bar for the top of the page
 
 function NavigationBar () {
   const [search, setSearch] = React.useState ('');
+  const history = useHistory ();
 
   const handleSearch = evt => {
     evt.preventDefault ();
+    history.push ('/searchresults');
+    history.go (0);
     //alert (`Looking for ${search}`);
   };
 

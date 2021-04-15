@@ -7,7 +7,7 @@ import About from './pages/about';
 import Messages from './pages/messages';
 import Notifs from './pages/notifs';
 import Settings from './pages/settings';
-import Search from './pages/search';
+import SearchResults from './pages/searchresults';
 import Login from './pages/login';
 import Register from './pages/register';
 import NavigationBar from './components/NavigationBar';
@@ -18,6 +18,9 @@ import rootReducer from './redux/reducers/rootReducer';
 import {Provider, useDispatch} from 'react-redux';
 import {useSelector, connect} from 'react-redux';
 import './pages/styles/home.css';
+import {createBrowserHistory} from 'history';
+
+export const history = createBrowserHistory ();
 
 const store = createStore (rootReducer);
 const select = appState => ({
@@ -44,7 +47,7 @@ function App({username, pfpURL}) {
           <NavigationBar />
           <TrendingSidebar />
           <CollectionSidebar username={username} pfpURL={pfpURL} />
-          <BrowserRouter>
+          <BrowserRouter history={history}>
             <Switch>
               <Route exact path="/">
                 <Stream />
@@ -61,8 +64,8 @@ function App({username, pfpURL}) {
               <Route path="/settings">
                 <Settings />
               </Route>
-              <Route path="/search">
-                <Search />
+              <Route path="/searchresults">
+                <SearchResults />
               </Route>
               <Route path="/login">
                 <Login />
