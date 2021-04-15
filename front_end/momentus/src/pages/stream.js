@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 // import '../App.css';
 import Post from '../components/Post';
+import CreatePost from '../components/CreatePost'
 import logo from '../assets/momentuslogo.png';
 const axios = require ('axios');
 
@@ -26,6 +27,7 @@ function Stream () {
   return (
     <div class="centergrid">
       <div className="Stream">
+        <CreatePost />
         {posts.map (post => (
           <div id="post" className="Post" key={post.postID}>
             <Post post={post} />
