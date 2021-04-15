@@ -17,12 +17,11 @@ const select = appState => ({
 Side bar - consists of logged in user profile info and trending posts
 */
 
-function SideBar({username, pfpURL}) {
+function TrendingSideBar() {
   return (
     <div class="leftside">
       <div class="Sidebar">
         <div class="sidebar-wrapper">
-          <ProfileInfo username={username} pfpURL={pfpURL} />
           <Trending />
         </div>
       </div>
@@ -30,4 +29,4 @@ function SideBar({username, pfpURL}) {
   );
 }
 
-export default connect (select) (SideBar);
+export default connect (select) (TrendingSideBar);
