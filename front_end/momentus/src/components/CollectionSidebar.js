@@ -9,15 +9,23 @@ TODO: Add in logic to get trending posts and actually add them lol
 */
 
 function CollectionSidebar({username, pfpURL}) {
+  const [collections, setCollections] = React.useState({
+    collectionName: 'Birthday 2020',
+    totalMedia: 80
+  })
+
   return (
     <div class="rightside">
       <div class="collectionsidebar">
         <div class="collection-sidebar-wrapper">
           <div class="profileinfobar">
             <ProfileInfo username={username} pfpURL={pfpURL} />
-          </div><br /><br /><br />
+          </div>
           <div class="collectionstext">
-            [Collections]
+            <h3>Your collections</h3>
+            <a href="#">{collections.collectionName}</a>
+            <p>{collections.totalMedia} photo total</p>
+            <img src="https://via.placeholder.com/150"></img>
           </div>
         </div>
       </div>

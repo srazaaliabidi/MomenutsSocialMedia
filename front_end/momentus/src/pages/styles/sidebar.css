@@ -57,6 +57,16 @@
     display: flex;
     justify-content: center;
     position: absolute;
+    display: block;
+}
+
+.collectionstext a{
+    color: #707070;
+    text-decoration: none;
+}
+
+.collectionstext a:hover{
+    text-decoration: underline;
 }
 
 .profileinfobar {
