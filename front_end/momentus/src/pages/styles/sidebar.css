@@ -60,12 +60,12 @@
     display: block;
 }
 
-.collectionstext a {
+.collectionstext a{
     color: #707070;
     text-decoration: none;
 }
 
-.collectionstext a:hover {
+.collectionstext a:hover{
     text-decoration: underline;
 }
 

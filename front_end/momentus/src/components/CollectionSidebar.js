@@ -24,7 +24,7 @@ function CollectionSidebar({username, pfpURL}) {
           <div class="collectionstext">
             <h3>Your collections</h3>
             <a href="#">{collections.collectionName}</a>
-            <p class="mediacount">{collections.totalMedia} photo total</p>
+            <p>{collections.totalMedia} photo total</p>
             <img src="https://via.placeholder.com/150" />
           </div>
         </div>

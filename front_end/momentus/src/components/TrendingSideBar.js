@@ -31,4 +31,4 @@ function SideBar () {
   );
 }
 
-export default connect (select) (SideBar);
+export default connect (select) (TrendingSideBar);
