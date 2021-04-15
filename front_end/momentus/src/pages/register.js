@@ -3,16 +3,27 @@ import './styles/login-reg.css';
 import logo from '../assets/momentuslogo.png';
 import './styles/home.css';
 
-function Register () {
-  const [email, setEmail] = React.useState ('');
-  const [username, setUsername] = React.useState ('');
-  const [password, setPassword] = React.useState ('');
-  const [confirmPass, setConfirmPass] = React.useState ('');
-  const [firstName, setFirstName] = React.useState ('');
-  const [lastName, setLastName] = React.useState ('');
-  const [city, setCity] = React.useState ('');
-  const [state, setState] = React.useState ('');
-  const [DOB, setDOB] = React.useState ('');
+function Register() {
+  const [form, setForm] = React.useState({
+    email: '',
+    username: '',
+    password: '',
+    confrimPass: '',
+    firstName: '',
+    lastName: '',
+    city: '',
+    state: '',
+    birthdate: ''
+  })
+
+  const [step, setStep] = React.useState(1)
+
+  const updateForm = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: [e.target.value]
+    });
+  }
 
   return (
     <div className="centergrid">
@@ -26,78 +37,103 @@ function Register () {
               action="back_end/server/createUser"
               method="POST"
             >
-              <input
-                type="email"
-                placeholder="Email"
-                onChange={e => setEmail (e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="Username"
-                onChange={e => setUsername (e.target.value)}
-              />
-              <br />
-              <input
-                type="password"
-                placeholder="Password"
-                onChange={e => setPassword (e.target.value)}
-              />
-              <br />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                id="confirm-password"
-                onChange={e => setConfirmPass (e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="First Name"
-                onChange={e => setFirstName (e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="Last Name"
-                onChange={e => setLastName (e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="City"
-                id="city"
-                onChange={e => setCity (e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="State"
-                id="state"
-                onChange={e => setState (e.target.value)}
-              />
-              <br />
-              <label for="DOB">Date of birth</label><br />
-              <input
-                type="date"
-                placeholder="Date of Birth"
-                id="DOB"
-                onChange={e => setDOB (e.target.value)}
-              />
-              <br />
-              <input type="submit" value="Register" /><br />
+              {step === 1 ? (
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={updateForm}
+                  />
+                  <br />
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    onChange={updateForm}
+                  />
+                  <br />
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={updateForm}
+                  />
+                  <br />
+                  <input
+                    type="password"
+                    name="confirmPass"
+                    placeholder="Confirm Password"
+                    id="confirm-password"
+                    onChange={updateForm}
+                  />
+                </div>
+              ) : null}
+
+              {step === 2 ? (
+                <div>
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    onChange={updateForm}
+                  />
+                  <br />
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    onChange={updateForm}
+                  />
+                  <br />
+                  <input
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    id="city"
+                    onChange={updateForm}
+                  />
+                  <br />
+                  <input
+                    type="text"
+                    name="state"
+                    placeholder="State"
+                    id="state"
+                    onChange={updateForm}
+                  />
+                  <br />
+                  <label for="DOB">Date of birth</label><br />
+                  <input
+                    type="date"
+                    name="birthdate"
+                    placeholder="Date of Birth"
+                    id="DOB"
+                    onChange={updateForm}
+                  />
+                  <br />
+                  <input type="submit" value="Register" /><br />
+                </div>
+              ) : null}
+              {step === 1 ? (
+                <button type="button" onClick={() => setStep(step + 1)}>Next</button>
+              ) : null}
             </form>
             <br />
           </div>
           <a href="/login">Log in instead</a><br />
-          <p>email: {email}</p>
-          <p>username: {username}</p>
-          <p>password: {password}</p>
-          <p>confirmPass: {confirmPass}</p>
-          <p>firstName: {firstName}</p>
-          <p>lastName: {lastName}</p>
-          <p>city: {city}</p>
-          <p>state: {state}</p>
-          <p>DOB: {DOB}</p>
+          
+          {/* 
+          ------- Data check -------
+          <p>email: {form.email}</p>
+          <p>username: {form.username}</p>
+          <p>password: {form.password}</p>
+          <p>confirmPass: {form.confirmPass}</p>
+          <p>firstName: {form.firstName}</p>
+          <p>lastName: {form.lastName}</p>
+          <p>city: {form.city}</p>
+          <p>state: {form.state}</p>
+          <p>DOB: {form.birthdate}</p>
+          */}
         </div>
       </div>
     </div>
