@@ -11,7 +11,7 @@ import SearchResults from './pages/searchresults';
 import Login from './pages/login';
 import Register from './pages/register';
 import NavigationBar from './components/NavigationBar';
-import TrendingSidebar from './components/TrendingSidebar';
+import TrendingSidebar from './components/TrendingSideBar';
 import CollectionSidebar from './components/CollectionSidebar';
 import {createStore, applyMiddleware} from 'redux';
 import rootReducer from './redux/reducers/rootReducer';
