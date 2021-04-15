@@ -96,6 +96,38 @@ function getTop20Posts (nextFunction) {
   });
 }
 
+function getTop5Posts (nextFunction) {
+  var postQuery = 'SELECT * FROM Post';
+  var matchQuery = 'SELECT userID FROM Post';
+  var userQuery =
+    'SELECT userID, username, pfpURL FROM Users WHERE userID IN (' +
+    matchQuery +
+    ')';
+  var query = postQuery + ' NATURAL JOIN (' + userQuery + ') AS U LIMIT 5';
+  connection.query (query, function (error, result) {
+    if (error) {
+      console.log (error);
+    } else {
+      nextFunction (JSON.stringify (result));
+    }
+  });
+}
+
+function getSearch (searchTerm) {
+  var query =
+    'SELECT * \
+            AS haystack FROM Post HAVING haystack like"' +
+    searchTerm +
+    ';';
+  connection.query (query, function (error, result) {
+    if (error) {
+      console.log (error);
+    } else {
+      nextFunction (JSON.stringify (result));
+    }
+  });
+}
+
 function newUser (
   email,
   username,
@@ -230,6 +262,16 @@ router.get ('/getHome', function (req, res) {
   });
 });
 
+//posts for trending
+router.get ('/getTrending', function (req, res) {
+  console.log ('/getTrending');
+  getTop5Posts (function (output) {
+    console.log ('Server sending posts for stream');
+    //console.log(output);
+    res.send (output);
+  });
+});
+
 router.post ('/newUser', function (req, res) {
   console.log ('/newUser');
   newUser (
@@ -315,7 +357,7 @@ router.post ('/newPostImage', function (req, res) {
 
 // may need modification - only searches for title so far
 // localhost:3000/search?search=value
-router.get ('/search/', (req, res, next) => {
+router.get ('/search', (req, res, next) => {
   let searchTerm = req.query.search;
   if (!searchTerm) {
     // if no search term entered
@@ -326,9 +368,9 @@ router.get ('/search/', (req, res, next) => {
     });
   } else {
     let baseSQL =
-      'SELECT * \
+      'SELECT * AS haystack\
         FROM posts \
-        HAVING title like ?;';
+        HAVING haystack like ?;';
     let sqlReadySearchTerm = '%' + searchTerm + '%'; // building proper search term
     db
       .execute (baseSQL, [sqlReadySearchTerm])

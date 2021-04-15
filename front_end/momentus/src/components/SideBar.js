@@ -2,6 +2,7 @@ import React from 'react';
 import App from '../App';
 import ProfileInfo from './ProfileInfo';
 import Trending from './Trending';
+import Trendingpost from './Trendingpost';
 import {useSelector, connect} from 'react-redux';
 import {useDispatch} from 'react-redux';
 import '../pages/styles/sidebar.css';
@@ -17,13 +18,13 @@ const select = appState => ({
 Side bar - consists of logged in user profile info and trending posts
 */
 
-function SideBar({username, pfpURL}) {
+function SideBar () {
   return (
     <div class="leftside">
       <div class="Sidebar">
         <div class="sidebar-wrapper">
-          <ProfileInfo username={username} pfpURL={pfpURL} />
-          <Trending />
+          <h3>Trending Posts</h3>
+          <Trendingpost />
         </div>
       </div>
     </div>

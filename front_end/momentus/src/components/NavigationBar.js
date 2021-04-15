@@ -25,7 +25,6 @@ function NavigationBar () {
           <span class="navimg"><a href="/">Home</a></span>
           <span class="navimg"><a href="/notifications">Notifications</a></span>
           <span class="navimg"><a href="/settings">Settings</a></span>
-          <span class="navimg"><a href="/createpost">Create Post</a></span>
           <span class="navimg"><a href="/logout">Logout</a></span>
         </div>
       </nav>

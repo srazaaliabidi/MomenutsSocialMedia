@@ -33,4 +33,5 @@ body {
     margin-top: 75px;
     background-color: #e5e5e5;
     font-family: 'futura', 'Helvetica Now';
+    overflow: hidden;
 }

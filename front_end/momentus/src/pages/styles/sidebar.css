@@ -24,7 +24,7 @@
 .sidebar-wrapper {
     margin: 50px 75px;
     text-align: center;
-    width: 200px;
+    width: 250px;
     height: 600px;
     background-color: white;
     border: 0px grey solid;
@@ -39,7 +39,7 @@
 .collection-sidebar-wrapper {
     margin: 50px 75px;
     text-align: center;
-    width: 200px;
+    width: 250px;
     height: 600px;
     background-color: white;
     border: 0px grey solid;
@@ -57,9 +57,29 @@
     display: flex;
     justify-content: center;
     position: absolute;
+    display: block;
+}
+
+.collectionstext a {
+    color: #707070;
+    text-decoration: none;
+}
+
+.collectionstext a:hover {
+    text-decoration: underline;
 }
 
 .profileinfobar {
     display: flex;
     position: absolute;
+}
+
+.trendingstream {}
+
+.trendingstream img {
+    max-width: 120px;
+}
+
+.mediacount {
+    font-size: 11px;
 }

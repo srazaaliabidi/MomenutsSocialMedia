@@ -14,15 +14,15 @@
     overflow: auto;
     align-items: center;
     justify-content: space-around;
-} 
+}
 
 .navimg {
     margin-left: 10px;
 }
 
-.navlogo{
-   display: flex;
-   align-content: center;
+.navlogo {
+    display: flex;
+    align-content: center;
 }
 
 .navigation-content {
@@ -44,8 +44,8 @@
 .navigation-content a:hover {
     color: white;
     text-decoration: none;
-    -webkit-text-stroke-width: .5px;
-    -webkit-text-stroke-color: #82C1DF;
+    -webkit-text-stroke-width: .2px;
+    -webkit-text-stroke-color: #707070;
 }
 
 .search-text {
