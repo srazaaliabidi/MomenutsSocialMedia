@@ -14,7 +14,11 @@ function NavigationBar () {
 
   const handleSearch = evt => {
     evt.preventDefault ();
-    history.push ('/searchresults');
+    let searchTerm = search;
+    let searchURL = '/searchresults?search=';
+    let fullSearch = searchURL.concat(searchTerm);
+    console.log('Going to search for:' + search);
+    history.push (fullSearch);
     history.go (0);
     //alert (`Looking for ${search}`);
   };

@@ -115,10 +115,9 @@ function getTop5Posts (nextFunction) {
 
 function getSearch (searchTerm) {
   var query =
-    'SELECT * \
-            AS haystack FROM Post HAVING haystack like"' +
+    'SELECT * FROM Post HAVING title like "%' +
     searchTerm +
-    ';';
+    '%";';
   connection.query (query, function (error, result) {
     if (error) {
       console.log (error);
@@ -356,24 +355,22 @@ router.post ('/newPostImage', function (req, res) {
 });
 
 // may need modification - only searches for title so far
-// localhost:3000/search?search=value
-router.get ('/search', (req, res, next) => {
+// localhost:3000/searchresults?search=value
+// will fix later dont delete pls
+/* router.get ('/searchresults', (req, res, next) => {
+	console.log('search...');
   let searchTerm = req.query.search;
   if (!searchTerm) {
     // if no search term entered
-    res.send ({
-      resultsStatus: 'info',
-      message: 'No search term given',
-      results: [],
-    });
+    res.send (results);
   } else {
     let baseSQL =
       'SELECT * AS haystack\
         FROM posts \
         HAVING haystack like ?;';
     let sqlReadySearchTerm = '%' + searchTerm + '%'; // building proper search term
-    db
-      .execute (baseSQL, [sqlReadySearchTerm])
+    connection
+      .query(baseSQL, [sqlReadySearchTerm])
       .then (([results, fields]) => {
         if (results && results.length) {
           res.send ({
@@ -391,7 +388,24 @@ router.get ('/search', (req, res, next) => {
       })
       .catch (err => next (err));
   }
-});
+}); */
+
+router.get ('/searchresults', function (req, res) {
+	console.log ('/searchresults');
+	let searchTerm = req.query.search;
+	var query =
+    'SELECT * FROM Post HAVING title like "%' +
+    searchTerm +
+    '%";';
+  connection.query (query, function (error, result) {
+    if (error) {
+      console.log (error);
+    } else {
+      (JSON.stringify (result));
+	  res.send(result);
+    }
+  	});
+  });
 
 app.use ('/', router);
 var server = app.listen (port);

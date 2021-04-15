@@ -25,7 +25,7 @@ function Stream () {
   }, []);
 
   return (
-    <div class="centergrid">
+    <div className="centergrid">
       <div className="Stream">
         <CreatePost />
         {posts.map (post => (
