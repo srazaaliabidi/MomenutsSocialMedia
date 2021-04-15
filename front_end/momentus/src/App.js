@@ -28,7 +28,7 @@ const select = appState => ({
   // username: appState.loginReducer.username,
   // userID: appState.loginReducer.userID
   isLoggedIn: true,
-  pfpURL: 'http://mattrbolles.com/charles.jpg',
+  pfpURL: 'https://t3.ftcdn.net/jpg/02/22/39/64/240_F_222396430_Yvf2e080ejpzCOQmETC2zbk6EwCsfHm4.jpg',
   username: 'test',
   userID: 1,
 });
