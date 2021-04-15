@@ -9,7 +9,7 @@ TODO: Add in logic to get trending posts and actually add them lol
 
 function Trending () {
   return (
-    <div classname="trending-sidebar">
+    <div class="trending-sidebar">
       <div className="Trending-sidebar-post">
         Trending post
       </div>

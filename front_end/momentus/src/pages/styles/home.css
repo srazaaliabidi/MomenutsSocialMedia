@@ -9,7 +9,6 @@
 }
 
 .centergrid {
-    width: 2.0fr;
     grid-area: centergrid;
     display: flex;
     justify-content: center;

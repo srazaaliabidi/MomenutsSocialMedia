@@ -9,7 +9,7 @@ TODO: Add in logic to get trending posts and actually add them lol
 
 function CollectionSidebar () {
   return (
-    <div classname="rightside">
+    <div class="rightside">
       <div class="collectionsidebar">
         <div class="collection-sidebar-wrapper">
           [Collections]
