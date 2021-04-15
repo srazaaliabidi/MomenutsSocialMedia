@@ -11,7 +11,7 @@ import SearchResults from './pages/searchresults';
 import Login from './pages/login';
 import Register from './pages/register';
 import NavigationBar from './components/NavigationBar';
-import TrendingSidebar from './components/TrendingSidebar';
+import TrendingSideBar from './components/TrendingSideBar';
 import CollectionSidebar from './components/CollectionSidebar';
 import {createStore, applyMiddleware} from 'redux';
 import rootReducer from './redux/reducers/rootReducer';
@@ -45,7 +45,7 @@ function App({username, pfpURL}) {
       <div class="grid-container">
         <React.StrictMode>
           <NavigationBar />
-          <TrendingSidebar />
+          <TrendingSideBar />
           <CollectionSidebar username={username} pfpURL={pfpURL} />
           <BrowserRouter history={history}>
             <Switch>
