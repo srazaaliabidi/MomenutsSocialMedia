@@ -18,13 +18,6 @@ app.use (
   session ({secret: 'CSC648csc!', resave: false, saveUninitialized: false})
 );
 
-// to allow Heroku to load routes properly
-app.get('/*', (req, res) => {
-  let url = path.join(__dirname, '../client/build', 'index.html');
-  if (!url.startsWith('/app/')) 
-    url = url.substring(1);
-  res.sendFile(url);
-});
 
 /*----------------------Prepare---------------------------*/
 
@@ -422,10 +415,9 @@ router.get ('/searchresults', function (req, res) {
   	});
   });
 
-// All other GET requests not handled before will return our React app
-/* app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../front_end/momentus/build', 'index.html'));
-});   */
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/front_end/momentus/build/index.html'));
+});
 
 app.use ('/', router);
 var server = app.listen(process.env.PORT || 3001)
