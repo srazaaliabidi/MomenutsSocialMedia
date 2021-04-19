@@ -19,9 +19,15 @@ function Stream () {
   const [posts, setPosts] = useState ([]);
   const addPost = newPost => setPosts (state => [...state, newPost]);
   React.useEffect (() => {
-    axios
+    try {
+      axios
       .get ('/getHome')
       .then (response => response.data.forEach (post => addPost (post)));
+    }
+    catch (err) {
+      console.error(err.message);
+    }
+    
   }, []);
 
   return (
