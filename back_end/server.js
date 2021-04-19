@@ -254,10 +254,15 @@ function addPostImage (userID, title, contentURL, caption, endFunction) {
 }
 
 /*----------------------AJAX---------------------------*/
+app.get('/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname + '../front_end/momentus/build/index.html'))
+})
+app.use ('/', router);
 
-router.get ('/', function (req, res) {
-  //	res.sendFile(path.resolve(__dirname, '../front') + '/index.html');
-});
+
+// router.get ('/', function (req, res) {
+//   //	res.sendFile(path.resolve(__dirname, '../front') + '/index.html');
+// });
 
 // posts for stream
 router.get ('/getHome', function (req, res) {
@@ -419,6 +424,6 @@ router.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/front_end/momentus/build/index.html'));
 });
 
-app.use ('/', router);
+
 var server = app.listen(process.env.PORT || 3001)
 console.log (`server online at port ${port}`);
