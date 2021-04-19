@@ -415,7 +415,7 @@ router.get ('/searchresults', function (req, res) {
   	});
   });
 
-app.get('*', (req, res) => {
+router.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/front_end/momentus/build/index.html'));
 });
 
