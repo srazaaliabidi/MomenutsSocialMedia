@@ -257,9 +257,6 @@ function addPostImage (userID, title, contentURL, caption, endFunction) {
 }
 
 /*----------------------AJAX---------------------------*/
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../front_end/momentus/build/index.html'));
-})
 app.use ('/', router);
 
 
