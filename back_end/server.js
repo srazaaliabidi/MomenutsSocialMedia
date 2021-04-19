@@ -13,7 +13,7 @@ app.use (express.json ());
 var connection = false;
 var port = 3001; //80;
 
-app.use (express.static (path.resolve (__dirname, '../front')));
+app.use (express.static (path.resolve (__dirname, '../front_end/momentus/build')));
 app.use (
   session ({secret: 'CSC648csc!', resave: false, saveUninitialized: false})
 );
