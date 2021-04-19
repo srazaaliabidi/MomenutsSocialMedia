@@ -257,12 +257,24 @@ function addPostImage (userID, title, contentURL, caption, endFunction) {
 }
 
 /*----------------------AJAX---------------------------*/
+// List of all the files that should be served as-is
+let protected = ['transformed.js', 'main.css', 'favicon.ico']
+
+app.get("*", (req, res) => {
+
+  let path = req.params['0'].substring(1)
+
+  if (protected.includes(path)) {
+    // Return the actual file
+    res.sendFile(`${__dirname}/build/${path}`);
+  } else {
+    // Otherwise, redirect to /build/index.html
+    res.sendFile(`${__dirname}/build/index.html`);
+  }
+});
+
 app.use ('/', router);
 
-
-// router.get ('/', function (req, res) {
-//   //	res.sendFile(path.resolve(__dirname, '../front') + '/index.html');
-// });
 
 // posts for stream
 router.get ('/getHome', function (req, res) {
@@ -419,7 +431,6 @@ router.get ('/searchresults', function (req, res) {
     }
   	});
   });
-
 
 
 
