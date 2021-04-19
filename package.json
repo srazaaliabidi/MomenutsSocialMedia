@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./back_end/server.js"
+    "start": "node ./back_end/server.js",
+    "build": "cd front_end && cd momentus && npm install && npm run build"
   },
   "repository": {
     "type": "git",

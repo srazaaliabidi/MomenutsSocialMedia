@@ -414,6 +414,11 @@ router.get ('/searchresults', function (req, res) {
   	});
   });
 
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../front_end/momentus/build', 'index.html'));
+});  
+
 app.use ('/', router);
 var server = app.listen (port);
 console.log (`server online at port ${port}`);
