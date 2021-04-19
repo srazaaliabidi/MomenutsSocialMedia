@@ -13,7 +13,10 @@ app.use (express.json ());
 var connection = false;
 var port = 3001; //80;
 
-app.use (express.static (path.resolve (__dirname, '../front_end/momentus/build')));
+
+if (process.env.NODE_ENV === "production") {
+  app.use (express.static (path.resolve (__dirname, '../front_end/momentus/build')));
+}
 app.use (
   session ({secret: 'CSC648csc!', resave: false, saveUninitialized: false})
 );
@@ -255,7 +258,7 @@ function addPostImage (userID, title, contentURL, caption, endFunction) {
 
 /*----------------------AJAX---------------------------*/
 app.get('/*', (req, res) => {
-  res.sendFile(path.resolve(__dirname + '../front_end/momentus/build/index.html'))
+  res.sendFile(path.join(__dirname, '../front_end/momentus/build/index.html'));
 })
 app.use ('/', router);
 
@@ -420,9 +423,7 @@ router.get ('/searchresults', function (req, res) {
   	});
   });
 
-router.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/front_end/momentus/build/index.html'));
-});
+
 
 
 var server = app.listen(process.env.PORT || 3001)
