@@ -4,7 +4,7 @@ const session = require ('express-session');
 const express = require ('express');
 const cookieParser = require ('cookie-parser');
 var CryptoJS = require ('crypto-js');
-var router = express.Router ();
+var app = express.Router ();
 const app = express ();
 const fs = require ('fs');
 app.use (cookieParser ());
@@ -15,7 +15,7 @@ var port = 3001; //80;
 const cors = require('cors');
 
 
-
+/*----------------------Setup-----------------------------*/
 
 if (process.env.NODE_ENV === "production") {
   app.use (express.static (path.resolve (__dirname, '../front_end/momentus/build')));
@@ -260,11 +260,11 @@ function addPostImage (userID, title, contentURL, caption, endFunction) {
 }
 
 /*----------------------AJAX---------------------------*/
-app.use ('/', router);
+//app.use ('/', router);
 
 
 // posts for stream
-router.get ('/getHome', function (req, res) {
+app.get ('/getHome', function (req, res) {
   console.log ('/getHome');
   getTop20Posts (function (output) {
     console.log ('Server sending posts for stream');
@@ -274,7 +274,7 @@ router.get ('/getHome', function (req, res) {
 });
 
 //posts for trending
-router.get ('/getTrending', function (req, res) {
+app.get ('/getTrending', function (req, res) {
   console.log ('/getTrending');
   getTop5Posts (function (output) {
     console.log ('Server sending posts for stream');
@@ -283,7 +283,7 @@ router.get ('/getTrending', function (req, res) {
   });
 });
 
-router.post ('/newUser', function (req, res) {
+app.post ('/newUser', function (req, res) {
   console.log ('/newUser');
   newUser (
     req.body.email,
@@ -305,7 +305,7 @@ router.post ('/newUser', function (req, res) {
   );
 });
 
-router.post ('/verifyUser', function (req, res) {
+app.post ('/verifyUser', function (req, res) {
   console.log ('/verifyUser');
   verifyUser (
     req.body.username,
@@ -320,7 +320,7 @@ router.post ('/verifyUser', function (req, res) {
   );
 });
 
-router.get ('/checkLogin', function (req, res) {
+app.get ('/checkLogin', function (req, res) {
   console.log ('/checkLogin');
   if (req.session.username) {
     res.send ('[{"username":"' + req.session.username + '"}]');
@@ -329,13 +329,13 @@ router.get ('/checkLogin', function (req, res) {
   }
 });
 
-router.post ('/logout', function (req, res) {
+app.post ('/logout', function (req, res) {
   console.log ('/logout');
   req.session.destroy ();
   res.end ();
 });
 
-router.post ('/newPostText', function (req, res) {
+app.post ('/newPostText', function (req, res) {
   console.log ('/newPostText');
   if (!req.session.uid) {
     console.log ('no uid');
@@ -349,7 +349,7 @@ router.post ('/newPostText', function (req, res) {
   }
 });
 
-router.post ('/newPostImage', function (req, res) {
+app.post ('/newPostImage', function (req, res) {
   console.log ('/newPostImage');
   if (!req.session.uid) {
     res.end ('0');
@@ -402,7 +402,7 @@ router.post ('/newPostImage', function (req, res) {
   }
 }); */
 
-router.get ('/searchresults', function (req, res) {
+app.get ('/searchresults', function (req, res) {
 	console.log ('/searchresults');
 	let searchTerm = req.query.search;
 	var query =
