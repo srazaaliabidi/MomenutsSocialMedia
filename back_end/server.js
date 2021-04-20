@@ -12,6 +12,9 @@ app.use (express.urlencoded ({extended: true}));
 app.use (express.json ());
 var connection = false;
 var port = 3001; //80;
+const cors = require('cors');
+
+
 
 
 if (process.env.NODE_ENV === "production") {
@@ -20,7 +23,7 @@ if (process.env.NODE_ENV === "production") {
 app.use (
   session ({secret: 'CSC648csc!', resave: false, saveUninitialized: false})
 );
-
+app.use(cors());
 
 /*----------------------Prepare---------------------------*/
 
