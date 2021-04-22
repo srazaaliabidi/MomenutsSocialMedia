@@ -41,7 +41,7 @@ function NavigationBar () {
           <input
             class="search-text"
             type="search"
-            placeholder="Looking for something??"
+            placeholder="Looking for something?"
             value={search}
             onChange={e => setSearch (e.target.value)}
           />
