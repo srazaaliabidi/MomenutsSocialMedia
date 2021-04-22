@@ -186,6 +186,58 @@ function addPostImage(userID, title, contentURL, caption, endFunction) {
   });
 }
 
+function addMessage(sender, receiver, content, endFunction) {
+  var date = Date.now();
+  var query = "INSERT INTO Messages (userIDReceiver, userIDSender, content, dateCreated) VALUES ('"+receiver+"', '"+sender+"', '"+content+"', '"+date+"');";
+  connection.query(query, function (error, result) {
+    if (error) {
+      console.log(error);
+      endFunction("0");
+    } else {
+      endFunction("1");
+    }
+  });
+}
+
+function addComments(postID, userID, content, endFunction) {
+  var date = Date.now();
+  var query = "INSERT INTO Comments (postID, userID, content, dateCreated) VALUES ('"+postID+"', '"+userID+"', '"+content+"', '"+date+"');";
+  connection.query(query, function (error, result) {
+    if (error) {
+      console.log(error);
+      endFunction("0");
+    } else {
+      endFunction("1");
+    }
+  });
+}
+
+function follow(following, followed, endFunction) {
+  var date = Date.now();
+  var query = "INSERT INTO Comments (userIDFollowing, userIDFollowed, dateFollowed) VALUES ('"+following+"', '"+followed+"', '"+date+"');";
+  connection.query(query, function (error, result) {
+    if (error) {
+      console.log(error);
+      endFunction("0");
+    } else {
+      endFunction("1");
+    }
+  });
+}
+
+function favorite(postID, userID, endFunction) {
+  var date = Date.now();
+  var query = "INSERT INTO Comments (postID, userID, dateCreated) VALUES ('"+postID+"', '"+userID+"', '"+date+"');";
+  connection.query(query, function (error, result) {
+    if (error) {
+      console.log(error);
+      endFunction("0");
+    } else {
+      endFunction("1");
+    }
+  });
+}
+
 /*----------------------AJAX---------------------------*/
 
 router.get('/', function (req, res) {
@@ -265,6 +317,51 @@ router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
     var filePath = "../back_end/post-images/"+Date.now()+"-"+req.file.originalname;
     console.log("> "+filePath);
     addPostImage(req.session.uid, req.body.title, filePath, req.body.caption, function(output) {
+      res.send(output);
+    }); 
+  }
+});
+
+router.post('/sendMessage', function (req, res) {
+  console.log("/sendMessage");
+  if (!req.session.uid) {
+    res.end("0");
+  } else {
+    //socket.io for messaging service
+    addMessage(req.session.uid, req.body.receiver, req.body.content, function(output) {
+      res.send(output);
+    }); 
+  }
+});
+
+router.post('/addComment', function (req, res) {
+  console.log("/sendMessage");
+  if (!req.session.uid) {
+    res.end("0");
+  } else {
+    addMessage(req.body.postID, req.session.uid, req.body.content, function(output) {
+      res.send(output);
+    }); 
+  }
+});
+
+router.post('/follow', function (req, res) {
+  console.log("/follow");
+  if (!req.session.uid) {
+    res.end("0");
+  } else {
+    follow(req.session.uid, req.body.followed, function(output) {
+      res.send(output);
+    }); 
+  }
+});
+
+router.post('/favorite', function (req, res) {
+  console.log("/favorite");
+  if (!req.session.uid) {
+    res.end("0");
+  } else {
+    favorite(req.body.postID, req.session.uid, function(output) {
       res.send(output);
     }); 
   }
