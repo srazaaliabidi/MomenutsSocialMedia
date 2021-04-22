@@ -1,0 +1,37 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 0.5fr 2.0fr 0.5fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas: "leftside centergrid rightside";
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.centergrid {
+    grid-area: centergrid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: auto;
+    height: 100%;
+}
+
+.rightside {
+    grid-area: rightside;
+    display: flex;
+}
+
+.leftside {
+    grid-area: leftside;
+    display: flex;
+}
+
+body {
+    color: #535F63;
+    margin-top: 75px;
+    background-color: #e5e5e5;
+    font-family: 'futura', 'Helvetica Now';
+    overflow: hidden;
+}

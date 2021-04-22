@@ -1,0 +1,50 @@
+.login-reg-wrapper {
+    margin-top: 50px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e5e5e5;
+}
+
+.login-reg-box {
+    margin: 0 75px;
+    text-align: center;
+    width: 100%;
+    max-width: 575px;
+    height: 100%;
+    background-color: white;
+    border: 0px grey solid;
+    border-radius: 3%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.login-reg-box img {
+    position: relative;
+    top: 5px;
+    max-width: 128px;
+    max-height: 128px;
+}
+
+.login-reg-box h1 {
+    color: black;
+    font-size: 38px;
+}
+
+.login-reg-box input {
+    width: 80%;
+    height: 68px;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px #707070 solid;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 0 3%;
+}
+
+.submit-login {
+    position: relative;
+}
