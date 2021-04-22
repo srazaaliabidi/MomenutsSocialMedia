@@ -13,13 +13,13 @@ function SearchResults () {
   // can add more params later for filtering
   const searchParams =  new URLSearchParams(search);
   const searchTerm = searchParams.get('search');
-  const searchURLFront = 'search?search=';
+  const searchURL = 'search?search=';
   const [searchResults, setSearchResults] = useState ([]);
   const addResult = newResult => setSearchResults (state => [...state, newResult]);
   React.useEffect (() => {
     try {
     axios
-      .get (searchURLFront.concat(searchTerm))
+      .get (searchURL.concat(searchTerm))
       .then (response => response.data.forEach (result => addResult (result)));
     }
     catch (err) {
@@ -30,7 +30,6 @@ function SearchResults () {
   return (
     <div className="centergrid">
       <div className="Search-results">
-        <h3>{searchURLFront.concat(searchTerm)}</h3>
         <h1>Displaying search results for: {searchTerm}</h1>
         {searchResults.map (post => (
           <div id="post" className="Post" key={post.postID}>
