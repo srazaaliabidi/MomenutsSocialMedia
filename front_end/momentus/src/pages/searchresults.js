@@ -8,7 +8,7 @@ const queryString = require('query-string');
 const axios = require ('axios');
 
 
-function SearchResults ({ match, location }) {
+function SearchResults () {
   const { search } = useLocation();
   // can add more params later for filtering
   const searchParams =  new URLSearchParams(search);
@@ -29,6 +29,7 @@ function SearchResults ({ match, location }) {
   return (
     <div className="centergrid">
       <div className="Search-results">
+        test!
         <h1>Displaying search results for: {searchTerm}</h1>
         {searchResults.map (post => (
           <div id="post" className="Post" key={post.postID}>
