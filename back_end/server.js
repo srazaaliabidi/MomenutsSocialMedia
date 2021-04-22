@@ -34,6 +34,8 @@ const storagePost = multer.diskStorage({
       callback(null, path.resolve(__dirname, 'post-images'));
     } else if (file.fieldname === "pfpURL") {
       callback(null, path.resolve(__dirname, 'profile-images'));
+    } else if (file.fieldname === "iconURL") {
+      callback(null, path.resolve(__dirname, 'collection-images'));
     }
   },
   filename: function(req, file, callback) {
@@ -238,6 +240,54 @@ function favorite(postID, userID, endFunction) {
   });
 }
 
+function newCollection(userID, name, iconURL, endFunction) {
+  var date = Date.now();
+  var query = "INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('"+userID+"', '"+name+"', '"+iconURL+"', '"+date+"', '"+date+"');";
+  connection.query(query, function (error, result) {
+    if (error) {
+      console.log(error);
+      endFunction("0");
+    } else {
+      endFunction("1");
+    }
+  });
+}
+
+function appendCollection(postID, collectionID, endFunction) {
+  var date = Date.now();
+  var query = "INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('"+postID+"', '"+collectionID+"', '"+date+"');";
+  connection.query(query, function (error, result) {
+    if (error) {
+      console.log(error);
+      endFunction("0");
+    } else {
+      endFunction("1");
+    }
+  });
+}
+
+function getCollections(collectionID, nextFunction) {
+  var query = "SELECT * FROM Collections WHERE userID = '"+collectionID+"';";
+  connection.query (query, function (error, result) {
+    if (error) {
+      console.log (error);
+    } else {
+      nextFunction (JSON.stringify (result));
+    }
+  });
+}
+
+function viewCollection(collectionID, nextFunction) {
+  var query = "SELECT * FROM Post NATURAL JOIN (SELECT * FROM Collection_Content WHERE collectionID = '"+collectionID+"');";
+  connection.query (query, function (error, result) {
+    if (error) {
+      console.log (error);
+    } else {
+      nextFunction (JSON.stringify (result));
+    }
+  });
+}
+
 /*----------------------AJAX---------------------------*/
 
 router.get('/', function (req, res) {
@@ -362,6 +412,58 @@ router.post('/favorite', function (req, res) {
     res.end("0");
   } else {
     favorite(req.body.postID, req.session.uid, function(output) {
+      res.send(output);
+    }); 
+  }
+});
+
+router.post('/newCollection', upload.single("iconURL"), function (req, res) {
+  console.log("/newCollection");
+  if (!req.session.uid) {
+    res.end("0");
+  } else {
+    var filePath = "../back/collection-images/"+Date.now()+"-"+req.file.originalname;
+    console.log(">"+filePath);
+    newCollection(req.session.uid, req.body.name, filePath, function(output) {
+      res.send(output);
+    }); 
+  }
+});
+
+router.post('/appendCollection', function (req, res) {
+  console.log("/appendCollection");
+  if (!req.session.uid) {
+    res.end("0");
+  } else {
+    appendCollection(req.body.postID, req.body.collectionID, function(output) {
+      res.send(output);
+    }); 
+  }
+});
+
+router.post('/getCollections', function (req, res) {
+  console.log("/getCollections");
+  if (!req.session.uid) {
+    res.end("0");
+  } else {
+    if (req.body.userID === "self") {
+      getCollections(req.session.uid, function(output) {
+        res.send(output);
+      }); 
+    } else {
+      getCollections(req.body.userID, function(output) {
+        res.send(output);
+      }); 
+    }
+  }
+});
+
+router.post('/viewCollection', function (req, res) {
+  console.log("/viewCollection");
+  if (!req.session.uid) {
+    res.end("0");
+  } else {
+    viewCollection(req.body.collectionID, function(output) {
       res.send(output);
     }); 
   }
