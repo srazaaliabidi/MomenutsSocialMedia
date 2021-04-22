@@ -15,7 +15,7 @@ function SearchResults () {
   const searchTerm = searchParams.get('search');
   const [searchResults, setSearchResults] = useState ([]);
   const addResult = newResult => setSearchResults (state => [...state, newResult]);
-  /* React.useEffect (() => {
+  React.useEffect (() => {
     try {
     axios
       .get (search)
@@ -24,9 +24,9 @@ function SearchResults () {
     catch (err) {
       console.error(err.message);
     }
-  }, []); */
+  }, []);
 
-  /* return (
+  return (
     <div className="centergrid">
       <div className="Search-results">
         test!
@@ -38,13 +38,9 @@ function SearchResults () {
         ))}
       </div>
     </div>
-  ); */
-
-  return (
-    <div className = "serachchhsdfjsd">
-      heroku why don't you work smh
-    </div>
   );
 }
+
+
 
 export default SearchResults;

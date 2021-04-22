@@ -402,7 +402,7 @@ router.post ('/newPostImage', function (req, res) {
   }
 }); */
 
-router.get ('/searchresults', function (req, res) {
+router.get ('/search', function (req, res) {
 	console.log ('/searchresults');
 	let searchTerm = req.query.search;
 	var query =
