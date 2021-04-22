@@ -419,6 +419,14 @@ router.get ('/searchresults', function (req, res) {
   	});
   });
 
+router.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'front_end/momentus/index.html'), function(err) {
+      if (err) {
+        res.status(500).send(err)
+      }
+    })
+  })
+
 
 
 var server = app.listen(process.env.PORT || 3001)
