@@ -8,17 +8,23 @@ const queryString = require('query-string');
 const axios = require ('axios');
 
 
-function SearchResults ({ match, location }) {
+function SearchResults () {
   const { search } = useLocation();
   // can add more params later for filtering
-  const searchParams =  new URLSearchParams(search)
-  const searchTerm = searchParams.get('search')
+  const searchParams =  new URLSearchParams(search);
+  const searchTerm = searchParams.get('search');
+  const searchURL = 'search?search=';
   const [searchResults, setSearchResults] = useState ([]);
   const addResult = newResult => setSearchResults (state => [...state, newResult]);
   React.useEffect (() => {
+    try {
     axios
-      .get (search)
+      .get (searchURL.concat(searchTerm))
       .then (response => response.data.forEach (result => addResult (result)));
+    }
+    catch (err) {
+      console.error(err.message);
+    }
   }, []);
 
   return (
@@ -34,5 +40,7 @@ function SearchResults ({ match, location }) {
     </div>
   );
 }
+
+
 
 export default SearchResults;

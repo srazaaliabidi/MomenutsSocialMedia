@@ -12,10 +12,19 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 var connection = false;
-var port = 3000;//80;
+var port = 3001; //80;
+const cors = require('cors');
 
-app.use(express.static(path.resolve(__dirname, '../front')));
-app.use(session({secret: "CSC648csc!", resave: false, saveUninitialized: false}));
+
+
+
+if (process.env.NODE_ENV === "production") {
+  app.use (express.static (path.resolve (__dirname, '../front_end/momentus/build')));
+}
+app.use (
+  session ({secret: 'CSC648csc!', resave: false, saveUninitialized: false})
+);
+app.use(cors());
 
 /*----------------------Prepare---------------------------*/
 
@@ -201,7 +210,7 @@ router.get ('/getTrending', function (req, res) {
 
 router.post('/newUser', upload.single("pfpURL"), function (req, res) {
   console.log("/newUser");
-  var filePath = "../back/profile-images/"+Date.now()+"-"+req.file.originalname;
+  var filePath = "../back_end/profile-images/"+Date.now()+"-"+req.file.originalname;
   console.log("> "+filePath);
   newUser(req.body.email, req.body.username, req.body.password, req.body.firstName, req.body.lastName, req.body.city, req.body.state, req.body.DOB, filePath, function(user, id) {
     req.session.username = user;
@@ -253,13 +262,75 @@ router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
   if (!req.session.uid) {
     res.end("0");
   } else {
-    var filePath = "../back/post-images/"+Date.now()+"-"+req.file.originalname;
+    var filePath = "../back_end/post-images/"+Date.now()+"-"+req.file.originalname;
     console.log("> "+filePath);
     addPostImage(req.session.uid, req.body.title, filePath, req.body.caption, function(output) {
       res.send(output);
     }); 
   }
 });
+
+// may need modification - only searches for title so far
+// localhost:3000/searchresults?search=value
+// will fix later dont delete pls
+/* router.get ('/searchresults', (req, res, next) => {
+	console.log('search...');
+  let searchTerm = req.query.search;
+  if (!searchTerm) {
+    // if no search term entered
+    res.send (results);
+  } else {
+    let baseSQL =
+      'SELECT * AS haystack\
+        FROM posts \
+        HAVING haystack like ?;';
+    let sqlReadySearchTerm = '%' + searchTerm + '%'; // building proper search term
+    connection
+      .query(baseSQL, [sqlReadySearchTerm])
+      .then (([results, fields]) => {
+        if (results && results.length) {
+          res.send ({
+            resultsStatus: 'info',
+            message: `${results.length} results found`,
+            results: results,
+          });
+        } else {
+          res.send ({
+            resultsStatus: 'info',
+            message: 'No results found for your search :(',
+            results: results,
+          });
+        }
+      })
+      .catch (err => next (err));
+  }
+}); */
+
+router.get ('/search', function (req, res) {
+	console.log ('/searchresults');
+	let searchTerm = req.query.search;
+	var query =
+    'SELECT * FROM Post HAVING caption like "%' +
+    searchTerm +
+    '%";';
+  connection.query (query, function (error, result) {
+    if (error) {
+      console.log (error);
+    } else {
+      (JSON.stringify (result));
+	  res.send(result);
+    }
+  	});
+  });
+
+router.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, '../front_end/momentus/build/index.html'), function(err) {
+      if (err) {
+        res.status(500).send(err)
+      }
+    })
+  })
+
 
 app.use("/", router);
 var server = app.listen(port);
