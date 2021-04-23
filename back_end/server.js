@@ -532,7 +532,7 @@ router.get('/*', function(req, res) {
 
 
 app.use("/", router);
-var server = app.listen(port);
+var server = app.listen(process.env.PORT || 3001)
 console.log("> server online\n> listening port "+port+"\n");
 
 
