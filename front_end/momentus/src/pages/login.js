@@ -17,7 +17,6 @@ function Login () {
   const handleSubmit = e => {};
 
   return (
-    <div className="centergrid">
       <div className="login-reg-wrapper">
         <div className="login-reg-box">
           <img src={logo} />
@@ -42,7 +41,6 @@ function Login () {
           <a href="/register">New? Create an account!</a><br />
         </div>
       </div>
-    </div>
   );
 }
 

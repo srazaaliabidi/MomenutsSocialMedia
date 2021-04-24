@@ -1,6 +1,5 @@
 .login-reg-wrapper {
-    margin-top: 50px;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -13,7 +12,7 @@
     text-align: center;
     width: 100%;
     max-width: 575px;
-    height: 100%;
+    height: 800px;
     background-color: white;
     border: 0px grey solid;
     border-radius: 3%;
