@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import App from '../App';
-import '../pages/styles/sidebar.css';
+import './styles/sidebar.css';
 const axios = require ('axios');
 
 /*

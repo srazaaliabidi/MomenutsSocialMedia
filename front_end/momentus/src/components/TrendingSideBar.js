@@ -5,7 +5,7 @@ import Trending from './Trending';
 import Trendingpost from './Trendingpost';
 import {useSelector, connect} from 'react-redux';
 import {useDispatch} from 'react-redux';
-import '../pages/styles/sidebar.css';
+import './styles/sidebar.css';
 
 // get user info to load into profile info
 const select = appState => ({
