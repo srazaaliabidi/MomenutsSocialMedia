@@ -5,7 +5,7 @@
     max-width: 430px;
     display: flex;
     justify-content: center;
-    background-color: #e5e5e5;
+    /* background-color: #e5e5e5; */
     padding-left: 0;
     padding-right: 0;
 }
@@ -30,9 +30,26 @@
     border-radius: 10px;
     box-sizing: border-box;
     padding: 0;
-    display: flex;
-    justify-content: center;
+    display: block;
     overflow: hidden;
+    text-align: left;
+}
+
+.trending-header {
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.trending-content-block {
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border-top: 2px #e5e5e5 solid;
+    border-bottom: 2px #e5e5e5 solid;
+}
+
+.trending-header h1 {
+    font-size: 1.5rem;
+    margin: 0;
 }
 
 .collection-sidebar-wrapper {
