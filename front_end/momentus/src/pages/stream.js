@@ -34,7 +34,7 @@ function Stream() {
     <div className="stream">
       <CreatePost />
       {posts.map(post => (
-        <div id="post" className="Post" key={post.postID}>
+        <div className="post-stream" key={post.postID}>
           <Post post={post} />
         </div>
       ))}
