@@ -3,8 +3,8 @@ import App from '../App';
 import ProfileInfo from './ProfileInfo';
 import Trending from './Trending';
 import Trendingpost from './Trendingpost';
-import {useSelector, connect} from 'react-redux';
-import {useDispatch} from 'react-redux';
+import { useSelector, connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './styles/sidebar.css';
 
 // get user info to load into profile info
@@ -18,17 +18,15 @@ const select = appState => ({
 Side bar - consists of logged in user profile info and trending posts
 */
 
-function TrendingSideBar () {
+function TrendingSideBar() {
   return (
-    <div class="leftside">
-      <div class="sidebar">
-        <div class="sidebar-wrapper">
-          <h3>Trending Posts</h3>
-          <Trendingpost />
-        </div>
+    <div class="trending-wrapper">
+      <div class="trending-container">
+        <h3>Trending Posts</h3>
+        <Trendingpost />
       </div>
     </div>
   );
 }
 
-export default connect (select) (TrendingSideBar);
+export default connect(select)(TrendingSideBar);

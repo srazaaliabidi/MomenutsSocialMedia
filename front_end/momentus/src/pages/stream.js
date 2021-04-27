@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 // import '../App.css';
 import Post from '../components/Post';
 import CreatePost from '../components/CreatePost'
 import logo from '../assets/momentuslogo.png';
-const axios = require ('axios');
+const axios = require('axios');
 
 /*
 20 or so most recent posts from the users the logged in users follows
@@ -15,31 +15,29 @@ TODO: make it so it pulls posts from users you are following,
 right now it just pulls 20 recent posts from everyone
 */
 
-function Stream () {
-  const [posts, setPosts] = useState ([]);
-  const addPost = newPost => setPosts (state => [...state, newPost]);
-  React.useEffect (() => {
+function Stream() {
+  const [posts, setPosts] = useState([]);
+  const addPost = newPost => setPosts(state => [...state, newPost]);
+  React.useEffect(() => {
     try {
       axios
-      .get ('/getHome')
-      .then (response => response.data.forEach (post => addPost (post)));
+        .get('/getHome')
+        .then(response => response.data.forEach(post => addPost(post)));
     }
     catch (err) {
       console.error(err.message);
     }
-    
+
   }, []);
 
   return (
-    <div className="centergrid">
-      <div className="Stream">
-        <CreatePost />
-        {posts.map (post => (
-          <div id="post" className="Post" key={post.postID}>
-            <Post post={post} />
-          </div>
-        ))}
-      </div>
+    <div className="stream">
+      <CreatePost />
+      {posts.map(post => (
+        <div id="post" className="Post" key={post.postID}>
+          <Post post={post} />
+        </div>
+      ))}
     </div>
   );
 }

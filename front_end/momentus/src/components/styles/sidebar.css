@@ -2,54 +2,62 @@
     max-width: inherit;
     box-sizing: border-box;
     height: 100%;
-    width: 100%;
+    max-width: 430px;
     display: flex;
     justify-content: center;
-    align-items: center;
     background-color: #e5e5e5;
+    padding-left: 0;
+    padding-right: 0;
 }
 
-.collectionsidebar {
-    max-width: inherit;
+.trending-wrapper {
+    width: 100%;
     box-sizing: border-box;
-    width: 200px;
-    height: 600px;
-    height: 100%;
-    width: 100%;
     display: flex;
     justify-content: center;
-    background-color: #e5e5e5;
+    padding-right: 20px;
+    padding-left: 10px;
+    border-right: 2px #e5e5e5 solid;
 }
 
-.sidebar-wrapper {
-    margin: 50px 75px;
+.trending-container {
+    margin-top: 20px;
     text-align: center;
-    width: 250px;
+    width: 100%;
     height: 600px;
     background-color: white;
-    border: 0px grey solid;
+    border: 2px #e5e5e5 solid;
     border-radius: 10px;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 0;
+    display: flex;
     justify-content: center;
-    align-content: center;
-    display: inline-block;
     overflow: hidden;
 }
 
 .collection-sidebar-wrapper {
-    margin: 50px 75px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    padding-right: 10px;
+    padding-left: 20px;
+    border-left: 2px #e5e5e5 solid;
+}
+
+.collection-sidebar-container {
+    margin-top: 20px;
     text-align: center;
-    width: 250px;
+    width: 100%;
     height: 600px;
     background-color: white;
-    border: 0px grey solid;
+    border: 2px #e5e5e5 solid;
     border-radius: 10px;
     box-sizing: border-box;
-    padding: 10px;
-    justify-content: center;
-    align-content: center;
+    padding: 0;
     display: flex;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .collectionstext {

@@ -30,9 +30,9 @@ function Homepage({ username, pfpURL }) {
 		<div className="App">
 			<NavigationBar />
 			<Container fluid className="grid-container">
-				<Row className="row">
-					<Col><TrendingSideBar /></Col>
-					<Col sm={6}>
+				<Row className="row-container">
+					<Col className="sidebar"><TrendingSideBar /></Col>
+					<Col className="post-stream">
 						<BrowserRouter>
 							<Switch>
 								<Route exact path="/">
@@ -56,7 +56,7 @@ function Homepage({ username, pfpURL }) {
 							</Switch>
 						</BrowserRouter>
 					</Col>
-					<Col><CollectionSidebar username={username} pfpURL={pfpURL} /></Col>
+					<Col className="sidebar"><CollectionSidebar username={username} pfpURL={pfpURL} /></Col>
 				</Row>
 				<React.StrictMode>
 				</React.StrictMode>
