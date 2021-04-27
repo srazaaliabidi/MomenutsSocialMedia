@@ -32,7 +32,7 @@ function Homepage({ username, pfpURL }) {
 			<Container fluid className="grid-container">
 				<Row className="row-container">
 					<Col className="sidebar"><TrendingSideBar /></Col>
-					<Col className="post-stream">
+					<Col className="center-grid-wrapper">
 						<BrowserRouter>
 							<Switch>
 								<Route exact path="/">
