@@ -155,7 +155,7 @@ try {
               </div>
             ) : null}
             {step === 1 ? (
-              <button type="button" onClick={() => setStep(step + 1)}>Next</button>
+              <button type="button" className="next-button" onClick={() => setStep(step + 1)}>Next</button>
             ) : null}
           </form>
           <br />

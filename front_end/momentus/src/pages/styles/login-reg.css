@@ -12,7 +12,7 @@
     text-align: center;
     width: 100%;
     max-width: 575px;
-    height: 800px;
+    height: 700px;
     background-color: white;
     border: 0px grey solid;
     border-radius: 3%;
@@ -33,6 +33,18 @@
 }
 
 .login-reg-box input {
+    width: 80%;
+    height: 68px;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px #707070 solid;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 0 3%;
+}
+
+.next-button {
     width: 80%;
     height: 68px;
     font-size: 24px;
