@@ -1,6 +1,6 @@
 import React from 'react';
 import App from '../App';
-import '../pages/styles/sidebar.css';
+import './styles/sidebar.css';
 
 /*
 Top 5 trending posts to be placed in sidebar

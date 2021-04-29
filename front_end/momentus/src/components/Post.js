@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import {useDispatch, connect} from 'react-redux';
-import '../pages/styles/post.css';
+import React, { useState } from 'react';
+import { useDispatch, connect } from 'react-redux';
+import './styles/post.css';
 import {
-  submitComment,
-  loadComments,
-  deletePost,
+	submitComment,
+	loadComments,
+	deletePost,
 } from '../redux/actions/postActions';
 
 // this is to figure out who is logged in
 const select = appState => ({
-  userID: appState.postReducer.postID,
+	userID: appState.postReducer.postID,
 });
 
 /* 
@@ -18,49 +18,51 @@ We can rearrange the stuff as needed
 TODO: add comments/likes/reposts
 TODO: add video post
 */
-function Post({post, userID}) {
-  const dispatch = useDispatch ();
-  const isOwnPost = false;
-  const type = post.type;
-  // check to see if post is own, adjust options accordingly
-  if (userID === post.userID) {
-    isOwnPost = true;
-  }
-  if (type == 'text') {
-    return (
-      <div class="post">
-        <div className="userinfo">
-          <div className="Profilepic-post"><img src={post.pfpURL} /></div>
-          <div className="Username-post">@{post.username}</div>
-        </div>
-        <div className="Post-content">
-          <div className="Post-date">Posted on {post.dateCreated}</div>
-          <br />
-          <br />
-          {post.content}
-        </div>
-      </div>
-    );
-  } else if (type == 'photo') {
-    return (
-      <div class="post">
-        <div class="userinfo">
-          <div class="Profilepic-post">
-            <img src={post.pfpURL} />
-          </div>
-          <div class="Username-post">@{post.username}</div>
-          <div class="Post-date">Posted on {post.dateCreated}</div>
-        </div>
-        <div class="Post-content">
-          <div class="Post-photo">
-            <img src={post.contentURL} />
-          </div>
-          <div class="Post-caption">{post.caption}</div>
-        </div>
+function Post({ post, userID }) {
+	const dispatch = useDispatch();
+	const isOwnPost = false;
+	const type = post.type;
+	// check to see if post is own, adjust options accordingly
+	if (userID === post.userID) {
+		isOwnPost = true;
+	}
+	if (type == 'text') {
+		return (
+			<div class="post">
+				<div className="post-info">
+					<img id="profilepic-post" src={post.pfpURL} />
+					<div class="post-details">
+						<h1>@{post.username}</h1>
+						<h2>Posted on {post.dateCreated}</h2>
+					</div>
+					{/* <div className="Username-post">@{post.username}</div>
+					<div className="Post-date">Posted on {post.dateCreated}</div> */}
+				</div>
+				<div className="Post-content">
+					{post.content}
+				</div>
+			</div>
+		);
+	} else if (type == 'photo') {
+		return (
+			<div class="post">
+				<div class="post-info">
+					<img id="profilepic-post" src={post.pfpURL} />
+					<div class="post-details">
+						<h1>@{post.username}</h1>
+						<h2>Posted on {post.dateCreated}</h2>
+					</div>
+				</div>
+				<div class="post-content">
+					<p class="post-caption">{post.caption}</p>
+					<div class="Post-photo">
+						<img src={post.contentURL} />
+					</div>
+				</div>
 
-      </div>
-    );
-  }
+			</div>
+		);
+	}
 }
 
-export default connect (select) (Post);
+export default connect(select)(Post);

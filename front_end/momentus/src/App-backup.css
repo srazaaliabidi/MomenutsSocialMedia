@@ -1,0 +1,257 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.Momentus-logo {
+  max-height: 80%;
+  height: auto;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+  .Momentus-logo {
+    animation: fadeIn ease 2s;
+  -webkit-animation: fadeIn ease 2s;
+  -moz-animation: fadeIn ease 2s;
+  -o-animation: fadeIn ease 2s;
+  -ms-animation: fadeIn ease 2s;
+  }
+  .Photo-post-content {
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  .Profilepic-post {
+    width: 40px;
+    height: 40px;
+  }
+  .Profilepic {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .Post-photo {
+    width: 400px;
+  }
+
+  .Post {
+    margin-left: auto;
+  margin-right: auto;
+  }
+}
+
+.Post-photo {
+  width: 5%;
+}
+
+.App-header {
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Post {
+  margin:auto;
+  text-align: center;
+  width: 75%;
+}
+.fade-in {
+  animation: fadeIn ease 1s;
+  -webkit-animation: fadeIn ease 1s;
+  -moz-animation: fadeIn ease 1s;
+  -o-animation: fadeIn ease 1s;
+  -ms-animation: fadeIn ease 1s;
+  }
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+  }
+  
+@-moz-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+  }
+  
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+  }
+  
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+  }
+  
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+  }
+
+body {
+    background-color: #ECF9FF;
+    color: #82C1DF;
+    padding: 50px;
+    font-family: Futura, Arial, Helvetica, sans-serif;
+    /* font: 14px Futura, Helvetica, "Lucida Grande", Arial, sans-serif; */
+    min-height: 100%;
+  }
+  
+  html {
+    height: 100%;
+  }
+  
+  a {
+    color: #00B7FF;
+  }
+  
+  .App {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: 0.6fr 1.8fr 0.6fr;
+    grid-template-rows: 0.3fr 2.5fr;
+    gap: 0px 0px;
+  }
+  
+  .navigation {
+    border: 1px solid #DDF4FF;
+    width: 100%;
+    height: 100%;
+    grid-area: navigation;
+    position: relative;
+  }
+  
+  .navigation-content {
+    border: none;
+    font-size: 18px;
+    line-height: 185%;
+    color: #9AC9DF;
+    position: absolute;
+    top: 4%;
+    left: 13%;
+    height: 70%;
+    width: 70%;
+    border-radius: 10px;
+    display: inline-block;
+    justify-content: center;
+  }
+  
+  .navigation-content a {
+    border: 4px solid transparent;
+    color: #82C1DF;
+    text-decoration: none;
+  }
+  
+  .navigation-content a:hover {
+    background-color: #C0EBFF;
+    color: #9AC9DF;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 4px solid #C0EBFF;
+  }
+  
+  #navigation-content a:hover {
+    color: white;
+  }
+  
+  .maincontent {
+    padding: 10px;
+    border: 2px solid #DDF4FF;
+    position: relative;
+    grid-area: maincontent;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+  }
+  
+  .trending {
+    position: relative;
+    grid-area: trending;
+  }
+  
+  .trending-content {
+    border: 1px solid #C1E9FF;
+    font-size: 16px;
+    position: absolute;
+    top: 20%;
+    left: 13%;
+    height: 70%;
+    width: 70%;
+    border-radius: 10px;
+    display: flex;
+    padding: 6px;
+  }
+  
+  .user-info {
+    text-align: center;
+    font-size: 12px;
+    display: inline-block;
+    left: 26%;
+    top: 1%;
+    border: none;
+    height: 130px;
+    width: 130px;
+    position: absolute;
+    align-content: center;
+    justify-content: center;
+  }
+  
+  .search {
+    border: 2px solid #DDF4FF;
+    border-bottom: none;
+    grid-area: search;
+    align-content: center;
+    position: relative;
+  }
+  
+  .search-content {
+    position: absolute;
+    z-index: 9999999999999999;
+    margin-top: 0px;
+    display: block;
+    bottom: 20%;
+    left: 3%;
+  }
+  
+  .search-box {
+    width: 800px;
+    height: 30px;
+    background-color: #C1E9FF;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+  }
+  
+  .search-button {
+    height: 25px;
+    width: 25px;
+  }

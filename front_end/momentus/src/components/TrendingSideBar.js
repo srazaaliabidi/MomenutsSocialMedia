@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import App from '../App';
 import ProfileInfo from './ProfileInfo';
 import Trending from './Trending';
-import Trendingpost from './Trendingpost';
-import {useSelector, connect} from 'react-redux';
-import {useDispatch} from 'react-redux';
-import '../pages/styles/sidebar.css';
+import { useSelector, connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import './styles/sidebar.css';
+const axios = require ('axios');
 
 // get user info to load into profile info
 const select = appState => ({
@@ -18,17 +18,27 @@ const select = appState => ({
 Side bar - consists of logged in user profile info and trending posts
 */
 
-function TrendingSideBar () {
+function TrendingSideBar() {
+  const [posts, setPosts] = useState ([]);
+  const addPost = newPost => setPosts (state => [...state, newPost]);
+  React.useEffect (() => {
+    axios
+      .get ('/getTrending')
+      .then (response => response.data.forEach (post => addPost (post)));
+  }, []);
+
   return (
-    <div class="leftside">
-      <div class="sidebar">
-        <div class="sidebar-wrapper">
-          <h3>Trending Posts</h3>
-          <Trendingpost />
+    <div class="trending-wrapper">
+      <div class="trending-container">
+        <div class="trending-header">
+        <h1>Trendings</h1>
+        </div>
+        <div class="trending-content-block">
+          {posts.map (post => <img src={post.pfpURL} />)}
         </div>
       </div>
     </div>
   );
 }
 
-export default connect (select) (TrendingSideBar);
+export default connect(select)(TrendingSideBar);

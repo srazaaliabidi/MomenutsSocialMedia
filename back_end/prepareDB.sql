@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS Users (
   city varchar(45) DEFAULT NULL,
   state varchar(45) NOT NULL,
   DOB date NOT NULL,
+  privacy int NOT NULL DEFAULT 0,
   pfpURL varchar(225) NOT NULL,
   PRIMARY KEY (userID)
 );
@@ -15,8 +16,6 @@ CREATE TABLE IF NOT EXISTS Users (
 CREATE TABLE IF NOT EXISTS Post (
   postID int NOT NULL AUTO_INCREMENT,
   userID int NOT NULL,
-  username varchar(45),
-  pfpURL varchar(225) NOT NULL,
   title varchar(127) NOT NULL,
   caption varchar(255),
   type enum('text', 'photo', 'video') NOT NULL,
@@ -30,19 +29,19 @@ CREATE TABLE IF NOT EXISTS Post (
 CREATE TABLE IF NOT EXISTS Comments (
   commentID int NOT NULL AUTO_INCREMENT,
   postID int NOT NULL,
-  userID int NOT NULL,
-  content varchar(255) NOT NULL,
-  dateCreated date NOT NULL,
+  cuID int NOT NULL,
+  comment varchar(255) NOT NULL,
+  dateCommented date NOT NULL,
   PRIMARY KEY (commentID),
-  FOREIGN KEY (userID) REFERENCES Users(userID),
+  FOREIGN KEY (cuID) REFERENCES Users(userID),
   FOREIGN KEY (postID) REFERENCES Post(postID)
 );
 
 CREATE TABLE IF NOT EXISTS Favorites (
-  userID int NOT NULL,
+  favoriteID int NOT NULL,
   postID int NOT NULL,
-  dateCreated date NOT NULL,
-  FOREIGN KEY (userID) REFERENCES Users(userID),
+  dateFavorite date NOT NULL,
+  FOREIGN KEY (favoriteID) REFERENCES Users(userID),
   FOREIGN KEY (postID) REFERENCES Post(postID)
 );
 
@@ -65,7 +64,6 @@ CREATE TABLE IF NOT EXISTS Messages (
 );
 
 CREATE TABLE IF NOT EXISTS Collections (
-  postID int NOT NULL,
   collectionID int NOT NULL,
   userID int NOT NULL,
   name varchar(255) NOT NULL,

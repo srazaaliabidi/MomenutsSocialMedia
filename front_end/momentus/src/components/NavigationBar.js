@@ -1,7 +1,7 @@
 import React from 'react';
 import App from '../App';
 import logo from '../assets/momentuslogo.png';
-import '../pages/styles/navbar.css';
+import './styles/navbar.css';
 import {useHistory} from 'react-router-dom';
 
 /*
