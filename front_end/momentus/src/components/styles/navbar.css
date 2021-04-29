@@ -39,10 +39,9 @@
 }
 
 .navigation-content a:hover {
-    color: white;
+    color: #298554;
     text-decoration: none;
-    -webkit-text-stroke-width: .2px;
-    -webkit-text-stroke-color: #707070;
+    font-weight: bold;
 }
 
 .search-bar {

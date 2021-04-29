@@ -32,7 +32,6 @@
     padding: 0;
     display: block;
     overflow: hidden;
-    text-align: left;
 }
 
 .trending-header {
@@ -44,7 +43,13 @@
     padding: 10px 20px;
     box-sizing: border-box;
     border-top: 2px #e5e5e5 solid;
-    border-bottom: 2px #e5e5e5 solid;
+    border-bottom: none;
+}
+
+.trending-content-block img {
+    min-width: 90px;
+    margin-top: 7px;
+    margin-bottom: 7px;
 }
 
 .trending-header h1 {
@@ -74,7 +79,7 @@
     padding: 0;
     display: flex;
     justify-content: center;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .collectionstext {
@@ -95,6 +100,25 @@
     text-decoration: underline;
 }
 
+.collectionsimages {
+    max-width: 250px;
+    height: 340px;
+    overflow: auto;
+    padding-bottom: 5px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    /* make scrollbar transparent */
+}
+
+.collectionsimages img {
+    height: auto;
+    width: 25%;
+    margin: 4px;
+}
+
 .profileinfobar {
     display: flex;
     position: absolute;
@@ -108,14 +132,4 @@
 
 .mediacount {
     font-size: 11px;
-}
-
-.collectionsimages{
-    max-width: 250px;
-}
-
-.collectionsimages img{
-    height: 30%;
-    width: 30%;
-    margin: 4px;
 }

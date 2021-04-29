@@ -1,18 +1,51 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+
 import App from '../App';
 import './styles/sidebar.css';
 import ProfileInfo from './ProfileInfo';
+const axios = require ('axios');
 
 /*
 Top 5 trending posts to be placed in sidebar
 TODO: Add in logic to get trending posts and actually add them lol
 */
 
-function CollectionSidebar({ username, pfpURL }) {
-  const [collections, setCollections] = React.useState({
+function CollectionSidebar({username, pfpURL}) {
+  const [collections, setCollections] = React.useState ({
     collectionName: 'Birthday 2020',
     totalMedia: 9,
   });
+
+  /*
+  const [collections, setCollections] = useState ([]);
+  const [images, setImages] = useState ([]);
+
+  const addCollection = newCollections =>
+    setCollections (state => [...state, newCollections]);
+  React.useEffect (() => {
+    try {
+      axios
+        .get ('/getCollections')
+        .then (response =>
+          response.data.forEach (collections => addCollection (collections))
+        );
+    } catch (err) {
+      console.error (err.message);
+    }
+  }, []);
+
+  const addImages = newImages => setImages (state => [...state, newImages]);
+  React.useEffect (() => {
+    try {
+      axios
+        .get ('/viewCollection')
+        .then (response =>
+          response.data.forEach (images => addImages (images))
+        );
+    } catch (err) {
+      console.error (err.message);
+    }
+  }, []);*/
 
   return (
     <div class="collection-sidebar-wrapper">
@@ -25,6 +58,16 @@ function CollectionSidebar({ username, pfpURL }) {
           <a href="#">{collections.collectionName}</a>
           <p class="mediacount">{collections.totalMedia} photo total</p>
           <div class="collectionsimages">
+
+            <img src="https://via.placeholder.com/150" />
+            <img src="https://via.placeholder.com/150" />
+            <img src="https://via.placeholder.com/150" />
+            <img src="https://via.placeholder.com/150" />
+            <img src="https://via.placeholder.com/150" />
+            <img src="https://via.placeholder.com/150" />
+            <img src="https://via.placeholder.com/150" />
+            <img src="https://via.placeholder.com/150" />
+            <img src="https://via.placeholder.com/150" />
             <img src="https://via.placeholder.com/150" />
             <img src="https://via.placeholder.com/150" />
             <img src="https://via.placeholder.com/150" />
