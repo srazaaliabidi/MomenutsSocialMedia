@@ -6,6 +6,7 @@ import About from './about';
 import Messages from './messages';
 import Notifs from './notifs';
 import Settings from './settings';
+import UserProfile from './userprofile';
 import SearchResults from './searchresults';
 import NavigationBar from '../components/NavigationBar';
 import TrendingSideBar from '../components/TrendingSideBar';
@@ -52,6 +53,9 @@ function Homepage({ username, pfpURL }) {
 								</Route>
 								<Route path="/searchresults">
 									<SearchResults />
+								</Route>
+								<Route path="/userprofiletest">
+									<UserProfile />
 								</Route>
 							</Switch>
 						</BrowserRouter>

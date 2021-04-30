@@ -45,12 +45,15 @@ function CreatePost () {
             onChange={e => updateForm (e)}
           />
         </div>
+      
         <div className="image-upload">
+          <label for="file-input" class="file-input-label">+</label>
+          <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg"/>
           <button type="button" onClick={e => upload (e)}>
-            <img src="https://via.placeholder.com/24" />
             Upload
           </button>
         </div>
+        
       </form>
     </div>
   );
