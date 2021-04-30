@@ -4,7 +4,7 @@ const session = require('express-session');
 const multer = require('multer');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-var CryptoJS = require("crypto-js");
+const CryptoJS = require("crypto-js");
 var router = express.Router();
 const app = express();
 const fs = require('fs');
@@ -139,6 +139,19 @@ function newUser(email, username, password, firstName, lastName, city, state, DO
 	});
 }
 
+function testRegister(email, username, password, firstName, lastName, city, state, DOB, storeFunction, endFunction) { 
+	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, privacy) VALUES ('"+email+"', '"+username+"', '"+encodePass(password)+"', '"+firstName+"', '"+lastName+"', '"+city+"', '"+state+"', '"+DOB+"', '0');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			endFunction("0");
+		} else {
+			storeFunction(username, result.insertId);
+			endFunction("1");
+		}
+	});
+}
+
 function verifyUser(username, password, storeFunction, endFunction) { 
 	var encodedPass = encodePass(password);
 	var query = "SELECT userID FROM Users WHERE username = \'"+username+"\' AND password = \'"+encodedPass+"\';";
@@ -178,6 +191,19 @@ function addPostText(userID, title, content, endFunction) {
 function addPostImage(userID, title, contentURL, caption, endFunction) {
 	var date = Date.now();
 	var query = "INSERT INTO Post (userID, title, type, contentURL, caption, dateCreated) VALUES ('"+userID+"', '"+title+"', 'photo', '"+contentURL+"', '"+caption+"', '"+date+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			endFunction("0");
+		} else {
+			endFunction("1");
+		}
+	});
+}
+
+function testNewPostImage(userID, title, caption, endFunction) {
+	var date = Date.now();
+	var query = "INSERT INTO Post (userID, title, type, caption, dateCreated) VALUES ('"+userID+"', '"+title+"', 'photo', '"+caption+"', '"+date+"');";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
@@ -332,7 +358,27 @@ router.post('/newUser', upload.single("pfpURL"), function (req, res) {
 	}); 
 });
 
+router.post('/testRegister', function (req, res) {
+	console.log("/testRegister");
+	testRegister(req.body.email, req.body.username, req.body.password, req.body.firstName, req.body.lastName, req.body.city, req.body.state, req.body.DOB, function(user, id) {
+		req.session.username = user;
+		req.session.uid = id;
+	}, function(output) {
+		res.send(output);
+	}); 
+});
+
 router.post('/verifyUser', function (req, res) {
+	console.log("/verifyUser");
+	verifyUser(req.body.username, req.body.password, function(user, id) {
+		req.session.username = user;
+		req.session.uid = id;
+	}, function(output) {
+		res.send(output);
+	});  
+});
+
+router.post('/testLogin', function (req, res) {
 	console.log("/verifyUser");
 	verifyUser(req.body.username, req.body.password, function(user, id) {
 		req.session.username = user;
@@ -369,17 +415,32 @@ router.post('/newPostText', function (req, res) {
 	}
 });
 
+router.post('/testNewPostText', function (req, res) {
+	console.log("/testNewPostText");
+	addPostText(1, req.body.title, req.body.content, function(output) {
+		res.send(output);
+	}); 
+});
+
 router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 	console.log("/newPostImage");
 	if (!req.session.uid) {
+		console.log("no uid");
 		res.end("0");
 	} else {
-	var filePath = "../back_end/post-images/"+Date.now()+"-"+req.file.originalname;
-	console.log("> "+filePath);
-	addPostImage(req.session.uid, req.body.title, filePath, req.body.caption, function(output) {
-		res.send(output);
+		var filePath = "../back_end/post-images/"+Date.now()+"-"+req.file.originalname;
+		console.log("> "+filePath);
+		addPostImage(req.session.uid, req.body.title, filePath, req.body.caption, function(output) {
+			res.send(output);
 	}); 
   }
+});
+
+router.post('/testNewPostImage', function (req, res) {
+	console.log("/testNewPostImage");
+	testNewPostImage(1, req.body.title, req.body.caption, function(output) {
+		res.send(output);
+	}); 
 });
 
 router.post('/sendMessage', function (req, res) {
