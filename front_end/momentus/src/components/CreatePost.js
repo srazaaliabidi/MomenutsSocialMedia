@@ -9,6 +9,7 @@ import autosize from 'autosize';
 /*
 Dynamically adjusts whether it's a photo or text post depending on whether a photo is uploaded
 Text and photo data now split for ease of use / readability
+TODO: take you to post after upload
 TODO: add tags
 TODO: make photo upload image change when you hover over it
 TODO: Add collection support
@@ -54,6 +55,11 @@ function CreatePost () {
         .post ('/newPostText', {
           title: postTitle,
           content: postText
+        },
+        {
+          onUploadProgress: progressEvent => {
+            console.log(progressEvent.loaded / progressEvent.total)
+          }
         })
         .then (response => {
           console.log ('text post uploaded!');
@@ -103,6 +109,7 @@ function CreatePost () {
             id="caption"
             type="text"
             name="caption"
+            maxLength = "224"
             value={postText}
             placeholder="Add a caption!"
             onChange={e => updateText (e)}
@@ -114,6 +121,7 @@ function CreatePost () {
             id="textContent"
             type="text"
             name="textContent"
+            maxlength = "65534"
             value={postText}
             placeholder="Write your post here!"
             onChange={e => updateText (e)}
