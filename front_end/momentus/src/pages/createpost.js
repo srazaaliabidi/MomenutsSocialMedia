@@ -4,6 +4,7 @@ function CreatePost () {
   return (
     <div class="centergrid">
       []
+      test
     </div>
   );
 }
