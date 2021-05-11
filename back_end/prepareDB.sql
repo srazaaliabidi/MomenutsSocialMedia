@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS Post (
   postID int NOT NULL AUTO_INCREMENT,
   userID int NOT NULL,
   title varchar(127) NOT NULL,
-  caption varchar(255),
   type enum('text', 'photo', 'video') NOT NULL,
   contentURL varchar(225),
   content text(65535),

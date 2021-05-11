@@ -119,7 +119,7 @@ router.get('/', function (req, res) {
 
 router.get('/getHome', function (req, res) {
 	console.log("/getHome");
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID ORDER BY Post.dateCreated DESC LIMIT 20;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID ORDER BY Post.dateCreated DESC LIMIT 20;";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
@@ -135,7 +135,7 @@ router.get('/getTrending', function (req, res) {
 	var date = new Date();
 	date.setDate(date.getDate() - 7);
 	var time = date.getTime();
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.dateCreated > "+time+" ORDER BY numFav DESC LIMIT 20;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.dateCreated > "+time+" ORDER BY numFav DESC LIMIT 20;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -259,7 +259,8 @@ router.post('/newPostText', function (req, res) {
 		console.log("no uid");
 		res.end("0");
 	} else {
-		var date = Date.now();
+		var date = new Date();
+		date.setDate(date.getDate());
 		var time = date.getTime();
 		var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+req.session.uid+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
 		connection.query(query, function (error, result) {
@@ -275,7 +276,8 @@ router.post('/newPostText', function (req, res) {
 
 router.post('/testNewPostText', function (req, res) {
 	console.log("/testNewPostText");
-	var date = Date.now();
+	var date = new Date();
+	date.setDate(date.getDate());
 	var time = date.getTime();
 	var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+1+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
 	connection.query(query, function (error, result) {
@@ -296,9 +298,10 @@ router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 	} else {
 		var filePath = "../back_end/post-images/"+Date.now()+"-"+req.file.originalname;
 		console.log("> "+filePath);
-		var date = Date.now();
+		var date = new Date();
+		date.setDate(date.getDate());
 		var time = date.getTime();
-		var query = "INSERT INTO Post (userID, title, type, contentURL, caption, dateCreated) VALUES ('"+req.session.uid+"', '"+req.body.title+"', 'photo', '"+filePath+"', '"+req.body.caption+"', '"+time+"');";
+		var query = "INSERT INTO Post (userID, title, type, contentURL, content, dateCreated) VALUES ('"+req.session.uid+"', '"+req.body.title+"', 'photo', '"+filePath+"', '"+req.body.caption+"', '"+time+"');";
 		connection.query(query, function (error, result) {
 			if (error) {
 				console.log(error);
@@ -312,9 +315,10 @@ router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 
 router.post('/testNewPostImage', function (req, res) {
 	console.log("/testNewPostImage");
-	var date = Date.now();
+	var date = new Date();
+	date.setDate(date.getDate());
 	var time = date.getTime();
-	var query = "INSERT INTO Post (userID, title, type, caption, dateCreated) VALUES ('"+1+"', '"+req.body.title+"', 'photo', '"+req.body.caption+"', '"+time+"');";
+	var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+1+"', '"+req.body.title+"', 'photo', '"+req.body.caption+"', '"+time+"');";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
@@ -333,7 +337,7 @@ router.post('/getPosts', function (req, res) {
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -352,7 +356,7 @@ router.post('/getPostsFollow', function (req, res) {
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -371,7 +375,8 @@ router.post('/sendMessage', function (req, res) {
 		res.end("0");
 	} else {
 		//socket.io for messaging service
-		var date = Date.now();
+		var date = new Date();
+		date.setDate(date.getDate());
 		var time = date.getTime();
 		var query = "INSERT INTO Messages (userIDReceiver, userIDSender, content, dateSent) VALUES ('"+req.body.receiver+"', '"+req.session.uid+"', '"+req.body.content+"', '"+time+"');";
 		connection.query(query, function (error, result) {
@@ -405,7 +410,8 @@ router.post('/addComment', function (req, res) {
 	if (!req.session.uid) {
 		res.end("0");
 	} else {
-		var date = Date.now();
+		var date = new Date();
+		date.setDate(date.getDate());
 		var time = date.getTime();
 		var query = "INSERT INTO Comments (postID, userID, content, dateCreated) VALUES ('"+req.body.postID+"', '"+req.session.uid+"', '"+req.body.content+"', '"+time+"');";
 		connection.query(query, function (error, result) {
@@ -445,7 +451,8 @@ router.post('/follow', function (req, res) {
 	if (!req.session.uid) {
 		res.end("0");
 	} else {
-		var date = Date.now();
+		var date = new Date();
+		date.setDate(date.getDate());
 		var time = date.getTime();
 		var query = "INSERT INTO Following (userIDFollowing, userIDFollowed, dateFollowed) VALUES ('"+req.session.uid+"', '"+req.body.followed+"', '"+time+"');";
 		connection.query(query, function (error, result) {
@@ -485,7 +492,8 @@ router.post('/favorite', function (req, res) {
 	if (!req.session.uid) {
 		res.end("0");
 	} else {
-		var date = Date.now();
+		var date = new Date();
+		date.setDate(date.getDate());
 		var time = date.getTime();
 		var query = "INSERT INTO Favorites (postID, dateFavorite) VALUES ('"+req.body.postID+"', '"+time+"');";
 		connection.query(query, function (error, result) {
@@ -521,7 +529,8 @@ router.post('/newCollection', upload.single("iconURL"), function (req, res) {
 	} else {
 		var filePath = "../back/collection-images/"+Date.now()+"-"+req.file.originalname;
 		console.log(">"+filePath);
-		var date = Date.now();
+		var date = new Date();
+		date.setDate(date.getDate());
 		var time = date.getTime();
 		var query = "INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('"+req.session.uid+"', '"+req.body.name+"', '"+filePath+"', '"+time+"', '"+time+"');";
 		connection.query(query, function (error, result) {
@@ -540,7 +549,8 @@ router.post('/appendCollection', function (req, res) {
 	if (!req.session.uid) {
 		res.end("0");
 	} else {
-		var date = Date.now();
+		var date = new Date();
+		date.setDate(date.getDate());
 		var time = date.getTime();
 		var query = "INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('"+req.body.postID+"', '"+req.body.collectionID+"', '"+time+"');";
 		connection.query(query, function (error, result) {
