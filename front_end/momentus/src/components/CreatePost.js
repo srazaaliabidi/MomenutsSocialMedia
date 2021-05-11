@@ -3,7 +3,8 @@ import ReactDom from 'react-dom';
 import {useDispatch, connect} from 'react-redux';
 import './styles/createPost.css';
 import axios from 'axios';
-import photoUploadIcon from '../assets/photouploadicon.png'
+import photoUploadIcon from '../assets/photouploadicon.png';
+import autosize from 'autosize';
 
 /*
 Dynamically adjusts whether it's a photo or text post depending on whether a photo is uploaded
@@ -14,6 +15,8 @@ TODO: Add collection support
 */
 
 function CreatePost () {
+  var textAreas = document.querySelector('textarea');
+  autosize(textAreas);
   const [postText, setPostText] = useState('');
   const [postPhoto, setPostPhoto] = useState(null);
   const [postTitle, setPostTitle] = useState(''); 
@@ -32,6 +35,8 @@ function CreatePost () {
     if (postType == 'none') {
       setPostType('text');
     }
+    // resize textarea
+    autosize.update(textAreas);
   }
 
   function updateTitle (e) {
@@ -94,10 +99,10 @@ function CreatePost () {
         </div>
 
         {postType == 'photo' ? <div className="create-post-box">
-          <input
-            id="textContent"
+          <textarea
+            id="caption"
             type="text"
-            name="textContent"
+            name="caption"
             value={postText}
             placeholder="Add a caption!"
             onChange={e => updateText (e)}
@@ -105,7 +110,7 @@ function CreatePost () {
         </div>
         : 
         <div className="create-post-box">
-          <input
+          <textarea
             id="textContent"
             type="text"
             name="textContent"
