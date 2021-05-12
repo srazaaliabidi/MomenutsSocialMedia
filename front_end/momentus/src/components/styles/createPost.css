@@ -42,6 +42,22 @@
     border: none;
 }
 
+.create-post-box textarea {
+    background-color: inherit;
+    height: 100%;
+    max-height: 20vh;
+    width: 100%;
+    padding: 0;
+    padding-left: 5%;
+    border-radius: 8px;
+    border: none;
+    resize: none;
+    outline-style: solid;
+    /* These outlines fix a weird glitch with safari, 0 width is intentional */
+    outline-width: 0px;
+}
+
+
 .create-post-box input:focus {
     outline: none;
 }
@@ -88,3 +104,4 @@ input[type="file"] {
     padding-right: 10px;
     font-weight: bold;
 }
+

@@ -592,42 +592,6 @@ router.post('/viewCollection', function (req, res) {
 	}
 });
 
-// may need modification - only searches for title so far
-// localhost:3000/searchresults?search=value
-// will fix later dont delete pls
-/* router.get ('/searchresults', (req, res, next) => {
-	console.log('search...');
-  let searchTerm = req.query.search;
-  if (!searchTerm) {
-    // if no search term entered
-    res.send (results);
-  } else {
-    let baseSQL =
-      'SELECT * AS haystack\
-        FROM posts \
-        HAVING haystack like ?;';
-    let sqlReadySearchTerm = '%' + searchTerm + '%'; // building proper search term
-    connection
-      .query(baseSQL, [sqlReadySearchTerm])
-      .then (([results, fields]) => {
-        if (results && results.length) {
-          res.send ({
-            resultsStatus: 'info',
-            message: `${results.length} results found`,
-            results: results,
-          });
-        } else {
-          res.send ({
-            resultsStatus: 'info',
-            message: 'No results found for your search :(',
-            results: results,
-          });
-        }
-      })
-      .catch (err => next (err));
-  }
-}); */
-
 router.get ('/search', function (req, res) {
 	console.log ('/searchresults');
 	let searchTerm = req.query.search;
