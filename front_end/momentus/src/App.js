@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './pages/styles/home.css';
 import Homepage from './pages/homepage';
 
+
 /*
 TODO: Dynamically change what is displayed based on whether
 the user is logged in (i.e. show the landing page if not logged in)
@@ -22,18 +23,18 @@ But for now we will assume the user is logged in
 
 const store = createStore(rootReducer);
 const select = appState => ({
-  // isLoggedIn: appState.loginReducer.isLoggedIn,
-  // username: appState.loginReducer.username,
-  // userID: appState.loginReducer.userID
-  isLoggedIn: true,
-  pfpURL: 'https://t3.ftcdn.net/jpg/02/22/39/64/240_F_222396430_Yvf2e080ejpzCOQmETC2zbk6EwCsfHm4.jpg',
-  username: 'test',
-  userID: 1,
+  isLoggedIn: appState.loginReducer.isLoggedIn,
+  username: appState.loginReducer.username,
+  userID: appState.loginReducer.userID
+  // isLoggedIn: true,
+  // pfpURL: 'https://t3.ftcdn.net/jpg/02/22/39/64/240_F_222396430_Yvf2e080ejpzCOQmETC2zbk6EwCsfHm4.jpg',
+  // username: 'test',
+  // userID: 1,
 });
 
 export const history = createBrowserHistory();
 
-function App() {
+function App({isLoggedIn, username, userID}) {
   return (
     <div className="App">
       <BrowserRouter history={history}>

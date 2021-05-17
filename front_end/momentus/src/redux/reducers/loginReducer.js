@@ -15,6 +15,8 @@ const loginReducer = (state = initialState, action) => {
       };
     case "GET_USERNAME":
       return state.username;
+    case "GET_USER_ID":
+      return state._id;
     case "USER_LOGOUT":
       return initialState;
     default:

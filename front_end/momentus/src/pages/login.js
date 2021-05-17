@@ -3,16 +3,21 @@ import './styles/login-reg.css';
 import logo from '../assets/momentuslogo.png';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import loginReducer from "../redux/reducers/loginReducer";
 import { userLogin } from '../redux/actions/loginActions';
 import './styles/home.css';
+import { connect } from 'react-redux';
 
-function Login() {
+const select = appState => ({
+  isLoggedIn: appState.loginReducer.isLoggedIn,
+  username: appState.loginReducer.username,
+  _id: appState.loginReducer._id,
+});
+
+function Login({isLoggedIn, username, _id}) {
   const dispatch = useDispatch();
   const [usernameToSubmit, setUsername] = useState('');
   const [passwordToSubmit, setPassword] = useState('');
-  let username = '';
-  let userID = '';
-  let userData = {};
 
 
   function submit(e) {
@@ -23,9 +28,13 @@ function Login() {
     })
       .then(response => {
         console.log("Logged in")
-      })
+        console.log(response.body)
+        console.log(isLoggedIn)
+        console.log(username)
+        console.log(_id)
+      });
+      dispatch(userLogin(usernameToSubmit, passwordToSubmit));
   }
-
 
 
   return (
@@ -33,6 +42,11 @@ function Login() {
       <div className="login-reg-box">
         <img src={logo} />
         <h1>Welcome Back!</h1>
+        <div>
+          isLoggedIn: {isLoggedIn}
+          username: {username}
+          id: {_id}
+        </div>
         <form id="/userlogin" onSubmit={(e) => submit(e)}>
           <div className="input-box">
             <input
@@ -58,4 +72,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default connect(select)(Login);
