@@ -3,22 +3,34 @@ import './styles/login-reg.css';
 import logo from '../assets/momentuslogo.png';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from '../redux/reducers/rootReducer';
 import loginReducer from "../redux/reducers/loginReducer";
 import { userLogin } from '../redux/actions/loginActions';
 import './styles/home.css';
 import { connect } from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 const select = appState => ({
   isLoggedIn: appState.loginReducer.isLoggedIn,
   username: appState.loginReducer.username,
-  _id: appState.loginReducer._id,
+  userID: appState.loginReducer.userID,
+  // isLoggedIn: true,
+  // pfpURL: 'https://t3.ftcdn.net/jpg/02/22/39/64/240_F_222396430_Yvf2e080ejpzCOQmETC2zbk6EwCsfHm4.jpg',
+  // username: 'test',
+  // userID: 1,
 });
 
-function Login({isLoggedIn, username, _id}) {
+function Login() {
+  const history = useHistory ();
   const dispatch = useDispatch();
   const [usernameToSubmit, setUsername] = useState('');
   const [passwordToSubmit, setPassword] = useState('');
+  let username = "";
+  let _id = "";
+  let userData = {};
 
+  
 
   function submit(e) {
     e.preventDefault();
@@ -26,14 +38,20 @@ function Login({isLoggedIn, username, _id}) {
       usernameToSubmit: usernameToSubmit,
       passwordToSubmit: passwordToSubmit,
     })
-      .then(response => {
+      /* .then(response => {
         console.log("Logged in")
-        console.log(response.body)
-        console.log(isLoggedIn)
-        console.log(username)
-        console.log(_id)
-      });
-      dispatch(userLogin(usernameToSubmit, passwordToSubmit));
+        console.log(response)
+      }); */
+      .then(res => {
+        console.log("logged in");
+        console.log(res);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    dispatch(userLogin(usernameToSubmit));
+    history.push('/');
+    //history.go (0);
   }
 
 
@@ -42,11 +60,6 @@ function Login({isLoggedIn, username, _id}) {
       <div className="login-reg-box">
         <img src={logo} />
         <h1>Welcome Back!</h1>
-        <div>
-          isLoggedIn: {isLoggedIn}
-          username: {username}
-          id: {_id}
-        </div>
         <form id="/userlogin" onSubmit={(e) => submit(e)}>
           <div className="input-box">
             <input
@@ -72,4 +85,4 @@ function Login({isLoggedIn, username, _id}) {
   );
 }
 
-export default connect(select)(Login);
+export default Login;

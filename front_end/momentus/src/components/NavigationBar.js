@@ -3,6 +3,9 @@ import App from '../App';
 import logo from '../assets/momentuslogo.png';
 import './styles/navbar.css';
 import {useHistory} from 'react-router-dom';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { userLogout} from '../redux/actions/loginActions';
 
 /*
 Nav bar for the top of the page
@@ -11,6 +14,7 @@ Nav bar for the top of the page
 function NavigationBar () {
   const [search, setSearch] = React.useState ('');
   const history = useHistory ();
+  const dispatch = useDispatch();
 
   const handleSearch = evt => {
     evt.preventDefault ();
@@ -23,19 +27,35 @@ function NavigationBar () {
     //alert (`Looking for ${search}`);
   };
 
+  function logout() {
+    axios
+      .post('/logout')
+      .then(res => {
+        console.log("logged out");
+        console.log(res);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    dispatch(userLogout());
+    history.push('/');
+    history.go (0);
+    console.log("out");
+  }
+
   return (
-    <div class="NavBar">
+    <div classname="NavBar">
 
       <nav>
-        <div class="navigation-content">
+        <div className="navigation-content">
           <img src={logo} alt="Momentus logo" height="10%" width="10%" />
 
           <span class="navimg"><a href="/">Home</a></span>
           <span class="navimg"><a href="/settings">Settings</a></span>
-          <span class="navimg"><a href="/logout">Logout</a></span>
+          <span class="navimg"><a href="#" onClick = {logout}>Logout</a></span>
         </div>
       </nav>
-      <div class="search-bar">
+      <div className="search-bar">
         <form onSubmit={handleSearch}>
           <input
             class="search-text"

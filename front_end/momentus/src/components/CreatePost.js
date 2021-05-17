@@ -130,7 +130,7 @@ function CreatePost () {
         }
       
         <div className="image-upload">
-          <label for="file-input" class="file-input-label"><img src = {photoUploadIcon} alt = "Photo  Upload"></img></label>
+          <label htmlFor="file-input" class="file-input-label"><img src = {photoUploadIcon} alt = "Photo  Upload"></img></label>
           <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {fileChangeHandler}/>
           
           {postType == 'photo' ? <div className = "post-photo-remove">
