@@ -216,7 +216,7 @@ router.post('/logout', function (req, res) {
 	res.end();
 });
 
-router.post('/getProfile', function (req, res) {
+router.get('/getProfile', function (req, res) {
 	console.log("/getProfile");
 	var uid = 0;
 	if (req.body.userID === "self") {
