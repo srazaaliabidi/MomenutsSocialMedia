@@ -17,8 +17,17 @@ import { persistStore, persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import { PersistGate } from 'redux-persist/integration/react';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
 
-
+const alertOptions = {
+  // you can also just use 'bottom center'
+  position: positions.BOTTOM_CENTER,
+  timeout: 5000,
+  offset: '30px',
+  // you can also just use 'scale'
+  transition: transitions.SCALE
+}
 
 const persistConfig = {
   key: 'root',
@@ -41,6 +50,7 @@ const persistor = persistStore(store);
 ReactDOM.render (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
+    <AlertProvider template={AlertTemplate} {...alertOptions}>
     <React.StrictMode>
     <BrowserRouter>
         <Switch>
@@ -60,6 +70,7 @@ ReactDOM.render (
         </Switch>
       </BrowserRouter>
     </React.StrictMode>
+    </AlertProvider>
     </PersistGate>
   </Provider>,
   document.getElementById ('root')

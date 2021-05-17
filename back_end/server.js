@@ -147,11 +147,14 @@ router.get('/getTrending', function (req, res) {
 });
 
 /*----------------------PROFILE---------------------------*/
-
-router.post('/newUser', upload.single("pfpURL"), function (req, res) {
+// OLD VERSION:
+// router.post('/newUser', upload.single("pfpURL"), function (req, res) {
+router.post('/newUser', function (req, res) {
 	console.log("/newUser");
-	var filePath = "../back_end/profile-images/"+Date.now()+"-"+req.file.originalname;
-	console.log("> "+filePath);
+	// we will possibly reimplement this later, for now we will use a placeholder
+	/* var filePath = "../back_end/profile-images/"+Date.now()+"-"+req.file.originalname;
+	console.log("> "+filePath); */
+	var filePath = "http://mattrbolles.com/bluecircle.png"
 	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+encodePass(req.body.password)+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '"+filePath+"', '0');";
 	connection.query(query, function (error, result) {
 		if (error) {
