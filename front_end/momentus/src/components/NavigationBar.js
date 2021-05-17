@@ -4,6 +4,8 @@ import logo from '../assets/momentuslogo.png';
 import './styles/navbar.css';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { userLogout} from '../redux/actions/loginActions';
 
 /*
 Nav bar for the top of the page
@@ -12,6 +14,7 @@ Nav bar for the top of the page
 function NavigationBar () {
   const [search, setSearch] = React.useState ('');
   const history = useHistory ();
+  const dispatch = useDispatch();
 
   const handleSearch = evt => {
     evt.preventDefault ();
@@ -20,17 +23,23 @@ function NavigationBar () {
     let fullSearch = searchURL.concat(searchTerm);
     console.log('Going to search for:' + search);
     history.push (fullSearch);
+    history.go (0);
     //alert (`Looking for ${search}`);
   };
 
-  const logout = () =>{
+  function logout() {
     axios
-      .post ('/logout')
-      .then(function(result) {
-        console.log("Not Logged In");
-      }).catch(function(status, errorCode) {
-        console.log("could not logout");
-      });
+      .post('/logout')
+      .then(res => {
+        console.log("logged out");
+        console.log(res);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    dispatch(userLogout());
+    history.push('/');
+    history.go (0);
     console.log("out");
   }
 
@@ -43,7 +52,7 @@ function NavigationBar () {
 
           <span class="navimg"><a href="/">Home</a></span>
           <span class="navimg"><a href="/settings">Settings</a></span>
-          <span class="navimg"><a href="/logout">Logout</a></span>
+          <span class="navimg"><a href="#" onClick = {logout}>Logout</a></span>
         </div>
       </nav>
       <div className="search-bar">

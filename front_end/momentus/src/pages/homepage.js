@@ -71,8 +71,6 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
 					</Col>
 					<Col className="sidebar"><CollectionSidebar username={username} pfpURL={pfpURL} /></Col>
 				</Row>
-				<React.StrictMode>
-				</React.StrictMode>
 			</Container>
 		</div>
 		:
