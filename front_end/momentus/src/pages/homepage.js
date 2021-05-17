@@ -66,6 +66,9 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
 								<Route path="/userprofiletest">
 									<UserProfile />
 								</Route>
+								<Route path="/:username">
+									
+								</Route>
 							</Switch>
 						</BrowserRouter>
 					</Col>

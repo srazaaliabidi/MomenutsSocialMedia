@@ -9,7 +9,7 @@ const axios = require('axios');
 Finds list of collections based on user id, then prints the images
 */
 
-function CollectionsImages() {
+function CollectionsImages({collectionID}) {
     /*
   const [images, setImages] = useState([]);
   const addImages = newImage => setImages(state => [...state, newImage]);

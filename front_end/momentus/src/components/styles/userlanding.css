@@ -1,0 +1,81 @@
+.landing-wrapper {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e5e5e5;
+    background-image: url("https://images6.alphacoders.com/380/thumb-1920-380566.jpg");
+}
+
+.landing-box {
+    margin: 0 75px;
+    text-align: center;
+    width: 100%;
+    max-width: 575px;
+    height: 400px;
+    background-color: white;
+    border: 0px grey solid;
+    border-radius: 15%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+h1 {
+    color: #00756C;
+    margin-top: 20px;
+}
+
+.login-text {
+    color: #00756C;
+    transition: background-color 0.3s ease, border 0.3s ease;
+    margin: 40px;
+    margin-right: 130px;
+    margin-left: 130px;
+    font-size: 20px;
+    background: #A9D8D4;
+    border: 10px solid #A9D8D4;
+    border-radius: 10px;
+}
+
+.reg-text {
+    color: #00756C;
+    transition: background-color 0.3s ease, border 0.3s ease;
+    margin: 40px;
+    margin-right: 130px;
+    margin-left: 130px;
+    font-size: 20px;
+    background: #A9D8D4;
+    border: 10px solid #A9D8D4;
+    border-radius: 10px;
+}
+
+.login-text:hover {
+    margin: 40px;
+    margin-right: 130px;
+    margin-left: 130px;
+    background: white;
+    border: 10px solid white;
+}
+
+.reg-text:hover {
+    margin: 40px;
+    margin-right: 130px;
+    margin-left: 130px;
+    background: white;
+    border: 10px solid white;
+}
+
+.login-text a {
+    color: #00756C;
+    text-decoration: none;
+}
+
+.reg-text a {
+    color: #00756C;
+    text-decoration: none;
+}
+
+.landing-content {
+    margin: 60px;
+}
