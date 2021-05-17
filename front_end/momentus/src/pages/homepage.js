@@ -26,8 +26,17 @@ import { Provider, useDispatch } from 'react-redux';
 import { useSelector, connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
 
+const select = appState => ({
+	isLoggedIn: appState.loginReducer.isLoggedIn,
+	username: appState.loginReducer.username,
+	_id: appState.loginReducer._id,
+  })
+
 function Homepage({ isLoggedIn, username, _id, pfpURL }) {
+
 	return (
+		<div>
+		{isLoggedIn ?
 		<div className="App">
 			<NavigationBar />
 			<Container fluid className="grid-container">
@@ -66,7 +75,13 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
 				</React.StrictMode>
 			</Container>
 		</div>
+		:
+		<div>
+		</div>
+		}
+		</div>
+
 	);
 }
 
-export default Homepage
+export default connect(select)(Homepage);

@@ -193,6 +193,7 @@ router.post('/verifyUser', function (req, res) {
 				req.session.username = req.body.username;
 				req.session.uid = result[0].userID;
 				res.send("1");
+				console.log("user logged in");
 	  		} else {
 				res.send("0");
 			}

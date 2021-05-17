@@ -1,5 +1,6 @@
 import React from 'react';
 
+// only display if not logged in
 
 function UserLanding() {
     return(

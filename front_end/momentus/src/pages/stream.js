@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 // import '../App.css';
 import Post from '../components/Post';
 import CreatePost from '../components/CreatePost'
-import logo from '../assets/momentuslogo.png';
+import { connect } from 'react-redux';
 const axios = require('axios');
 
 /*
@@ -14,6 +13,12 @@ Basically the equivalent of the feed on FB
 TODO: make it so it pulls posts from users you are following,
 right now it just pulls 20 recent posts from everyone
 */
+
+const select = appState => ({
+	isLoggedIn: appState.loginReducer.isLoggedIn,
+	username: appState.loginReducer.username,
+	_id: appState.loginReducer._id,
+  })
 
 function Stream() {
   const [posts, setPosts] = useState([]);
@@ -42,4 +47,4 @@ function Stream() {
   );
 }
 
-export default Stream;
+export default connect(select)(Stream);

@@ -1,45 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 //import ReactDOM from 'react-dom';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // import './App.css';
 import Login from './pages/login';
 import Register from './pages/register';
-import { createStore, applyMiddleware } from 'redux';
-import rootReducer from './redux/reducers/rootReducer';
-import { Provider, useDispatch } from 'react-redux';
-import { useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
-
+import ReduxTest from './components/ReduxTest';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './pages/styles/home.css';
 import Homepage from './pages/homepage';
-import UserLanding from './pages/userlanding';
+import UserLanding from './components/UserLanding';
 
-
-/*
-TODO: Dynamically change what is displayed based on whether
-the user is logged in (i.e. show the landing page if not logged in)
-But for now we will assume the user is logged in
-*/
-
-const store = createStore(rootReducer);
 const select = appState => ({
   isLoggedIn: appState.loginReducer.isLoggedIn,
   username: appState.loginReducer.username,
-  userID: appState.loginReducer.userID
-  // isLoggedIn: true,
-  // pfpURL: 'https://t3.ftcdn.net/jpg/02/22/39/64/240_F_222396430_Yvf2e080ejpzCOQmETC2zbk6EwCsfHm4.jpg',
-  // username: 'test',
-  // userID: 1,
-});
+  _id: appState.loginReducer._id,
+})
 
 export const history = createBrowserHistory();
 
 function App({isLoggedIn, username, userID}) {
   return (
     <div className="App">
-      <BrowserRouter history={history}>
+      <BrowserRouter>
         <Switch>
+          <Route path = "/redux">
+            <ReduxTest />
+          </Route>
           <Route path="/login">
             <Login />
           </Route>
@@ -47,8 +35,7 @@ function App({isLoggedIn, username, userID}) {
             <Register />
           </Route>
           <Route path="/">
-            {isLoggedIn ? <Homepage username = {username}/> 
-            : <UserLanding />}
+            {isLoggedIn ? <Homepage /> : <UserLanding /> }
           </Route>
         </Switch>
       </BrowserRouter>
