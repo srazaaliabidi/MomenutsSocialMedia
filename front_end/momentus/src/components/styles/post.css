@@ -50,7 +50,6 @@
     height: 70px;
     display: flex;
     align-items: center;
-    justify-content: left;
     margin-bottom: 15px;
 }
 
@@ -69,4 +68,13 @@
 
 .profileinfobar {
     justify-content: center;
+}
+
+.user-edit {
+    justify-content: right;
+    text-align: right;
+    top: 0;
+    right: 0;
+    float: right;
+    font-size: 20px;
 }

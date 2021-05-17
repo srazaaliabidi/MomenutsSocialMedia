@@ -1,23 +1,66 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {createStore, applyMiddleware} from 'redux';
 import rootReducer from './redux/reducers/rootReducer';
-import {Provider, useDispatch} from 'react-redux';
-import {useSelector, connect} from 'react-redux';
+import {Provider} from 'react-redux';
+import thunk from "redux-thunk";
+import ReduxTest from './components/ReduxTest';
+import Login from './pages/login';
+import Register from './pages/register';
+import Homepage from './pages/homepage';
+import UserLanding from './components/UserLanding';
+import { createBrowserHistory } from 'history';
+import { persistStore, persistReducer} from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { PersistGate } from 'redux-persist/integration/react';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
-const store = createStore (rootReducer);
+
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  stateReconciler: autoMergeLevel2
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+const select = appState => ({
+  isLoggedIn: appState.loginReducer.isLoggedIn,
+  username: appState.loginReducer.username,
+  _id: appState.loginReducer._id,
+})
+
+const store = createStore(persistedReducer);
+export const history = createBrowserHistory();
+const persistor = persistStore(store);
 
 ReactDOM.render (
   <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
     <React.StrictMode>
-      <BrowserRouter>
-        <App />
+    <BrowserRouter>
+        <Switch>
+          <Route path = "/redux">
+            <ReduxTest />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <Route path="/">
+            <UserLanding />
+            <Homepage />
+          </Route>
+        </Switch>
       </BrowserRouter>
     </React.StrictMode>
+    </PersistGate>
   </Provider>,
   document.getElementById ('root')
 );

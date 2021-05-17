@@ -3,17 +3,34 @@ import './styles/login-reg.css';
 import logo from '../assets/momentuslogo.png';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from '../redux/reducers/rootReducer';
+import loginReducer from "../redux/reducers/loginReducer";
 import { userLogin } from '../redux/actions/loginActions';
 import './styles/home.css';
+import { connect } from 'react-redux';
+import {useHistory} from 'react-router-dom';
+
+const select = appState => ({
+  isLoggedIn: appState.loginReducer.isLoggedIn,
+  username: appState.loginReducer.username,
+  userID: appState.loginReducer.userID,
+  // isLoggedIn: true,
+  // pfpURL: 'https://t3.ftcdn.net/jpg/02/22/39/64/240_F_222396430_Yvf2e080ejpzCOQmETC2zbk6EwCsfHm4.jpg',
+  // username: 'test',
+  // userID: 1,
+});
 
 function Login() {
+  const history = useHistory ();
   const dispatch = useDispatch();
   const [usernameToSubmit, setUsername] = useState('');
   const [passwordToSubmit, setPassword] = useState('');
-  let username = '';
-  let userID = '';
+  let username = "";
+  let _id = "";
   let userData = {};
 
+  
 
   function submit(e) {
     e.preventDefault();
@@ -21,11 +38,21 @@ function Login() {
       usernameToSubmit: usernameToSubmit,
       passwordToSubmit: passwordToSubmit,
     })
-      .then(response => {
+      /* .then(response => {
         console.log("Logged in")
-      })
+        console.log(response)
+      }); */
+      .then(res => {
+        console.log("logged in");
+        console.log(res);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    dispatch(userLogin(usernameToSubmit));
+    history.push('/');
+    //history.go (0);
   }
-
 
 
   return (

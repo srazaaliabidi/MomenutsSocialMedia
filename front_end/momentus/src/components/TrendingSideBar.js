@@ -24,7 +24,7 @@ function TrendingSideBar() {
   React.useEffect (() => {
     axios
       .get ('/getTrending')
-      .then (response => response.data.forEach (post => addPost (post)));
+      .then (response => response.data.forEach(post => addPost (post)));
   }, []);
 
   return (
@@ -34,7 +34,12 @@ function TrendingSideBar() {
         <h1>Trendings</h1>
         </div>
         <div class="trending-content-block">
-          {posts.map (post => <img src={post.pfpURL} />)}
+          
+          {posts.map (post => (
+            <div className="trending-post" key={post.postID}>
+              <img src={post.pfpURL} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

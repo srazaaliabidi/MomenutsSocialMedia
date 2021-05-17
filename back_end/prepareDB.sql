@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS Post (
   type enum('text', 'photo', 'video') NOT NULL,
   contentURL varchar(225),
   content text(65535),
-  dateCreated datetime NOT NULL,
+  dateCreated BIGINT NOT NULL,
   PRIMARY KEY (postID),
   FOREIGN KEY (userID) REFERENCES Users(userID)
 );
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Comments (
   postID int NOT NULL,
   cuID int NOT NULL,
   comment varchar(255) NOT NULL,
-  dateCommented date NOT NULL,
+  dateCommented BIGINT NOT NULL,
   PRIMARY KEY (commentID),
   FOREIGN KEY (cuID) REFERENCES Users(userID),
   FOREIGN KEY (postID) REFERENCES Post(postID)
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Comments (
 CREATE TABLE IF NOT EXISTS Favorites (
   favoriteID int NOT NULL,
   postID int NOT NULL,
-  dateFavorite date NOT NULL,
+  dateFavorite BIGINT NOT NULL,
   FOREIGN KEY (favoriteID) REFERENCES Users(userID),
   FOREIGN KEY (postID) REFERENCES Post(postID)
 );
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS Favorites (
 CREATE TABLE IF NOT EXISTS Following (
   userIDFollowing int NOT NULL,
   userIDFollowed int NOT NULL,
-  dateFollowed date NOT NULL,
+  dateFollowed BIGINT NOT NULL,
   FOREIGN KEY (userIDFollowing) REFERENCES Users(userID),
   FOREIGN KEY (userIDFollowed) REFERENCES Users(userID)
 );
@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS Messages (
   userIDReceiver int NOT NULL,
   userIDSender int NOT NULL,
   content varchar(255) NOT NULL,
+  dateSent BIGINT NOT NULL,
   PRIMARY KEY (messageID),
   FOREIGN KEY (userIDReceiver) REFERENCES Users(userID),
   FOREIGN KEY (userIDSender) REFERENCES Users(userID)
@@ -68,8 +69,8 @@ CREATE TABLE IF NOT EXISTS Collections (
   userID int NOT NULL,
   name varchar(255) NOT NULL,
   iconURL varchar(225),
-  dateCreated date NOT NULL,
-  lastUpdated date NOT NULL,
+  dateCreated BIGINT NOT NULL,
+  lastUpdated BIGINT NOT NULL,
   PRIMARY KEY (collectionID),
   FOREIGN KEY (userID) REFERENCES Users(userID)
 );
@@ -77,7 +78,7 @@ CREATE TABLE IF NOT EXISTS Collections (
 CREATE TABLE IF NOT EXISTS Collection_Content (
   postID int NOT NULL,
   collectionID int NOT NULL,
-  dateAdded date NOT NULL,
+  dateAdded BIGINT NOT NULL,
   FOREIGN KEY (postID) REFERENCES Post(postID),
   FOREIGN KEY (collectionID) REFERENCES Collections(collectionID)
 );
