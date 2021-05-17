@@ -13,6 +13,7 @@ import { createBrowserHistory } from 'history';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './pages/styles/home.css';
 import Homepage from './pages/homepage';
+import UserLanding from './pages/userlanding';
 
 
 /*
@@ -46,7 +47,8 @@ function App({isLoggedIn, username, userID}) {
             <Register />
           </Route>
           <Route path="/">
-            <Homepage />
+            {isLoggedIn ? <Homepage username = {username}/> 
+            : <UserLanding />}
           </Route>
         </Switch>
       </BrowserRouter>
