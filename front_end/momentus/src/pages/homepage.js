@@ -26,7 +26,7 @@ import { Provider, useDispatch } from 'react-redux';
 import { useSelector, connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
 
-function Homepage({ username, pfpURL }) {
+function Homepage({ isLoggedIn, username, _id, pfpURL }) {
 	return (
 		<div className="App">
 			<NavigationBar />
