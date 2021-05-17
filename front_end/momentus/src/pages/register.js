@@ -3,7 +3,14 @@ import './styles/login-reg.css';
 import logo from '../assets/momentuslogo.png';
 import './styles/home.css';
 import axios from "axios";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
+
+/*
+TODO: Fix fields so they fit our requirements (length, etc)
+Make it so you can't skip fields, currently you can click to end with blank fields 
+*/
 function Register() {
   const [form, setForm] = useState({
     email: '',
@@ -16,6 +23,7 @@ function Register() {
     state: '',
     birthdate: ''
   });
+  const [birthdate, setBirthdate] = useState(); // for displaying date in form
   const [step, setStep] = useState(1);
 
 
@@ -32,7 +40,8 @@ function Register() {
       birthdate: form.birthdate
     })
       .then(result => {
-        console.log(result.data)
+        console.log(result.data);
+        console.log("user registered");
       })
   }
 
@@ -41,6 +50,38 @@ function Register() {
     formdata[e.target.name] = e.target.value
     setForm(formdata)
     console.log(formdata)
+  }
+
+  // this gets called by handleDate, which formats it properly
+  // do not call manually!
+  function updateDate(e) {
+    const formdata = { ...form }
+    formdata.birthdate = e
+    setForm(formdata)
+    console.log(formdata)
+  }
+
+
+  function handleDate(date) {
+    setBirthdate(date)
+    let month = '' + (date.getMonth() + 1)
+    let day = '' + date.getDate()
+    let year = date.getFullYear();
+    // add leading zeroes if necessary for sql
+    if (day < 10) {
+      day = '0' + day;
+    }
+    if (month < 10) {
+      month = '0' + month;
+    }
+    console.log(month)
+    console.log(day)
+    console.log(year)
+    let fullDOB = new String("")
+    fullDOB = year + "-" + month + "-" + day;
+    let fullDOBString = new String(fullDOB)
+    console.log(fullDOB)
+    updateDate(fullDOB)
   }
   /*const updateForm = (e) => {
     setForm({
@@ -142,14 +183,19 @@ try {
                 />
                 <br />
                 <label htmlFor="DOB">Date of birth</label><br />
-                <input
+                {/* <input
                   type="date"
                   value={form.birthdate}
                   name="birthdate"
                   placeholder="Date of Birth"
                   id="DOB"
                   onChange={(e) => updateForm(e)}
-                />
+                /> */}
+                <DatePicker
+                        id="DOB"
+                        name="DOB"
+                        selected={birthdate} onChange={date => handleDate(date)}
+                    />
                 <br />
                 <input type="submit" value="Register" /><br />
               </div>
@@ -162,7 +208,7 @@ try {
         </div>
         <a href="/login">Log in instead</a><br />
 
-        {/* 
+        
           ------- Data check -------
           <p>email: {form.email}</p>
           <p>username: {form.username}</p>
@@ -173,7 +219,7 @@ try {
           <p>city: {form.city}</p>
           <p>state: {form.state}</p>
           <p>DOB: {form.birthdate}</p>
-          */}
+         
       </div>
     </div>
   );
