@@ -24,7 +24,7 @@ function TrendingSideBar() {
   React.useEffect (() => {
     axios
       .get ('/getTrending')
-      .then (response => response.data.forEach (post => addPost (post)));
+      .then (response => response.data.forEach(post => addPost (post)));
   }, []);
 
   return (
