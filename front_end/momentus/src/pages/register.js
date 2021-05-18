@@ -46,9 +46,9 @@ function Register() {
         console.log("user registered");
         // log user in after registration if successful
         if (result.data == 1) {
-          //loginAfterRegistration();
-          alert.show('Registration succesful. Please log in.')
-          history.push('/login');
+          alert.show('Registration succesful! Welcome to Momentus.')
+          loginAfterRegistration();
+          //history.push('/login');
         }
       })
   }
@@ -256,7 +256,7 @@ function Register() {
         <a href="/login">Log in instead</a><br />
 
         
-          ------- Data check -------
+          {/* ------- Data check -------
           <p>email: {form.email}</p>
           <p>username: {form.username}</p>
           <p>password: {form.password}</p>
@@ -265,7 +265,7 @@ function Register() {
           <p>lastName: {form.lastName}</p>
           <p>city: {form.city}</p>
           <p>state: {form.state}</p>
-          <p>DOB: {form.birthdate}</p>
+          <p>DOB: {form.birthdate}</p> */}
          
       </div>
     </div>
