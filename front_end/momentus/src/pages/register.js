@@ -151,7 +151,7 @@ try {
                   onChange={(e) => updateForm(e)}
                 />
                 <br />
-                <input type="submit" value="Register" /><br />
+                <input className="reg-input" type="submit" value="Register" /><br />
               </div>
             ) : null}
             {step === 1 ? (
