@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     background-color: #e5e5e5;
+    background-image: url("https://images6.alphacoders.com/380/thumb-1920-380566.jpg");
 }
 
 .login-reg-box {
@@ -20,6 +21,15 @@
     padding: 10px;
 }
 
+.login-reg-box a {
+    color: #00756C;
+}
+
+.login-reg-box a:hover {
+    color: #00756C;
+    text-decoration: none;
+}
+
 .login-reg-box img {
     position: relative;
     top: 5px;
@@ -28,7 +38,7 @@
 }
 
 .login-reg-box h1 {
-    color: black;
+    color: #00756C;
     font-size: 38px;
 }
 
@@ -38,7 +48,7 @@
     font-size: 24px;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 1px #707070 solid;
+    border: 1px #A9D8D4 solid;
     border-radius: 8px;
     box-sizing: border-box;
     padding: 0 3%;
@@ -50,12 +60,21 @@
     font-size: 24px;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 1px #707070 solid;
+    border: 1px #A9D8D4 solid;
+    background: #A9D8D4;
     border-radius: 8px;
     box-sizing: border-box;
     padding: 0 3%;
 }
 
 .submit-login {
+    color: #00756C;
+    background-color: #A9D8D4;
+    border: 10px #A9D8D4 solid;
     position: relative;
+}
+
+.reg-input {
+    background: #A9D8D4;
+    border: 1px solid #A9D8D4;
 }
