@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Messages (
 );
 
 CREATE TABLE IF NOT EXISTS Collections (
-  collectionID int NOT NULL,
+  collectionID int NOT NULL AUTO_INCREMENT,
   userID int NOT NULL,
   name varchar(255) NOT NULL,
   iconURL varchar(225),
