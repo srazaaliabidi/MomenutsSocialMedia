@@ -5,6 +5,7 @@ import Post from '../components/Post';
 import CreatePost from '../components/CreatePost'
 import './styles/userprofile.css'
 import CollectionsProfile from '../components/CollectionsProfile';
+import CollectionsImages from '../components/CollectionsImages';
 import UserPosts from '../components/UserPosts';
 
 /*
@@ -15,32 +16,44 @@ function UserProfile() {
 
     const [content, setContent] = useState({
         postsVisible: true,
-        collectionsVisible: false
-  });
+        collectionsVisible: false,
+        imagesVisible: false
+    });
+    
 
-    function renderPosts() {
+    const renderPosts = () => {
         if (!content.postsVisible) return '';
         return (
             <UserPosts />
         );
     }
 
-    function renderCollections() {
-        if (!content.collectionsVisible) return (
-            <UserPosts />
-        );
+    const renderCollections = () => {
         if (content.collectionsVisible) return (
             <CollectionsProfile />
         );
     }
+    // will render the individual images 
+/*
+      const renderImages = () => {
+        if (content.imagesVisible) return (
+            <CollectionsImages />
+        );
+
+        // {renderImages()} = add to html with other routes //
+    }*/
 
     function handleClickPosts() {
-        setContent(true, false);
+        setContent({postsVisible: true, collectionsVisible: false /*,imagesVisible: false*/});
     }
     
     function handleClickCollections() {
-        setContent(false, true);
+        setContent({postsVisible: false, collectionsVisible: true /*, imagesVisible: false*/});
     }
+/*
+    function handleClickCollectionsImages() {
+        setContent({postsVisible: false, collectionsVisible: false, imagesVisible: true});
+    }*/
     
     return (
         <div class="userprofile">
@@ -71,8 +84,8 @@ function UserProfile() {
                     </table>
             </div>
             <div class="profile-body">
-                <renderCollections />
-                <renderPosts/>
+                {renderCollections()}
+                {renderPosts()}
             </div>
         </div>
     );
