@@ -26,7 +26,7 @@ function CollectionsImages({collectionID}) {
   }, []);*/
 
     return (
-      <div className=""></div> /*
+      <div className="">Collections images</div> /*
     <div className="collections-images-stream">
       {images.map(image => (
         <div className="collections-images">
