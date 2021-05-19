@@ -226,10 +226,10 @@ router.post('/logout', function (req, res) {
 router.get('/getProfile', function (req, res) {
 	console.log("/getProfile");
 	var uid = 0;
-	if (req.body.userID === "self") {
+	if (req.query.userID === "self") {
 		uid = req.session.uid;
 	} else {
-		uid = req.body.userID;
+		uid = req.query.userID;
 	}
 	var query = "SELECT * FROM Users WHERE userID = "+uid+";";
 	connection.query (query, function (error, result) {
@@ -578,15 +578,18 @@ router.post('/appendCollection', function (req, res) {
 
 router.post('/getCollections', function (req, res) {
 	console.log("/getCollections");
-	if (!req.session.uid) {
+	console.log(req.query)
+	// pass in session to verify, add back in later
+	/* if (!req.session.uid) {
 		res.end("0");
-	} else {
+	} else { */
 		var uid = 0;
-		if (req.body.userID === "self") {
+		if (req.query.userID === "self") {
 			uid = req.session.uid;
 		} else {
-			uid = req.body.userID;
+			uid = req.query.userID;
 		}
+		console.log("getting collections")
 		var query = "SELECT * FROM Collections WHERE userID = "+uid+";";
 		connection.query (query, function (error, result) {
 			if (error) {
@@ -596,7 +599,7 @@ router.post('/getCollections', function (req, res) {
 			}
 		});
 	}
-});
+);
 
 router.post('/viewCollection', function (req, res) {
 	console.log("/viewCollection");
