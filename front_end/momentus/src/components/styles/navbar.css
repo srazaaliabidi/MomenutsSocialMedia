@@ -5,7 +5,7 @@
     border-bottom: 2px solid #e5e5e5;
     height: 75px;
     box-sizing: border-box;
-    padding-left: 75px;
+    padding-left: 15px;
     padding-right: 75px;
     display: flex;
     overflow: auto;
@@ -14,7 +14,7 @@
 }
 
 .navimg {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .navlogo {
@@ -41,7 +41,6 @@
 .navigation-content a:hover {
     color: #298554;
     text-decoration: none;
-    font-weight: bold;
 }
 
 .search-bar {

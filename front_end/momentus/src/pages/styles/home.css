@@ -24,4 +24,10 @@
     min-width: 900px;
     max-height: 100%;
     overflow: auto;
+    background: white;
+}
+
+body {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 12%, rgba(212, 237, 230, 1) 100%);
 }

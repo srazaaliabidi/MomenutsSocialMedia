@@ -10,7 +10,7 @@ function ProfileInfo({username, pfpURL}) {
   return (
     <div className="ProfileInfo">
       <div className="ProfileInfo-pfp">
-        <img src={pfpURL} />
+        <img src={pfpURL}/>
       </div>
       <div className="ProfileInfo-username">
         <a href="/profile">@{username}</a>
