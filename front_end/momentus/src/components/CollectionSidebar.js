@@ -38,13 +38,21 @@ function CollectionSidebar({username, _id}) {
     getPFP()
     // get collections
     getCollections()
-    //console.log(collections)
+    console.log(collections)
   });
 
 
 
   function addCollection(newCollection) {
-    setCollections(state => [...state, newCollection]);
+    // first check if collection already loaded
+    let collectionExists = collections.find(collection => collection.collectionID == newCollection.collectionID)
+    //console.log(collectionExists)
+    // if no results
+    if (collectionExists == undefined) {
+      console.log("adding collection")
+      setCollections(state => [...state, newCollection]);
+    }
+    
   }
 
 
@@ -90,6 +98,7 @@ function CollectionSidebar({username, _id}) {
           if (response.data.length > 0) {
             //console.log(response.data)
             response.data.forEach (collection => {
+              console.log(collection)
               addCollection(collection)
             })
           }

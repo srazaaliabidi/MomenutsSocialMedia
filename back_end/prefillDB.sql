@@ -12,3 +12,5 @@ INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUE
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('2', ':0', 'photo', 'https://www.technobuffalo.com/sites/technobuffalo.com/files/styles/large/public/wp/2016/03/surprised-patrick-and-spongebob.jpg', 'none', '999999999999924432');
 INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('2', 'My Collection', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '000', '000');
 INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('6', '1', '000');
+INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('2', 'My Collection2', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '000', '000');
+INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('7', '2', '000');
