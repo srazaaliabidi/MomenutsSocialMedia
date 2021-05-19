@@ -110,7 +110,7 @@ function CollectionSidebar({username, _id}) {
     }
     // store id of each collection
     collections.forEach(collection => 
-      {thisCollectionID = collection.collectionID;
+      {let thisCollectionID = collection.collectionID;
         addCollectionID(thisCollectionID);
     })
   }
@@ -145,7 +145,7 @@ function CollectionSidebar({username, _id}) {
     <div class="collection-sidebar-wrapper">
       <div class="collection-sidebar-container">
         <div class="profileinfobar">
-          <ProfileInfo username={username} pfpURL={pfpURL} />
+          <ProfileInfo username={username} pfpURL="http://mattrbolles.com/bluecircle.png" />
         </div>
         <div class="collectionstext">
           <h3><u>Your collections</u></h3>
