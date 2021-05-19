@@ -367,7 +367,7 @@ router.post('/getPostsFollow', function (req, res) {
 	});
 });
 
-router.post('/getPostByID', function (req, res) {
+router.get('/getPostByID', function (req, res) {
 	console.log("/getPostByID");
 	console.log(req);
 	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID = "+req.query.postID+";";
@@ -376,10 +376,26 @@ router.post('/getPostByID', function (req, res) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.json(result);
+			res.json(JSON.stringify(result));
 		}
 	});
 });
+
+////// temporary function I used to test simplicity ////
+/*
+router.get('/getPostByIDD', function (req, res) {
+	console.log("/getPostByIDD");
+	console.log(req);
+	var query = "SELECT * FROM Post WHERE postID = "+req.query.postID+";";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+			res.send("0");
+		} else {
+			res.json(JSON.stringify(result));
+		}
+	});
+});*/
 
 /*----------------------MESSAGE---------------------------*/
 

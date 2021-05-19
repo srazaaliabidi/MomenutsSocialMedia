@@ -11,6 +11,7 @@ import SearchResults from '../pages/searchresults';
 import NavigationBar from './NavigationBar';
 import TrendingSideBar from './TrendingSideBar';
 import CollectionSidebar from './CollectionSidebar';
+import SinglePostComment from './singlepostcomment';
 import axios from "axios";
 
 import { createStore, applyMiddleware } from 'redux';
@@ -18,6 +19,8 @@ import rootReducer from '../redux/reducers/rootReducer';
 import { Provider, useDispatch } from 'react-redux';
 import { useSelector, connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
+
+import './styles/individualpost.css';
 
 const select = appState => ({
 	isLoggedIn: appState.loginReducer.isLoggedIn,
@@ -32,13 +35,14 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 	const [newPostID, setNewPostID] = useState(); // for url
 	const [post, setPost] = useState();
 	const addPost = newPost => setPost (state => [...state, newPost]);
-	const getPostURL = '/getPostByID?postID=' + postID;
+    const getPostURL = '/getPostByID?postID=' + postID;
 	let counter = 1;
 	let loadedPost = [];
 	// grab post info
 	React.useEffect(() => {
 		try {
-		axios.post(getPostURL)
+		axios
+		.get(getPostURL)
 		.then(res => {
 			  loadedPost = res.data;
 			  console.log(loadedPost)
@@ -71,6 +75,7 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 	}
 	getPost() */
 	return (
+		/*
             <div className="individual-post">
 				<div>
       			postID: {postID}
@@ -89,12 +94,37 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 						<h1>@{post.username}</h1>
 						<h2>Posted on {post.dateCreated}</h2>
 					</div>
-				</div> */}
+				</div> }
 				
 				{/* <div className="Post-content">
 					{post.content}
-				</div> */}
-			</div>
+				</div> }
+			</div>*/
+		
+		/// Feel free to comment out, this was just the adjusted post ///
+		<div>
+					<div class="post">
+						<div className="post-info">
+							<img className="profilepic-post" src={post.pfpURL} />
+							<div class="post-details">
+								<h1>@{post.username}</h1>
+								<h2>Posted on {post.dateCreated}</h2>
+							</div>
+						</div>
+				
+						<div class="post-content">
+							<p class="post-caption">{post.caption}</p>
+							<div className="post-photo">
+								<img src={post.contentURL} />
+							</div>
+						</div>
+					</div>
+					<div class="comment-wrap">
+				
+						<SinglePostComment />
+						<SinglePostComment />
+					</div>
+				</div>
 	);
 }
 

@@ -9,3 +9,8 @@ INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUE
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('2', 'sponge boob', 'photo', 'https://ugc.reveliststatic.com/gen/constrain/640/640/80/2019/06/05/14/8i/5d/pooxrfjxc01bw.png', 'none', '999999999999999999');
 INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('2', 'My Collection', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '000', '000');
 INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('6', '1', '000');
+INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('6', '1', '000');
+INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('2', 'My Collection2', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '000', '000');
+INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('7', '2', '000');
+INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('8', '2', '000');
+INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('9', '2', '000');

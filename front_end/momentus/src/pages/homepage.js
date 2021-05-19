@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Switch,
+  useParams } from 'react-router-dom';
 
 import Stream from './stream';
 import About from './about';
