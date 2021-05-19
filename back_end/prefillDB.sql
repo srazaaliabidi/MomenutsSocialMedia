@@ -1,4 +1,4 @@
-INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('test@test.com', 'test', 'mtQ8MS721KgdgVfspE8T0TIw1KMZIJpkL4bYZofcHvg=', 'Frederick', 'Test', 'San Francisco', 'CA', '1995-01-01', 'http://mattrbolles.com/bluecircle.png');
+INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('test@test.com', 'test', 'VSe11nlrJfZU/qhG9h5iJYXTfwHveh5kLPZ/A7OjwWo=', 'Frederick', 'Test', 'San Francisco', 'CA', '1995-01-01', 'http://mattrbolles.com/bluecircle.png');
 INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('cd@gmail.com', 'cd', 'cd', 'Frederick', 'Test', 'San Francisco', 'CA', '1998-01-01', 'http://mattrbolles.com/bluecircle.png');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'test photo post', 'photo', 'http://mattrbolles.com/charles.jpg', 'none', '1620690153133');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'none', 'text', 'none', 'This is a test text post. Yeehaw!', '1617700253133');
