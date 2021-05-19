@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-
+import { useDispatch, connect } from 'react-redux';
 import App from '../App';
 import './styles/sidebar.css';
 import ProfileInfo from './ProfileInfo';
@@ -23,159 +23,125 @@ function CollectionSidebar({username, _id}) {
   });*/
 
   const [profile, setProfile] = useState();
+  const [pfpURL, setpfpURL] = useState();
   const [collections, setCollections] = useState ([]);
-  const [collectionIDs, setCollectionIDs] = useState ([]);
+
+
   /* // "collectionID":[array of collection images]
   // access by images[collectionID] - returns the array of images
   // leaving for future usage
   const [images, setImages] = useState ({}); */
-  const [images, setImages] = useState([]);
+
   React.useEffect(() => {
-    // get profile
     getProfile()
-    // get collection
+    //console.log(profile)
+    getPFP()
+    // get collections
     getCollections()
-    // get images
-    getCollectionImages()
+    console.log(collections)
   });
 
-  
-  /////////////// [[[ CHECK FUNCTION ]]]
-  /*
-  const addProfile = newProfile =>
-    setProfile (state => [...state, newProfile]);
-  React.useEffect (() => {
-    try {
-      axios
-        .get('/getProfile')
-        .then (response =>
-          setProfile(response.data)
-        );
-    } catch (err) {
-      console.error (err.message);
-    }
-  });
-*/
-  ////////////////
+
 
   function addCollection(newCollection) {
-    setCollections(state => [...state, newCollection]);
+    // first check if collection already loaded
+    let collectionExists = collections.find(collection => collection.collectionID == newCollection.collectionID)
+    //console.log(collectionExists)
+    // if no results
+    if (collectionExists == undefined) {
+      console.log("adding collection")
+      setCollections(state => [...state, newCollection]);
+    }
+    
   }
 
-  function addCollectionID(newCollectionID) {
-    setCollectionIDs(state => [...state, newCollectionID]);
-  }
 
-  // leaving this for future collection usage possibly
-  /* // not 100% sure if this works properly, may need to rework
-  function addCollectionImageArray(collectionID, imageArray) {
-    setImages(state => [...state, images[collectionID] = imageArray]);
-  } */
 
-  // Reformatted functions
+  
   function getProfile() {
-    let getProfileURL = 'getProfile?userID=' + _id
-    console.log(getProfileURL)
+    if (profile == undefined) {
+      let getProfileURL = 'getProfile?userID=' + _id
+    //console.log(getProfileURL)
     try {
       axios
         .get(getProfileURL)
         .then (response => {
-          console.log(response)
-          setProfile(response.data)
+          //console.log(response.data[0])
+          setProfile(response.data[0])
         });
     } catch (err) {
       console.error (err.message);
     }
+    }
+  }
+
+  function getPFP() {
+    //console.log("getpfp")
+      if (pfpURL == undefined && profile != undefined) {
+        //console.log("getting pfp")
+        setpfpURL(profile.pfpURL)
+      }
   }
 
   
 
   function getCollections() {
+    if (collections.length == 0) {
     let getCollectionsURL = 'getCollections?userID=' + _id
-    console.log(getCollectionsURL)
+    //console.log(getCollectionsURL)
     try {
       axios
-        .get(getCollectionsURL)
+        .post(getCollectionsURL)
         .then (response => {
-          console.log(response)
-          // max 9 collections displayed
-          response.data.forEach (collection => {
-            if (collections.length < 9) {
+          //console.log(response.data)
+          // if not empty 
+          if (response.data.length > 0) {
+            //console.log(response.data)
+            response.data.forEach (collection => {
+              console.log(collection)
               addCollection(collection)
-            }
-          })
+            })
+          }
         });
-    } catch (err) {
+    } 
+    catch (err) {
       console.error (err.message);
     }
-    // store id of each collection
-    collections.forEach(collection => 
-      {let thisCollectionID = collection.collectionID;
-        addCollectionID(thisCollectionID);
-    })
+    }
   }
 
-  // grab first image of each collection to display
-  function getCollectionImages() {
-    collectionIDs.forEach(collectionID => {
-      let getCollectionImageURL = 'viewCollection?collectionID=' + collectionID
-      let imageToAdd = ""
-      console.log(getCollectionImageURL)
-      try {
-        axios
-          .get('getCollectionsURL')
-          .then (response => {
-            console.log(response)
-            // waiting for the ability to grab a specific post by post ID
-            // then we will grab the first post of each collection and add to images
-          });
-      } catch (err) {
-        console.error (err.message);
-      }
-    })
-
-  }
-
-  function getImageFromPost(postID) {
-    // add this in
-  }
-  
 
   return (
     <div class="collection-sidebar-wrapper">
       <div class="collection-sidebar-container">
         <div class="profileinfobar">
+          {pfpURL != undefined ? 
+          <ProfileInfo username={username} pfpURL={pfpURL} />
+          : 
           <ProfileInfo username={username} pfpURL="http://mattrbolles.com/bluecircle.png" />
+          }
         </div>
         <div class="collectionstext">
-          <h3><u>Your collections</u></h3>
-          <a href="#"></a>
-          <p class="mediacount"> photo total</p>
+          <h3>Your Collections</h3>
+          {collections.length > 0 ? 
           <div class="collectionsimages">
-
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-            <img src="https://via.placeholder.com/150" />
-          </div>
+          {collections.map(collection => (
+            <div className="collection-sidebar-collection" key={collection.collectionID}>
+            <img src = {collection.iconURL} alt = "collection"/>
+            <p>{collection.name}</p>
+              </div>
+          ))}
+        </div>
+          : 
+          <div>
+            Create a collection!
+          </div> 
+          }
+       
         </div>
       </div>
     </div>
   );
 }
 
-export default CollectionSidebar;
+export default connect(select)(CollectionSidebar);

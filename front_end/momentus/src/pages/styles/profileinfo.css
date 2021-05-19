@@ -1,12 +1,15 @@
 .ProfileInfo-pfp {
-    width: 100px;
     justify-content: center;
     align-content: center;
 }
 
 .ProfileInfo-pfp img {
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+    object-position: center;
+    padding-top: 10px;
+    border-radius: 50%;
 }
 
 .ProfileInfo {
