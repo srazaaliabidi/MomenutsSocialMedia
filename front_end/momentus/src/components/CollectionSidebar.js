@@ -31,10 +31,8 @@ function CollectionSidebar({username, _id}) {
   const [images, setImages] = useState ({}); */
   const [images, setImages] = useState([]);
   React.useEffect(() => {
-    console.log(_id)
-    console.log(username)
     // get profile
-    //getProfile()
+    getProfile()
     // get collection
     //getCollections()
     // get images
@@ -83,7 +81,9 @@ function CollectionSidebar({username, _id}) {
         .get(getProfileURL)
         .then (response => {
           console.log(response)
+          console.log(response.data)
           setProfile(response.data)
+          console.log(profile)
         });
     } catch (err) {
       console.error (err.message);

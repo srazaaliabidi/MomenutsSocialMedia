@@ -225,11 +225,13 @@ router.post('/logout', function (req, res) {
 
 router.get('/getProfile', function (req, res) {
 	console.log("/getProfile");
+	console.log(req.body)
+	console.log(req.query)
 	var uid = 0;
-	if (req.body.userID === "self") {
+	if (req.query.userID === "self") {
 		uid = req.session.uid;
 	} else {
-		uid = req.body.userID;
+		uid = req.query.userID;
 	}
 	var query = "SELECT * FROM Users WHERE userID = "+uid+";";
 	connection.query (query, function (error, result) {
