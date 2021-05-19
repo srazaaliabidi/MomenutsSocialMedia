@@ -222,12 +222,12 @@ router.post('/logout', function (req, res) {
 router.get('/getProfile', function (req, res) {
 	console.log("/getProfile");
 	var uid = 0;
-	if (req.body.userID === "self") {
+	if (req.query.userID) {
 		uid = req.session.uid;
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT * FROM Users WHERE userID = "+uid+";";
+	var query = "SELECT * FROM Users WHERE userID = "+req.body.uid+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -243,7 +243,7 @@ router.post('/changePrivacy', function (req, res) {
 	if (!req.session.uid) {
 		res.end("0");
 	} else {
-		var query = "UPDATE Users SET privacy='"+req.body.privacy+"' WHERE userID="+req.session.uid+";";
+		var query = "UPDATE Users SET privacy='"+req.body.privacy+"' WHERE userID="+req.body.uid+";";
 		connection.query(query, function (error, result) {
 			if (error) {
 				console.log(error);
@@ -369,7 +369,7 @@ router.post('/getPostsFollow', function (req, res) {
 
 router.post('/getPostByID', function (req, res) {
 	console.log("/getPostByID");
-	//console.log(req);
+	console.log(req);
 	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID = "+req.query.postID+";";
 	connection.query (query, function (error, result) {
 		if (error) {
