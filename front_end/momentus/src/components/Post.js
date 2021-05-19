@@ -9,23 +9,20 @@ import {
 
 // this is to figure out who is logged in
 const select = appState => ({
-	userID: appState.postReducer.postID,
+	isLoggedIn: appState.loginReducer.isLoggedIn,
+	username: appState.loginReducer.username,
+	_id: appState.loginReducer._id,
 });
 
-/* 
-Post consists of the content and user info
-We can rearrange the stuff as needed
-TODO: add comments/likes/reposts
-TODO: add video post
-*/
-function Post({ post, userID }) {
+// post for stream... may need to rename for clarity
+function Post({ post, _id }) {
 	const dispatch = useDispatch();
-	const isOwnPost = false;
+	let isOwnPost = false;
 	const type = post.type;
 	// check to see if post is own, adjust options accordingly
 	// if it is the users' post, an option to delete will appear in the top right corner.
 	// need to add logic to remove post. 
-	if (userID === post.userID) {
+	if (_id == post.userID) {
 		isOwnPost = true;
 		/*
 		if (type == 'text') {
@@ -96,6 +93,7 @@ function Post({ post, userID }) {
 					<div class="post-details">
 						<h1>@{post.username}</h1>
 						<h2>Posted on {post.dateCreated}</h2>
+						<h2>for testing: remove later! postid: {post.postID}</h2>
 					</div>
 				</div>
 				<div class="post-content">

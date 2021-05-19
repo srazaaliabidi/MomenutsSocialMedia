@@ -338,49 +338,106 @@ router.post('/getPosts', function (req, res) {
 	console.log("/getPosts");
 	var uid = 0;
 	if (req.body.userID === "self") {
-		uid = req.session.uid;
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.send(JSON.stringify (result));
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID = "+uid+") ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
 		}
 	});
 });
+
+
 
 router.post('/getPostsFollow', function (req, res) {
 	console.log("/getPostsFollow");
 	var uid = 0;
 	if (req.body.userID === "self") {
-		uid = req.session.uid;
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.send(JSON.stringify (result));
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
 		}
 	});
 });
 
 router.post('/getPostByID', function (req, res) {
 	console.log("/getPostByID");
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID = "+req.body.postID+";";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID = "+req.query.postID+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.json(result);
+			query = "SELECT * FROM Comments WHERE Comments.postID = "+req.query.postID+" ORDER BY Comments.dateCommented DESC;";
+			connection.query (query, function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					result[0]["comments"] = result2;
+					res.json(result);
+				}
+			});
 		}
 	});
 });
@@ -389,22 +446,24 @@ router.post('/getPostByID', function (req, res) {
 
 router.post('/sendMessage', function (req, res) {
 	console.log("/sendMessage");
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.body.uid
 	} else {
-		//socket.io for messaging service
-		var date = new Date();
-		var time = date.getTime();
-		var query = "INSERT INTO Messages (userIDReceiver, userIDSender, content, dateSent) VALUES ('"+req.body.receiver+"', '"+req.session.uid+"', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
+		//socket.io for messaging service
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Messages (userIDReceiver, userIDSender, content, dateSent) VALUES ('"+req.body.receiver+"', '"+uid+"', '"+req.body.content+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.send("1");
+		}
+	});
 });
 
 router.post('/getMessage', function (req, res) {
@@ -423,22 +482,24 @@ router.post('/getMessage', function (req, res) {
 /*----------------------COMMENT---------------------------*/
 
 router.post('/addComment', function (req, res) {
-	console.log("/sendMessage");
+	console.log("/addComment");
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.body.uid
 	} else {
-		var date = new Date();
-		var time = date.getTime();
-		var query = "INSERT INTO Comments (postID, userID, content, dateCreated) VALUES ('"+req.body.postID+"', '"+req.session.uid+"', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('"+req.body.postID+"', '"+uid+"', '"+req.body.content+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: result.insertId});
+		}
+	});
 });
 
 router.post('/getComments', function (req, res) {
@@ -464,21 +525,23 @@ router.post('/getComments', function (req, res) {
 
 router.post('/follow', function (req, res) {
 	console.log("/follow");
-	if (!req.session.uid) {
-		res.end("0");
+	var uid = 0;
+	if (req.body.userID === "self") {
+		uid = req.session.uid;
 	} else {
-		var date = new Date();
-		var time = date.getTime();
-		var query = "INSERT INTO Following (userIDFollowing, userIDFollowed, dateFollowed) VALUES ('"+req.session.uid+"', '"+req.body.followed+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.body.userID;
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Following (userIDFollowing, userIDFollowed, dateFollowed) VALUES ('"+uid+"', '"+req.body.followed+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.send("1");
+		}
+	});
 });
 
 router.post('/getFollow', function (req, res) {
@@ -504,22 +567,18 @@ router.post('/getFollow', function (req, res) {
 
 router.post('/favorite', function (req, res) {
 	console.log("/favorite");
-	if (!req.session.uid) {
-		res.end("0");
-	} else {
 		var date = new Date();
 		var time = date.getTime();
-		var query = "INSERT INTO Favorites (postID, dateFavorite) VALUES ('"+req.body.postID+"', '"+time+"');";
+		var query = "INSERT INTO Favorites (postID, dateFavorite) VALUES ('"+req.query.postID+"', '"+time+"');";
 		connection.query(query, function (error, result) {
 			if (error) {
-				console.log(error);
 				res.send("0");
 			} else {
 				res.send("1");
 			}
 		});
 	}
-});
+);
 
 router.post('/getFavorite', function (req, res) {
 	console.log("/getFavorite");
@@ -643,5 +702,3 @@ router.get('/*', function(req, res) {
 app.use("/", router);
 var server = app.listen(process.env.PORT || 3001)
 console.log("> server online\n> listening port "+port+"\n");
-
-
