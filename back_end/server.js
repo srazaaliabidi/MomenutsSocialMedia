@@ -196,7 +196,6 @@ router.post('/verifyUser', function (req, res) {
 				req.session.username = req.body.username;
 				req.session.uid = result[0].userID;
 				res.send("1");
-				console.log("user logged in");
 	  		} else {
 				res.send("0");
 			}
@@ -259,24 +258,25 @@ router.post('/changePrivacy', function (req, res) {
 
 router.post('/newPostText', function (req, res) {
 	console.log("/newPostText");
+	var uid = 1
 	if (!req.session.uid) {
 		console.log("no uid");
-		res.end("0");
 	} else {
-		var date = new Date();
-		var time = date.getTime();
-		var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+req.session.uid+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid;
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+uid+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: result.insertId});
+		}
+	});
 });
-
+/*
 router.post('/testNewPostText', function (req, res) {
 	console.log("/testNewPostText");
 	var date = new Date();
@@ -290,7 +290,7 @@ router.post('/testNewPostText', function (req, res) {
 			res.send("1");
 		}
 	});
-});
+});*/
 
 router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 	console.log("/newPostImage");
