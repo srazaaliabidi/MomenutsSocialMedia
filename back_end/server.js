@@ -155,7 +155,7 @@ router.post('/newUser', function (req, res) {
 	/* var filePath = "../back_end/profile-images/"+Date.now()+"-"+req.file.originalname;
 	console.log("> "+filePath); */
 	var filePath = "http://mattrbolles.com/bluecircle.png"
-	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+encodePass(req.body.password)+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '"+filePath+"', '0');";
+	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+req.body.password+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '"+filePath+"', '0');";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
@@ -185,19 +185,24 @@ router.post('/testRegister', function (req, res) {
 
 router.post('/verifyUser', function (req, res) {
 	console.log("/verifyUser");
+	console.log(req.body);
+	console.log(req.body.username);
+	console.log(req.body.password);
 	var encodedPass = encodePass(req.body.password);
-	var query = "SELECT userID FROM Users WHERE username = \'"+req.body.username+"\' AND password = \'"+encodedPass+"\';";
+	var query = "SELECT userID FROM Users WHERE username = \'"+req.body.username+"\' AND password = \'"+req.body.password+"\';";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
-			res.send("0");
+			res.send("error in /verifyUser");
 		} else {
 			if (result.length > 0) {
 				req.session.username = req.body.username;
 				req.session.uid = result[0].userID;
-				res.send("1");
+				let userID = {_id: result[0].userID}
+				console.log(userID)
+				res.send(userID);
 	  		} else {
-				res.send("0");
+				res.send("error in /verifyUser");
 			}
 		}
 	}); 

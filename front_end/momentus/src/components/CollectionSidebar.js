@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-
+import { useDispatch, connect } from 'react-redux';
 import App from '../App';
 import './styles/sidebar.css';
 import ProfileInfo from './ProfileInfo';
@@ -31,13 +31,15 @@ function CollectionSidebar({username, _id}) {
   const [images, setImages] = useState ({}); */
   const [images, setImages] = useState([]);
   React.useEffect(() => {
+    console.log(_id)
+    console.log(username)
     // get profile
-    getProfile()
+    //getProfile()
     // get collection
-    getCollections()
+    //getCollections()
     // get images
-    getCollectionImages()
-  });
+    //getCollectionImages()
+  }, []);
 
   
   /////////////// [[[ CHECK FUNCTION ]]]
@@ -178,4 +180,4 @@ function CollectionSidebar({username, _id}) {
   );
 }
 
-export default CollectionSidebar;
+export default connect(select)(CollectionSidebar);
