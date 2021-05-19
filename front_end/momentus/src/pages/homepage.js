@@ -11,6 +11,7 @@ import SearchResults from './searchresults';
 import NavigationBar from '../components/NavigationBar';
 import TrendingSideBar from '../components/TrendingSideBar';
 import CollectionSidebar from '../components/CollectionSidebar';
+import IndividualPost from '../components/IndividualPost'
 
 // bootstrap
 import Container from 'react-bootstrap/Container';
@@ -38,6 +39,9 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
 		<div>
 		{isLoggedIn ?
 		<div className="App">
+			<div>
+			
+			</div>
 			<NavigationBar />
 			<Container fluid className="grid-container">
 				<Row className="row-container">
@@ -66,8 +70,11 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
 								<Route path="/userprofiletest">
 									<UserProfile />
 								</Route>
-								<Route path="/:username">
+								<Route path="/user/:username">
 									
+								</Route>
+								<Route path="/post/:postID">
+									<IndividualPost />
 								</Route>
 							</Switch>
 						</BrowserRouter>
