@@ -31,13 +31,15 @@ function CollectionSidebar({username, _id}) {
   const [images, setImages] = useState ({}); */
   const [images, setImages] = useState([]);
   React.useEffect(() => {
-    // get profile
-    getProfile()
+    // get profile - don't need this anymore lmao
+    //getProfile()
+    //console.log(profile)
     // get collection
-    //getCollections()
+    getCollections()
+    console.log(collections)
     // get images
     //getCollectionImages()
-  }, []);
+  });
 
   
   /////////////// [[[ CHECK FUNCTION ]]]
@@ -74,7 +76,8 @@ function CollectionSidebar({username, _id}) {
 
   // Reformatted functions
   function getProfile() {
-    let getProfileURL = 'getProfile?userID=' + _id
+    if (profile == undefined) {
+      let getProfileURL = 'getProfile?userID=' + _id
     console.log(getProfileURL)
     try {
       axios
@@ -83,38 +86,33 @@ function CollectionSidebar({username, _id}) {
           console.log(response)
           console.log(response.data)
           setProfile(response.data)
-          console.log(profile)
         });
     } catch (err) {
       console.error (err.message);
     }
+    }
+    
   }
 
   
 
   function getCollections() {
+    if (collections.length == 0) {
     let getCollectionsURL = 'getCollections?userID=' + _id
     console.log(getCollectionsURL)
     try {
       axios
-        .get(getCollectionsURL)
+        .post(getCollectionsURL)
         .then (response => {
-          console.log(response)
-          // max 9 collections displayed
-          response.data.forEach (collection => {
-            if (collections.length < 9) {
+          console.log(response.data)
+          /* response.data.forEach (collection => {
               addCollection(collection)
-            }
-          })
+          }) */
         });
     } catch (err) {
       console.error (err.message);
     }
-    // store id of each collection
-    collections.forEach(collection => 
-      {let thisCollectionID = collection.collectionID;
-        addCollectionID(thisCollectionID);
-    })
+    }
   }
 
   // grab first image of each collection to display
