@@ -105,11 +105,16 @@ function CollectionSidebar({username, _id}) {
         .post(getCollectionsURL)
         .then (response => {
           console.log(response.data)
-          /* response.data.forEach (collection => {
+          // if not empty 
+          if (response.data.length > 0) {
+            console.log(response.data)
+            response.data.forEach (collection => {
               addCollection(collection)
-          }) */
+            })
+          }
         });
-    } catch (err) {
+    } 
+    catch (err) {
       console.error (err.message);
     }
     }
