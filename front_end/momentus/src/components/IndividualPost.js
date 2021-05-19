@@ -19,6 +19,7 @@ import rootReducer from '../redux/reducers/rootReducer';
 import { Provider, useDispatch } from 'react-redux';
 import { useSelector, connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
+import {useHistory} from 'react-router-dom';
 
 import './styles/individualpost.css';
 
@@ -31,10 +32,12 @@ const select = appState => ({
 // individual post page
 
 function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
+	const history = useHistory ();
     const { postID } = useParams();
 	const [newPostID, setNewPostID] = useState(); // for url
 	const [post, setPost] = useState();
 	const [comments, getComments] = useState([]);
+	const [favorited, isFavorited] = useState(false)
 	const addPost = newPost => setPost (state => [...state, newPost]);
     
 	let counter = 1;
@@ -42,13 +45,27 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 	// grab post info
 	React.useEffect(() => {
 		getPost()
-		console.log(post)
 		//getComments()
 	})
 
 	function favoritePost() {
 		// add to user favs
-		console.log('favorite post')
+		
+		let favoriteURL = '/favorite?postID=' + postID;
+		console.log(favoriteURL)
+		// reload to show updated comments
+		try {
+			axios
+			.post(favoriteURL)
+			.then(res => {
+				  console.log(res)
+			  })
+			}
+			catch (err) {
+			  console.error(err.message);
+			}
+		history.push(`/post/${postID}`)
+		history.go (0);
 	}
 
 	function getPost() {
@@ -117,7 +134,7 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 				</div>
 			</div>
 			<div className="post-favorites">
-				<button></button>
+				<button onClick = {favoritePost}>Add To Favorites</button>
 				{post.numFav != null ? 
 				<div>
 					{post.numFav}

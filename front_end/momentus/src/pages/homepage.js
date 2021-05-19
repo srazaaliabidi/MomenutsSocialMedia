@@ -46,7 +46,7 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
 			<NavigationBar />
 			<Container fluid className="grid-container">
 				<Row className="row-container">
-					<Col className="sidebar"><TrendingSideBar /></Col>
+					<Col className="sidebar">{/* <TrendingSideBar /> */}</Col>
 					<Col className="center-grid-wrapper">
 						<BrowserRouter>
 							<Switch>
@@ -80,7 +80,7 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
 							</Switch>
 						</BrowserRouter>
 					</Col>
-					<Col className="sidebar"><CollectionSidebar username={username} pfpURL={pfpURL} /></Col>
+					<Col className="sidebar">{/* <CollectionSidebar username={username} pfpURL={pfpURL} /> */}</Col>
 				</Row>
 			</Container>
 		</div>

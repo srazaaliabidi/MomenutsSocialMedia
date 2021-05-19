@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/CSC648-Team4/CSC648GroupProject#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "axios": "^0.21.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",

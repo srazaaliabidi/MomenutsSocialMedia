@@ -374,13 +374,22 @@ router.post('/getPostsFollow', function (req, res) {
 
 router.post('/getPostByID', function (req, res) {
 	console.log("/getPostByID");
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID = "+req.query.postID+";";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID = "+req.body.postID+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.json(result);
+			query = "SELECT * FROM Comments WHERE Comments.postID = "+req.body.postID+" ORDER BY Comments.dateCommented DESC;";
+			connection.query (query, function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					result[0]["comments"] = result2;
+					res.json(result);
+				}
+			});
 		}
 	});
 });
@@ -510,12 +519,9 @@ router.post('/getFollow', function (req, res) {
 
 router.post('/favorite', function (req, res) {
 	console.log("/favorite");
-	if (!req.session.uid) {
-		res.end("0");
-	} else {
 		var date = new Date();
 		var time = date.getTime();
-		var query = "INSERT INTO Favorites (postID, dateFavorite) VALUES ('"+req.body.postID+"', '"+time+"');";
+		var query = "INSERT INTO Favorites (postID, dateFavorite) VALUES ('"+req.query.postID+"', '"+time+"');";
 		connection.query(query, function (error, result) {
 			if (error) {
 				console.log(error);
@@ -525,7 +531,7 @@ router.post('/favorite', function (req, res) {
 			}
 		});
 	}
-});
+);
 
 router.post('/getFavorite', function (req, res) {
 	console.log("/getFavorite");
