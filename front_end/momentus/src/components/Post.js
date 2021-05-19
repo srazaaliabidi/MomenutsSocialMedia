@@ -17,12 +17,12 @@ const select = appState => ({
 // post for stream... may need to rename for clarity
 function Post({ post, _id }) {
 	const dispatch = useDispatch();
-	const isOwnPost = false;
+	let isOwnPost = false;
 	const type = post.type;
 	// check to see if post is own, adjust options accordingly
 	// if it is the users' post, an option to delete will appear in the top right corner.
 	// need to add logic to remove post. 
-	if (_id === post.userID) {
+	if (_id == post.userID) {
 		isOwnPost = true;
 		/*
 		if (type == 'text') {

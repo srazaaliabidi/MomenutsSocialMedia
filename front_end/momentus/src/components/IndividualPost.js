@@ -35,45 +35,33 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 	const [newPostID, setNewPostID] = useState(); // for url
 	const [post, setPost] = useState();
 	const addPost = newPost => setPost (state => [...state, newPost]);
-    const getPostURL = '/getPostByID?postID=' + postID;
+    
 	let counter = 1;
 	let loadedPost = [];
 	// grab post info
 	React.useEffect(() => {
-		try {
-		axios
-		.get(getPostURL)
-		.then(res => {
-			  loadedPost = res.data;
-			  console.log(loadedPost)
-			  // store post info
-			  setPost(loadedPost);
-		  })
-		}
-		catch (err) {
-		  console.error(err.message);
-		}
-	}, [])
+		getPost()
+		console.log(post)
+	})
 
-	/* function getPost() {
-		if (counter == 1) {
-		try {
-			axios.post(getPostURL)
-			.then(res => {
-				  loadedPost = res.data;
-				  console.log(loadedPost)
-				  // store post info
-				  addPost(loadedPost);
-				  
-			  })
-			}
-			catch (err) {
-			  console.error(err.message);
-			}
-		counter++;
+	function getPost() {
+		if (post == undefined) {
+			let getPostURL = '/getPostByID?postID=' + postID;
+			console.log(getPostURL)
+			try {
+				axios
+				.post(getPostURL)
+				.then(res => {
+					  loadedPost = res.data[0];
+					  // store post info
+					  setPost(loadedPost);
+				  })
+				}
+				catch (err) {
+				  console.error(err.message);
+				}
 		};
 	}
-	getPost() */
 	return (
 		/*
             <div className="individual-post">
@@ -102,28 +90,37 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 			</div>*/
 		
 		/// Feel free to comment out, this was just the adjusted post ///
+
 		<div>
-					<div class="post">
-						<div className="post-info">
-							<img className="profilepic-post" src={post.pfpURL} />
-							<div class="post-details">
-								<h1>@{post.username}</h1>
-								<h2>Posted on {post.dateCreated}</h2>
-							</div>
-						</div>
-				
-						<div class="post-content">
-							<p class="post-caption">{post.caption}</p>
-							<div className="post-photo">
-								<img src={post.contentURL} />
-							</div>
-						</div>
-					</div>
-					<div class="comment-wrap">
-				
-						<SinglePostComment />
-						<SinglePostComment />
-					</div>
+			{post != undefined ? 
+			<div>
+				<div className="post">
+			<div className="post-info">
+				<img className="profilepic-post" src={post.pfpURL} />
+				<div class="post-details">
+					<h1>@{post.username}</h1>
+					<h2>Posted on {post.dateCreated}</h2>
+				</div>
+			</div>
+	
+			<div class="post-content">
+				<p class="post-caption">{post.caption}</p>
+				<div className="post-photo">
+					<img src={post.contentURL} />
+				</div>
+			</div>
+		</div>
+		<div class="comment-wrap">
+	
+			<SinglePostComment />
+			<SinglePostComment />
+		</div>
+			</div>
+			: 
+			<div>
+				Loading post...
+			</div>
+			}
 				</div>
 	);
 }

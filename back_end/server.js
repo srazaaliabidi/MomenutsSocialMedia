@@ -135,7 +135,7 @@ router.get('/getTrending', function (req, res) {
 	var date = new Date();
 	date.setDate(date.getDate() - 7);
 	var time = date.getTime();
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.dateCreated > "+time+" ORDER BY numFav DESC LIMIT 20;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.dateCreated > "+time+" ORDER BY numFav DESC LIMIT 10;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -155,7 +155,7 @@ router.post('/newUser', function (req, res) {
 	/* var filePath = "../back_end/profile-images/"+Date.now()+"-"+req.file.originalname;
 	console.log("> "+filePath); */
 	var filePath = "http://mattrbolles.com/bluecircle.png"
-	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+encodePass(req.body.password)+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '"+filePath+"', '0');";
+	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+req.body.password+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '"+filePath+"', '0');";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
@@ -185,20 +185,24 @@ router.post('/testRegister', function (req, res) {
 
 router.post('/verifyUser', function (req, res) {
 	console.log("/verifyUser");
+	console.log(req.body);
+	console.log(req.body.username);
+	console.log(req.body.password);
 	var encodedPass = encodePass(req.body.password);
-	var query = "SELECT userID FROM Users WHERE username = \'"+req.body.username+"\' AND password = \'"+encodedPass+"\';";
+	var query = "SELECT userID FROM Users WHERE username = \'"+req.body.username+"\' AND password = \'"+req.body.password+"\';";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
-			res.send("0");
+			res.send("error in /verifyUser");
 		} else {
 			if (result.length > 0) {
 				req.session.username = req.body.username;
 				req.session.uid = result[0].userID;
-				res.send("1");
-				console.log("user logged in");
+				let userID = {_id: result[0].userID}
+				console.log(userID)
+				res.send(userID);
 	  		} else {
-				res.send("0");
+				res.send("error in /verifyUser");
 			}
 		}
 	}); 
@@ -222,12 +226,12 @@ router.post('/logout', function (req, res) {
 router.get('/getProfile', function (req, res) {
 	console.log("/getProfile");
 	var uid = 0;
-	if (req.query.userID) {
+	if (req.query.userID === "self") {
 		uid = req.session.uid;
 	} else {
-		uid = req.body.userID;
+		uid = req.query.userID;
 	}
-	var query = "SELECT * FROM Users WHERE userID = "+req.body.uid+";";
+	var query = "SELECT * FROM Users WHERE userID = "+uid+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -243,7 +247,7 @@ router.post('/changePrivacy', function (req, res) {
 	if (!req.session.uid) {
 		res.end("0");
 	} else {
-		var query = "UPDATE Users SET privacy='"+req.body.privacy+"' WHERE userID="+req.body.uid+";";
+		var query = "UPDATE Users SET privacy='"+req.body.privacy+"' WHERE userID="+req.session.uid+";";
 		connection.query(query, function (error, result) {
 			if (error) {
 				console.log(error);
@@ -259,24 +263,25 @@ router.post('/changePrivacy', function (req, res) {
 
 router.post('/newPostText', function (req, res) {
 	console.log("/newPostText");
+	var uid = 1
 	if (!req.session.uid) {
 		console.log("no uid");
-		res.end("0");
 	} else {
-		var date = new Date();
-		var time = date.getTime();
-		var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+req.session.uid+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid;
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+uid+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: result.insertId});
+		}
+	});
 });
-
+/*
 router.post('/testNewPostText', function (req, res) {
 	console.log("/testNewPostText");
 	var date = new Date();
@@ -290,7 +295,7 @@ router.post('/testNewPostText', function (req, res) {
 			res.send("1");
 		}
 	});
-});
+});*/
 
 router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 	console.log("/newPostImage");
@@ -367,35 +372,18 @@ router.post('/getPostsFollow', function (req, res) {
 	});
 });
 
-router.get('/getPostByID', function (req, res) {
+router.post('/getPostByID', function (req, res) {
 	console.log("/getPostByID");
-	console.log(req);
 	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID = "+req.query.postID+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.json(JSON.stringify(result));
+			res.json(result);
 		}
 	});
 });
-
-////// temporary function I used to test simplicity ////
-/*
-router.get('/getPostByIDD', function (req, res) {
-	console.log("/getPostByIDD");
-	console.log(req);
-	var query = "SELECT * FROM Post WHERE postID = "+req.query.postID+";";
-	connection.query (query, function (error, result) {
-		if (error) {
-			console.log (error);
-			res.send("0");
-		} else {
-			res.json(JSON.stringify(result));
-		}
-	});
-});*/
 
 /*----------------------MESSAGE---------------------------*/
 
@@ -590,15 +578,18 @@ router.post('/appendCollection', function (req, res) {
 
 router.post('/getCollections', function (req, res) {
 	console.log("/getCollections");
-	if (!req.session.uid) {
+	console.log(req.query)
+	// pass in session to verify, add back in later
+	/* if (!req.session.uid) {
 		res.end("0");
-	} else {
+	} else { */
 		var uid = 0;
-		if (req.body.userID === "self") {
+		if (req.query.userID === "self") {
 			uid = req.session.uid;
 		} else {
-			uid = req.body.userID;
+			uid = req.query.userID;
 		}
+		console.log("getting collections")
 		var query = "SELECT * FROM Collections WHERE userID = "+uid+";";
 		connection.query (query, function (error, result) {
 			if (error) {
@@ -608,7 +599,7 @@ router.post('/getCollections', function (req, res) {
 			}
 		});
 	}
-});
+);
 
 router.post('/viewCollection', function (req, res) {
 	console.log("/viewCollection");
@@ -652,5 +643,3 @@ router.get('/*', function(req, res) {
 app.use("/", router);
 var server = app.listen(process.env.PORT || 3001)
 console.log("> server online\n> listening port "+port+"\n");
-
-
