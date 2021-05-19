@@ -338,36 +338,84 @@ router.post('/getPosts', function (req, res) {
 	console.log("/getPosts");
 	var uid = 0;
 	if (req.body.userID === "self") {
-		uid = req.session.uid;
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.send(JSON.stringify (result));
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID = "+uid+") ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
 		}
 	});
 });
+
+
 
 router.post('/getPostsFollow', function (req, res) {
 	console.log("/getPostsFollow");
 	var uid = 0;
 	if (req.body.userID === "self") {
-		uid = req.session.uid;
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.send(JSON.stringify (result));
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
 		}
 	});
 });
