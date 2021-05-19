@@ -11,7 +11,7 @@ import SearchResults from '../pages/searchresults';
 import NavigationBar from './NavigationBar';
 import TrendingSideBar from './TrendingSideBar';
 import CollectionSidebar from './CollectionSidebar';
-import SinglePostComment from './singlepostcomment';
+import SinglePostComment from './SinglePostComment';
 import axios from "axios";
 
 import { createStore, applyMiddleware } from 'redux';
@@ -129,11 +129,20 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 				} 
 			</div>
 		</div>
+		
+		{(comments != undefined && comments.length > 0) ? 
 		<div class="comment-wrap">
-	
-			<SinglePostComment />
-			<SinglePostComment />
+		{comments.map(comment=> (
+        <div className="post-comments" key={comment.commentID}>
+          <SinglePostComment comment = {comment}/>
+        </div>
+      	))}
 		</div>
+		: 
+		<div class="comment-wrap">
+		No comments yet. Add your thoughts!
+		</div>}
+		
 			</div>
 			: 
 			<div>
