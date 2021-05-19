@@ -1,6 +1,13 @@
 localStorage.setItem("host", "http://localhost:3001");
 const CryptoJS = require("crypto-js");
 const functions = {
+	postById: function(id) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("POST", localStorage.getItem("host") + '/getPostByID', false);
+		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhttp.send("postID="+id);
+		return xhttp;
+	},
 	register: function(email, username, password, firstName, lastName, city, state, DOB) {
 		var hash = CryptoJS.SHA256(password);
 		var xhttp = new XMLHttpRequest();

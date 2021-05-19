@@ -5,4 +5,7 @@ INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUE
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'This is the doge', 'photo', 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202104/dog_0.jpg?0eRKF4LDdm4ZvhiSRkuG6rapiNKbilig&size=770:433', 'none', '1620680153133');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'Another test image', 'photo', 'https://i.jpg.dog/content/images/system/logo_1530884671755_5d660e.svg', 'none', '1621690153133');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'none', 'text', 'none', 'We love doge', '1619090153133');
-
+INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('2', 'hehehe', 'photo', 'https://i.pinimg.com/564x/7d/30/af/7d30af5fab847c50dbc1964f4f26b8cf.jpg', 'none', '999999999999999');
+INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('2', 'sponge boob', 'photo', 'https://ugc.reveliststatic.com/gen/constrain/640/640/80/2019/06/05/14/8i/5d/pooxrfjxc01bw.png', 'none', '999999999999999999');
+INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('2', 'My Collection', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '000', '000');
+INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('6', '1', '000');
