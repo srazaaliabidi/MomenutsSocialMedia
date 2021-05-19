@@ -1,12 +1,6 @@
 import React, { Component, useEffect, useState } from 'react';
 import { BrowserRouter, Link, Route, Switch, useParams } from 'react-router-dom';
 
-import Stream from '../pages/stream';
-import About from '../pages/about';
-import Messages from '../pages/messages';
-import Notifs from '../pages/notifs';
-import Settings from '../pages/settings';
-import UserProfile from '../pages/userprofile';
 import SearchResults from '../pages/searchresults';
 import NavigationBar from './NavigationBar';
 import TrendingSideBar from './TrendingSideBar';
