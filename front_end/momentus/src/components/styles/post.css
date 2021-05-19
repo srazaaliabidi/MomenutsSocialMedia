@@ -20,7 +20,10 @@
 }
 
 .profilepic-post {
+    /* Center the image within the element */
+    height: 60px;
     width: 60px;
+    border-radius: 50%;
 }
 
 #profilepic-post {
@@ -53,7 +56,9 @@
     margin-bottom: 15px;
 }
 
-.post-content {}
+.post-content {
+    text-align: center;
+}
 
 .post-caption {}
 
@@ -64,6 +69,9 @@
 .post-photo img {
     max-height: 100%;
     max-width: 100%;
+    border-radius: 5%;
+    display: block;
+    margin: 0 auto;
 }
 
 .profileinfobar {
@@ -77,4 +85,14 @@
     right: 0;
     float: right;
     font-size: 20px;
+}
+
+.center-cropped-icon {
+    object-fit: none;
+    /* Do not scale the image */
+    object-position: center;
+    /* Center the image within the element */
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
 }

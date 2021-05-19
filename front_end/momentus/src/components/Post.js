@@ -73,7 +73,7 @@ function Post({ post, userID }) {
 		return (
 			<div class="post">
 				<div className="post-info">
-					<img id="profilepic-post" src={post.pfpURL} />
+					<img className="profilepic-post" src={post.pfpURL} />
 					<div class="post-details">
 						<h1>@{post.username}</h1>
 						<h2>Posted on {post.dateCreated}</h2>
@@ -92,7 +92,7 @@ function Post({ post, userID }) {
 		return (
 			<div class="post">
 				<div class="post-info">
-					<img id="profilepic-post" src={post.pfpURL} />
+					<img class="profilepic-post" src={post.pfpURL} />
 					<div class="post-details">
 						<h1>@{post.username}</h1>
 						<h2>Posted on {post.dateCreated}</h2>
@@ -100,8 +100,8 @@ function Post({ post, userID }) {
 				</div>
 				<div class="post-content">
 					<p class="post-caption">{post.caption}</p>
-					<div class="Post-photo">
-						<img src={post.contentURL} />
+					<div className="post-photo">
+						<img src={post.contentURL}/>
 					</div>
 				</div>
 
