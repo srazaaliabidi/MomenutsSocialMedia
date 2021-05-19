@@ -36,7 +36,7 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
     const { postID } = useParams();
 	const [newPostID, setNewPostID] = useState(); // for url
 	const [post, setPost] = useState();
-	const [comments, getComments] = useState([]);
+	const [comments, setComments] = useState();
 	const [favorited, isFavorited] = useState(false)
 	const addPost = newPost => setPost (state => [...state, newPost]);
     
@@ -45,27 +45,31 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 	// grab post info
 	React.useEffect(() => {
 		getPost()
+		getComments()
+		console.log(comments)
 		//getComments()
 	})
 
 	function favoritePost() {
 		// add to user favs
-		
 		let favoriteURL = '/favorite?postID=' + postID;
-		console.log(favoriteURL)
-		// reload to show updated comments
+		//console.log(favoriteURL)
 		try {
 			axios
 			.post(favoriteURL)
 			.then(res => {
 				  console.log(res)
+				  //if favorite succeeded, reload to show updated favorite count
+				  if (res.data == "1") {
+					history.push(`/post/${postID}`)
+					history.go (0);
+				  }
 			  })
 			}
 			catch (err) {
 			  console.error(err.message);
 			}
-		history.push(`/post/${postID}`)
-		history.go (0);
+		
 	}
 
 	function getPost() {
@@ -86,35 +90,14 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 				}
 		};
 	}
-	return (
-		/*
-            <div className="individual-post">
-				<div>
-      			postID: {postID}
-				  
-				  
-    			</div>
-				{loadedPost != undefined ? 
-				<div>
-					post loaded
-					{loadedPost.postID}
-				</div>
-				: null}
-				{/* <div className="post-info">
-					<img id="profilepic-post" src={post.pfpURL} />
-					<div class="post-details">
-						<h1>@{post.username}</h1>
-						<h2>Posted on {post.dateCreated}</h2>
-					</div>
-				</div> }
-				
-				{/* <div className="Post-content">
-					{post.content}
-				</div> }
-			</div>*/
-		
-		/// Feel free to comment out, this was just the adjusted post ///
 
+	function getComments() {
+		// comments is an array of json objects
+		if (comments == undefined && post != undefined) {
+			setComments(post.comments)
+		}
+	}
+	return (
 		<div>
 			{post != undefined ? 
 			<div>
@@ -136,12 +119,14 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 			<div className="post-favorites">
 				<button onClick = {favoritePost}>Add To Favorites</button>
 				{post.numFav != null ? 
-				<div>
-					{post.numFav}
+				<div className = "post-num-favorites">
+					{post.numFav} Favorites
 				</div>
 				:
-				0
-				}
+				<div className = "post-num-favorites">
+					0 Favorites
+				</div>
+				} 
 			</div>
 		</div>
 		<div class="comment-wrap">
