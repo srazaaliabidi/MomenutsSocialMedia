@@ -34,6 +34,7 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
     const { postID } = useParams();
 	const [newPostID, setNewPostID] = useState(); // for url
 	const [post, setPost] = useState();
+	const [comments, getComments] = useState([]);
 	const addPost = newPost => setPost (state => [...state, newPost]);
     
 	let counter = 1;
@@ -42,7 +43,13 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 	React.useEffect(() => {
 		getPost()
 		console.log(post)
+		//getComments()
 	})
+
+	function favoritePost() {
+		// add to user favs
+		console.log('favorite post')
+	}
 
 	function getPost() {
 		if (post == undefined) {
@@ -103,11 +110,21 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
 				</div>
 			</div>
 	
-			<div class="post-content">
+			<div className="post-content">
 				<p class="post-caption">{post.caption}</p>
 				<div className="post-photo">
 					<img src={post.contentURL} />
 				</div>
+			</div>
+			<div className="post-favorites">
+				<button></button>
+				{post.numFav != null ? 
+				<div>
+					{post.numFav}
+				</div>
+				:
+				0
+				}
 			</div>
 		</div>
 		<div class="comment-wrap">

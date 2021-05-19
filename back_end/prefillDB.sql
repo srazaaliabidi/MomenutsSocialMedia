@@ -14,3 +14,4 @@ INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES
 INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('6', '1', '000');
 INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('2', 'My Collection2', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '000', '000');
 INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('7', '2', '000');
+INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('7', '1', 'test comment content', '1621461085254');

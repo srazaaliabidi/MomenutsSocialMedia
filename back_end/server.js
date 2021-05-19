@@ -389,22 +389,24 @@ router.post('/getPostByID', function (req, res) {
 
 router.post('/sendMessage', function (req, res) {
 	console.log("/sendMessage");
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.body.uid
 	} else {
-		//socket.io for messaging service
-		var date = new Date();
-		var time = date.getTime();
-		var query = "INSERT INTO Messages (userIDReceiver, userIDSender, content, dateSent) VALUES ('"+req.body.receiver+"', '"+req.session.uid+"', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
+		//socket.io for messaging service
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Messages (userIDReceiver, userIDSender, content, dateSent) VALUES ('"+req.body.receiver+"', '"+uid+"', '"+req.body.content+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.send("1");
+		}
+	});
 });
 
 router.post('/getMessage', function (req, res) {
@@ -423,22 +425,24 @@ router.post('/getMessage', function (req, res) {
 /*----------------------COMMENT---------------------------*/
 
 router.post('/addComment', function (req, res) {
-	console.log("/sendMessage");
+	console.log("/addComment");
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.body.uid
 	} else {
-		var date = new Date();
-		var time = date.getTime();
-		var query = "INSERT INTO Comments (postID, userID, content, dateCreated) VALUES ('"+req.body.postID+"', '"+req.session.uid+"', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('"+req.body.postID+"', '"+uid+"', '"+req.body.content+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: result.insertId});
+		}
+	});
 });
 
 router.post('/getComments', function (req, res) {
@@ -464,21 +468,23 @@ router.post('/getComments', function (req, res) {
 
 router.post('/follow', function (req, res) {
 	console.log("/follow");
-	if (!req.session.uid) {
-		res.end("0");
+	var uid = 0;
+	if (req.body.userID === "self") {
+		uid = req.session.uid;
 	} else {
-		var date = new Date();
-		var time = date.getTime();
-		var query = "INSERT INTO Following (userIDFollowing, userIDFollowed, dateFollowed) VALUES ('"+req.session.uid+"', '"+req.body.followed+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.body.userID;
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Following (userIDFollowing, userIDFollowed, dateFollowed) VALUES ('"+uid+"', '"+req.body.followed+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.send("1");
+		}
+	});
 });
 
 router.post('/getFollow', function (req, res) {
