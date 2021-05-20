@@ -1,7 +1,7 @@
 const functions = require("./functions");
 const expect = require('expect');
 const path = require("path");
-/*
+
 test('Post By Id', done => {
 	functions.postById(7, function(jason) {
 		try {
@@ -18,7 +18,7 @@ test('Post By Id', done => {
 		}
 	});
 });
-/*
+
 test('Post By User', done => {
 	functions.postByUser(2, function(jason) {
 		try {
@@ -35,7 +35,7 @@ test('Post By User', done => {
 		}
 	});
 });
-/*
+
 test('Get Profile', done => {
 	functions.getProfile(2, function(jason) {
 		try {
@@ -52,18 +52,24 @@ test('Get Profile', done => {
 		}
 	});
 });
-/*
+
 test('Logs in User', done => {
 	functions.login("cd", "cd", function(jason) {
 		try {
-			expect(jason).toEqual(1);
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						userID: 2
+					})
+				])
+			);
 			done();
 		} catch (error) {
 			done(error);
 		}
 	});
 });
-/*
+
 test('Favorite', done => {
 	functions.favorite(7, function(jason) {
 		try {
@@ -80,7 +86,7 @@ test('Favorite', done => {
 		}
 	});
 });
-/*
+
 test('Get Favorite Post', done => {
 	functions.getFavPost(6, function(jason) {
 		try {
@@ -97,7 +103,7 @@ test('Get Favorite Post', done => {
 		}
 	});
 });
-*/
+
 test('Get ALL Favorite', done => {
 	functions.getAllFav(1, function(jason) {
 		try {
@@ -114,7 +120,7 @@ test('Get ALL Favorite', done => {
 		}
 	});
 });
-/*
+
 test('Registers new User', done => {
 	functions.register("test@gmail.com", "testUName", "test", "testFirst", "testtLast", "testCity", "testState", "testDOB", "http://mattrbolles.com/bluecircle.png", function(jason) {
 		try {
@@ -131,7 +137,7 @@ test('Registers new User', done => {
 		}
 	});
 });
-/*
+
 test('Creates New Text Post', done => {
 	functions.newPostText("testTextTitle", "testContent", function(jason) {
 		try {
@@ -149,7 +155,7 @@ test('Creates New Text Post', done => {
 		}
 	});
 });
-/*
+
 test('Creates New Image Post Link', done => {
 	functions.newPostImageLink("testImageTitle", "testCaption", "http://mattrbolles.com/bluecircle.png", function(jason) {
 		try {
@@ -167,5 +173,5 @@ test('Creates New Image Post Link', done => {
 		}
 	});
 });
-*/
+
 

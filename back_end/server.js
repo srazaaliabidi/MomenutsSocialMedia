@@ -125,7 +125,7 @@ router.get('/getHome', function (req, res) {
 			console.log(error);
 			res.send("0");
 		} else {
-			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post ORDER BY Post.dateCreated DESC LIMIT 50) ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post ORDER BY Post.dateCreated DESC) ORDER BY Comments.postID, Comments.dateCommented DESC;";
 			connection.query (query, async function (error, result2) {
 				if (error) {
 					console.log (error);
@@ -190,21 +190,6 @@ router.post('/newUser', upload.single("pfpURL"), function (req, res) {
 	});
 });
 
-router.post('/testRegister', function (req, res) {
-	console.log("/testRegister");
-	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+encodePass(req.body.password)+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '0');";
-	connection.query(query, function (error, result) {
-		if (error) {
-			console.log(error);
-			res.send("0");
-		} else {
-			req.session.username = req.body.username;
-			req.session.uid = result.insertId;
-			res.send("1");
-		}
-	});
-});
-
 router.post('/verifyUser', function (req, res) {
 	console.log("/verifyUser");
 	console.log(req.body);
@@ -222,7 +207,7 @@ router.post('/verifyUser', function (req, res) {
 				req.session.uid = result[0].userID;
 				let userID = {_id: result[0].userID}
 				console.log(userID)
-				res.send(userID);
+				res.json(result);
 	  		} else {
 				res.send("error in /verifyUser");
 			}
@@ -338,22 +323,6 @@ router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 		}
 	});
 });
-/*
-router.post('/testNewPostImage', function (req, res) {
-	console.log("/testNewPostImage");
-	var date = new Date();
-	var time = date.getTime();
-	var query = "INSERT INTO Post (userID, title, type, caption, dateCreated) VALUES ('"+1+"', '"+req.body.title+"', 'photo', '"+req.body.caption+"', '"+time+"');";
-	connection.query(query, function (error, result) {
-		if (error) {
-			console.log(error);
-			res.send("0");
-		} else {
-			res.send("1");
-		}
-	});
-});
-*/
 
 router.post('/getPosts', function (req, res) {
 	console.log("/getPosts");
@@ -396,8 +365,6 @@ router.post('/getPosts', function (req, res) {
 		}
 	});
 });
-
-
 
 router.post('/getPostsFollow', function (req, res) {
 	console.log("/getPostsFollow");
