@@ -1,6 +1,5 @@
 localStorage.setItem("host", "http://localhost:3001");
-const CryptoJS = require("crypto-js");
-const fetch = require("node-fetch");
+const fetch = require("node-fetch"); 
 
 
 async function getResponse(url, next) {
@@ -23,26 +22,42 @@ async function postResponse(url, data, next) {
 }
 
 const postById = (id, next) => {
-	var url = localStorage.getItem("host") + '/getPostByID';
-	var data = JSON.stringify({postID: id});
+	var url = localStorage.getItem("host") + '/getPostByID?postID='+id.toString();
+	var data = JSON.stringify({});
 	postResponse(url, data, function(jason) {
 		next(jason);
 	});
 }
 
-const register = (email, username, password, firstName, lastName, city, state, DOB) => {
-	var hash = CryptoJS.SHA256(password);
-	var xhttp = new XMLHttpRequest();
-	xhttp.open("POST", localStorage.getItem("host") + '/testRegister', false);
-	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhttp.send("email="+email+"&username="+username+"&password="+hash.toString(CryptoJS.enc.Base64)+"&firstName="+firstName+"&lastName="+lastName+"&city="+city+"&state="+state+"&DOB="+DOB);
-	return xhttp;
+const postByUser = (id, next) => {
+	var url = localStorage.getItem("host") + '/getPosts';
+	var data = JSON.stringify({userID: "self", uid: id});
+	postResponse(url, data, function(jason) {
+		next(jason);
+	});
+}
+
+const getProfile = (id, next) => {
+	var url = localStorage.getItem("host") + '/getProfile?userID=self&uid='+id;
+	getResponse(url, function(jason) {
+		next(jason);
+	});
+}
+
+const register = (eml, uname, pass, first, last, ct, stt, datebirth, image, next) => {
+	var url = localStorage.getItem("host") + '/newUser';
+	var data = JSON.stringify({email: eml, username: uname, password: pass, firstName: first, lastName: last, city: ct, state: stt, DOB: datebirth, pfpURL: image});
+	postResponse(url, data, function(jason) {
+		if (jason == 0) { console.log("user not made"); next(jason); return; }
+		getProfile(jason.id, function(jason2) {
+			next(jason2);
+		})
+	});
 }
 
 const login = (uname, pass, next) => {
-	var hash = CryptoJS.SHA256(pass);
 	var url = localStorage.getItem("host") + '/verifyUser';
-	var data = JSON.stringify({username: uname, password: hash.toString(CryptoJS.enc.Base64)});
+	var data = JSON.stringify({username: uname, password: pass});
 	postResponse(url, data, function(jason) {
 		next(jason);
 	});
@@ -50,7 +65,7 @@ const login = (uname, pass, next) => {
 
 const newPostText = (ttl, ctt, next) => {
 	var url = localStorage.getItem("host") + '/newPostText';
-	var data = JSON.stringify({title: ttl, content: ctt});
+	var data = JSON.stringify({uid: 1, title: ttl, content: ctt});
 	postResponse(url, data, function(jason) {
 		if (jason == 0) { console.log("post not made"); next(jason); return; }
 		postById(jason.id, function(jason2) {
@@ -59,12 +74,15 @@ const newPostText = (ttl, ctt, next) => {
 	});
 }
 
-const newPostImage = (title, caption) => {
-	var xhttp = new XMLHttpRequest();
-	xhttp.open("POST", localStorage.getItem("host") + '/testNewPostImage', false);
-	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhttp.send("title="+title+"&caption="+caption);
-	return xhttp;
+const newPostImageLink = (ttl, cpt, imageURL, next) => {
+	var url = localStorage.getItem("host") + '/newPostImage';
+	var data = JSON.stringify({uid: 1, title: ttl, caption: cpt, contentURL: imageURL});
+	postResponse(url, data, function(jason) {
+		if (jason == 0) { console.log("post not made"); next(jason); return; }
+		postById(jason.id, function(jason2) {
+			next(jason2);
+		})
+	});
 }
 
-module.exports = {postById, register, login, newPostText, newPostImage};
+module.exports = {postById, register, login, newPostText, newPostImageLink, postByUser, getProfile};

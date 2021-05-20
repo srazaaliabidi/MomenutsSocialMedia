@@ -1,13 +1,14 @@
 const functions = require("./functions");
 const expect = require('expect');
+const path = require("path");
 /*
 test('Post By Id', done => {
-	functions.postById(2, function(jason) {
+	functions.postById(7, function(jason) {
 		try {
 			expect(jason).toEqual(
 				expect.arrayContaining([
 					expect.objectContaining({
-						postID: 2
+						postID: 7
 					})
 				])
 			);
@@ -17,9 +18,43 @@ test('Post By Id', done => {
 		}
 	});
 });
-
+/*
+test('Post By User', done => {
+	functions.postByUser(2, function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						userID: 2
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+/*
+test('Get Profile', done => {
+	functions.getProfile(2, function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						userID: 2
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+/*
 test('Logs in User', done => {
-	functions.login("test", "test", function(jason) {
+	functions.login("cd", "cd", function(jason) {
 		try {
 			expect(jason).toEqual(1);
 			done();
@@ -28,12 +63,25 @@ test('Logs in User', done => {
 		}
 	});
 });
-*/
 /*
-test('Registers new User', function() {
-	expect(functions.register("test@gmail.com", "testUName", "testPass", "testFirst", "testtLast", "testCity", "testState", "testDOB").responseText).toEqual("1");
-});*/
 
+test('Registers new User', done => {
+	functions.register("test@gmail.com", "testUName", "test", "testFirst", "testtLast", "testCity", "testState", "testDOB", "http://mattrbolles.com/bluecircle.png", function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						username: "testUName"
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+/*
 test('Creates New Text Post', done => {
 	functions.newPostText("testTextTitle", "testContent", function(jason) {
 		try {
@@ -52,9 +100,22 @@ test('Creates New Text Post', done => {
 	});
 });
 /*
-test('Creates New Image Post', function() {
-	expect(functions.newPostImage("testImageTitle", "testCaption").responseText).toEqual("1");
+test('Creates New Image Post Link', done => {
+	functions.newPostImageLink("testImageTitle", "testCaption", "http://mattrbolles.com/bluecircle.png", function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						title: "testImageTitle", 
+						caption: "testCaption"
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
 });
 */
-
 

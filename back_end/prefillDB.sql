@@ -1,5 +1,5 @@
-INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('test@test.com', 'test', 'VSe11nlrJfZU/qhG9h5iJYXTfwHveh5kLPZ/A7OjwWo=', 'Frederick', 'Test', 'San Francisco', 'CA', '1995-01-01', 'http://mattrbolles.com/bluecircle.png');
-INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('cd@gmail.com', 'cd', 'cd', 'Frederick', 'Test', 'San Francisco', 'CA', '1998-01-01', 'http://mattrbolles.com/bluecircle.png');
+INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('test@test.com', 'test', 'n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=', 'Frederick', 'Test', 'San Francisco', 'CA', '1995-01-01', 'http://mattrbolles.com/bluecircle.png');
+INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('cd@gmail.com', 'cd', 'Iechw1pYI/20UvovnwphLHT7lS4GknSJxrJ6Q7gXvtQ=', 'Frederick', 'Test', 'San Francisco', 'CA', '1998-01-01', 'http://mattrbolles.com/bluecircle.png');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'test photo post', 'photo', 'http://mattrbolles.com/charles.jpg', 'none', '1620690153133');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'none', 'text', 'none', 'This is a test text post. Yeehaw!', '1617700253133');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'This is the doge', 'photo', 'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202104/dog_0.jpg?0eRKF4LDdm4ZvhiSRkuG6rapiNKbilig&size=770:433', 'none', '1620680153133');
@@ -9,3 +9,8 @@ INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUE
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('2', 'sponge boob', 'photo', 'https://ugc.reveliststatic.com/gen/constrain/640/640/80/2019/06/05/14/8i/5d/pooxrfjxc01bw.png', 'none', '999999999999999999');
 INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('2', 'My Collection', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '000', '000');
 INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('6', '1', '000');
+INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('7', '1', 'test comment content 1', '1621461086254');
+INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('7', '1', 'test comment content 2', '1621461085254');
+INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('6', '1', 'test comment content 3', '1621461084254');
+INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('6', '1', 'test comment content 4', '1621461083254');
+INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('7', '1', 'test comment content 5', '1621461088254');
