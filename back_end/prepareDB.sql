@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Favorites (
   FOREIGN KEY (postID) REFERENCES Post(postID)
 );
 
-CREATE TABLE IF NOT EXISTS Following (
+CREATE TABLE IF NOT EXISTS Follow (
   userIDFollowing int NOT NULL,
   userIDFollowed int NOT NULL,
   dateFollowed BIGINT NOT NULL,

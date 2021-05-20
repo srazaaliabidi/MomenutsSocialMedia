@@ -4,7 +4,7 @@ import App from '../App';
 import './styles/sidebar.css';
 import ProfileInfo from './ProfileInfo';
 
-import { useHistory } from "react-router-dom";
+import { useHistory, Link  } from "react-router-dom";
 
 const axios = require ('axios');
 
@@ -133,11 +133,13 @@ const history = useHistory();
           <h3>Your Collections</h3>
           {collections.length > 0 ? 
           <div class="collectionsimages">
-          {collections.map(collection => (
+              {collections.map(collection => (
+            <Link to={`/collection/${collection.collectionID}`}>
             <div className="collection-sidebar-collection" key={collection.collectionID}>
             <img src = {collection.iconURL} alt = "collection"/>
-            <p>{collection.name}</p>
-              </div>
+                    <p>{collection.name}</p>
+                  </div>
+                  </Link>
           ))}
         </div>
           : 

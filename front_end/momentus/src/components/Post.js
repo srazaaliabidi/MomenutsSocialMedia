@@ -7,7 +7,7 @@ import {
 	deletePost,
 } from '../redux/actions/postActions';
 
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 const axios = require('axios');
 // this is to figure out who is logged in
@@ -41,6 +41,8 @@ function Post({ post, _id }) {
     }
 	}
 	
+	var dateFormat = new Date(post.dateCreated).toString();
+
 	const postLink = "/post/" + post.postID;
 	// check to see if post is own, adjust options accordingly
 	// if it is the users' post, an option to delete will appear in the top right corner.
@@ -96,9 +98,10 @@ function Post({ post, _id }) {
 				<div className="post-info">
 					<img className="profilepic-post" src={post.pfpURL} />
 					<div class="post-details">
-						<h1>@{post.username}</h1>
-						<h2>Posted on {post.dateCreated}</h2>
-					</div>
+							<Link to={`/user/${post.userID}`}><h1>@{post.username}</h1></Link>
+								
+						<h2>Posted on {dateFormat}</h2>
+							</div>
 					
 					{/* <div className="Username-post">@{post.username}</div>
 					<div className="Post-date">Posted on {post.dateCreated}</div> */}
@@ -107,20 +110,33 @@ function Post({ post, _id }) {
 				<div className="Post-content">
 					{post.content}
 				</div>
-				</a>
+				 <div className="post-favorites">
+              {post.numFav != null ? (
+                <div className="post-num-favorites">
+                  {post.numFav}  
+              <button onClick={favoritePost} className="favorite-button">❤ </button>
+                </div>
+              ) : (
+                <div className="post-num-favorites">0 
+              <button onClick={favoritePost} className="favorite-button">❤ </button></div>
+              )}
+					</div>
+					</a>
 			</div>
 		);
 	} else if (type == 'photo') {
 		return (
 			<div class="post">
 				<a href={postLink}>
-				<div class="post-info">
+					<div class="post-info">
+						
 					<img class="profilepic-post" src={post.pfpURL} />
 					<div class="post-details">
-						<h1>@{post.username}</h1>
-						<h2>Posted on {post.dateCreated}</h2>
-						<h2>for testing: remove later! postid: {post.postID}</h2>
-					</div>
+						
+            <Link to={`/user/${post.userID}`}><h1>@{post.username}</h1></Link>
+						<h2>Posted on {dateFormat}</h2>
+			
+							</div>
 				</div>
 				<div class="post-content">
 					<p class="post-caption">{post.caption}</p>
