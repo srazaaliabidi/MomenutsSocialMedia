@@ -86,7 +86,7 @@ function UserProfile() {
 
     const renderCollections = () => {
         if (content.collectionsVisible) return (
-            <CollectionsProfile userID={username}/>
+            <CollectionsProfile userID={userID}/>
         );
     }
 
