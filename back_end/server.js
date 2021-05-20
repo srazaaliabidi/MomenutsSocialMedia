@@ -517,7 +517,7 @@ router.post('/addComment', function (req, res) {
 	}
 	var date = new Date();
 	var time = date.getTime();
-	var query = "INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('"+req.body.postID+"', '"+uid+"', '"+req.body.content+"', '"+time+"');";
+	var query = "INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('"+req.body.postID+"', '"+uid+"', '"+req.body.comment+"', '"+time+"');";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);

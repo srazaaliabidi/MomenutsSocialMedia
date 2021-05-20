@@ -6,6 +6,7 @@ import axios from 'axios';
 import photoUploadIcon from '../assets/photouploadicon.png';
 import autosize from 'autosize';
 
+
 /*
 Dynamically adjusts whether it's a photo or text post depending on whether a photo is uploaded
 Text and photo data now split for ease of use / readability

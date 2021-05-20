@@ -7,6 +7,9 @@ import {
 	deletePost,
 } from '../redux/actions/postActions';
 
+import { useHistory } from "react-router-dom";
+
+const axios = require('axios');
 // this is to figure out who is logged in
 const select = appState => ({
 	isLoggedIn: appState.loginReducer.isLoggedIn,
@@ -16,9 +19,29 @@ const select = appState => ({
 
 // post for stream... may need to rename for clarity
 function Post({ post, _id }) {
+	const history = useHistory();
 	const dispatch = useDispatch();
 	let isOwnPost = false;
 	const type = post.type;
+
+	function favoritePost() {
+    // add to user favs
+    let favoriteURL = "/favorite?postID=" + post.postID;
+    //console.log(favoriteURL)
+    try {
+      axios.post(favoriteURL).then((res) => {
+        console.log(res);
+        //if favorite succeeded, reload to show updated favorite count
+        if (res.data == "1") {
+          history.go(0);
+        }
+      });
+    } catch (err) {
+      console.error(err.message);
+    }
+	}
+	
+	const postLink = "/post/" + post.postID;
 	// check to see if post is own, adjust options accordingly
 	// if it is the users' post, an option to delete will appear in the top right corner.
 	// need to add logic to remove post. 
@@ -88,6 +111,7 @@ function Post({ post, _id }) {
 	} else if (type == 'photo') {
 		return (
 			<div class="post">
+				<a href={postLink}>
 				<div class="post-info">
 					<img class="profilepic-post" src={post.pfpURL} />
 					<div class="post-details">
@@ -99,10 +123,21 @@ function Post({ post, _id }) {
 				<div class="post-content">
 					<p class="post-caption">{post.caption}</p>
 					<div className="post-photo">
-						<img src={post.contentURL}/>
+							<img src={post.contentURL} />
 					</div>
 				</div>
-
+ <div className="post-favorites">
+              {post.numFav != null ? (
+                <div className="post-num-favorites">
+                  {post.numFav}  
+              <button onClick={favoritePost} className="favorite-button">❤ </button>
+                </div>
+              ) : (
+                <div className="post-num-favorites">0 
+              <button onClick={favoritePost} className="favorite-button">❤ </button></div>
+              )}
+					</div>
+					</a>
 			</div>
 		);
 	}
