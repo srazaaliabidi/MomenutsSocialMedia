@@ -124,13 +124,19 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
                 <h2>Posted on {post.dateCreated}</h2>
               </div>
             </div>
+              {post.type=="photo"?(
+                  <div className="post-content">
+                      <p class="post-caption">{post.caption}</p>
+                      <div className="post-photo">
+                          <img src={post.contentURL} />
+                      </div>
+                  </div>
+              ):(
+                  <div className="post-content">
+                      <p className="content">{post.content}</p>
+                  </div>
 
-            <div className="post-content">
-              <p class="post-caption">{post.caption}</p>
-              <div className="post-photo">
-                <img src={post.contentURL} />
-              </div>
-            </div>
+              )}
             <div className="post-favorites">
               {post.numFav != null ? (
                 <div className="post-num-favorites">

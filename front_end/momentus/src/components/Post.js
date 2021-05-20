@@ -92,6 +92,7 @@ function Post({ post, _id }) {
 	if (type == 'text') {
 		return (
 			<div class="post">
+				<a href={postLink}>
 				<div className="post-info">
 					<img className="profilepic-post" src={post.pfpURL} />
 					<div class="post-details">
@@ -106,6 +107,7 @@ function Post({ post, _id }) {
 				<div className="Post-content">
 					{post.content}
 				</div>
+				</a>
 			</div>
 		);
 	} else if (type == 'photo') {
