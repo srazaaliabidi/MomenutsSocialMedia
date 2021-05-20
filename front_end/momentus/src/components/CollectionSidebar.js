@@ -43,7 +43,6 @@ const history = useHistory();
     getPFP()
     // get collections
     getCollections()
-    console.log(collections)
   });
 
 
@@ -54,7 +53,7 @@ const history = useHistory();
     //console.log(collectionExists)
     // if no results
     if (collectionExists == undefined) {
-      console.log("adding collection")
+      //console.log("adding collection")
       setCollections(state => [...state, newCollection]);
     }
     
@@ -65,7 +64,7 @@ const history = useHistory();
   
   function getProfile() {
     if (profile == undefined) {
-      let getProfileURL = 'getProfile?userID=' + _id
+      let getProfileURL = '/getProfile?userID=' + _id
     //console.log(getProfileURL)
     try {
       axios
@@ -103,7 +102,7 @@ const history = useHistory();
           if (response.data.length > 0) {
             //console.log(response.data)
             response.data.forEach (collection => {
-              console.log(collection)
+              //console.log(collection)
               addCollection(collection)
             })
           }
