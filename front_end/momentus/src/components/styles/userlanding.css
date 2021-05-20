@@ -6,8 +6,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e5e5e5;
-    background-image: url("https://images6.alphacoders.com/380/thumb-1920-380566.jpg");
+    background-color: white;
+    background-image: url("../../assets/homepage-background.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position-y: 100%;
 }
 
 .landing-box {
