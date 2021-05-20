@@ -662,7 +662,7 @@ router.post('/newCollection', upload.single("iconURL"), function (req, res) {
 			console.log(error);
 			res.send("0");
 		} else {
-			res.send("1");
+			res.json({id: result.insertId});
 		}
 	});
 });
@@ -677,7 +677,7 @@ router.post('/appendCollection', function (req, res) {
 			console.log(error);
 			res.send("0");
 		} else {
-			res.send("1");
+			res.json({id: req.body.collectionID});
 		}
 	});
 });
@@ -699,19 +699,20 @@ router.post('/getCollections', function (req, res) {
 		if (error) {
 			console.log (error);
 		} else {
-			res.send (JSON.stringify (result));
+			res.json(result);
 		}
 	});
 });
 
 router.post('/viewCollection', function (req, res) {
 	console.log("/viewCollection");
-	var query = "SELECT * FROM Post NATURAL JOIN (SELECT * FROM Collection_Content WHERE collectionID = "+req.body.collectionID+");";
+	var query = "SELECT * FROM Post RIGHT JOIN (SELECT Collection_Content.postID AS useless, Collection_Content.dateAdded FROM Collection_Content WHERE collectionID = "+req.body.collectionID+") AS CC ON CC.useless = Post.postID;";
 	connection.query (query, function (error, result) {
 		if (error) {
-			console.log (error);
+			console.log(error);
+			res.send("0");
 		} else {
-			res.send(JSON.stringify (result));
+			res.json(result);
 		}
 	});
 });

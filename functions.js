@@ -21,6 +21,44 @@ async function postResponse(url, data, next) {
 	next(jason);
 }
 
+const allCollection = (id, next) => {
+	var url = localStorage.getItem("host") + '/getCollections?userID=self&uid='+id;
+	var data = JSON.stringify({});
+	postResponse(url, data, function(jason) {
+		next(jason);
+	});
+}
+
+const appendCollection = (cid, pid, next) => {
+	var url = localStorage.getItem("host") + '/appendCollection';
+	var data = JSON.stringify({postID: pid, collectionID: cid});
+	postResponse(url, data, function(jason) {
+		if (jason == 0) { console.log("addition not made"); next(jason); return; }
+		viewCollection(jason.id, function(jason2) {
+			next(jason2);
+		})
+	});
+}
+
+const newCollection = (nm, id, next) => {
+	var url = localStorage.getItem("host") + '/newCollection';
+	var data = JSON.stringify({uid: id, name: nm, iconURL: "https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png"});
+	postResponse(url, data, function(jason) {
+		if (jason == 0) { console.log("collection not made"); next(jason); return; }
+		viewCollection(jason.id, function(jason2) {
+			next(jason2);
+		})
+	});
+}
+
+const viewCollection = (id, next) => {
+	var url = localStorage.getItem("host") + '/viewCollection';
+	var data = JSON.stringify({collectionID: id});
+	postResponse(url, data, function(jason) {
+		next(jason);
+	});
+}
+
 const postById = (id, next) => {
 	var url = localStorage.getItem("host") + '/getPostByID?postID='+id.toString();
 	var data = JSON.stringify({});
@@ -110,4 +148,4 @@ const newPostImageLink = (ttl, cpt, imageURL, next) => {
 	});
 }
 
-module.exports = {postById, register, login, newPostText, newPostImageLink, postByUser, getProfile, getFavPost, favorite, getAllFav};
+module.exports = {postById, register, login, newPostText, newPostImageLink, postByUser, getProfile, getFavPost, favorite, getAllFav, viewCollection, newCollection, appendCollection, allCollection};
