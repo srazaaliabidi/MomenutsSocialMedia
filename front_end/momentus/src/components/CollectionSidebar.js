@@ -38,6 +38,7 @@ const history = useHistory();
   const [images, setImages] = useState ({}); */
 
   React.useEffect(() => {
+    console.log(_id)
     getProfile()
     //console.log(profile)
     getPFP()
@@ -93,7 +94,7 @@ const history = useHistory();
   function getCollections() {
     if (collections.length == 0) {
     let getCollectionsURL = 'getCollections?userID=' + _id
-    //console.log(getCollectionsURL)
+    console.log(getCollectionsURL)
     try {
       axios
         .post(getCollectionsURL)

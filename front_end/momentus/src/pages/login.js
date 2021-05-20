@@ -44,8 +44,9 @@ function Login() {
       }); */
       .then(res => {
         console.log("logged in");
-        console.log(res.data);
-        let userID = res.data._id
+        console.log(res.data[0]);
+        let userID = res.data[0].userID
+        console.log(userID)
         dispatch(userLogin(usernameToSubmit, userID));
     })
     .catch(function (error) {

@@ -684,6 +684,8 @@ router.post('/appendCollection', function (req, res) {
 
 router.post('/getCollections', function (req, res) {
 	console.log("/getCollections");
+	console.log(req.body)
+	console.log(req.query)
 	var uid = 0;
 	if (req.query.userID == "self") {
 		if (!req.session.uid) {
