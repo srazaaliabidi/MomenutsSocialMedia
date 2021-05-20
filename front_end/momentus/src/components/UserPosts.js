@@ -26,15 +26,20 @@ function UserPosts(props) {
 
   }, []);*/
 
-    let username = props.username;
-    let postURL = "/getPosts?userID=" + username;
+    let userID = props.userID;
     const [posts, setPosts] = useState([]);
     const addPost = newPost => setPosts(state => [...state, newPost]);
     React.useEffect(() => {
+      let postURL = "/getPosts?userID=" + userID;
+      //console.log(postURL)
       try {
         axios
-          .get(postURL)
-          .then(response => response.data.forEach(post => addPost(post)));
+          .post(postURL)
+          .then(response => {
+            //console.log(response)
+            //console.log(response.data)
+            response.data.forEach(post => addPost(post))
+          });
       }
       catch (err) {
         console.error(err.message);

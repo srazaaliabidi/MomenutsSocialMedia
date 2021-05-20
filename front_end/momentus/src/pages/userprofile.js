@@ -11,6 +11,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { BsPrefixComponent } from 'react-bootstrap/esm/helpers';
+import { getUserID } from '../redux/actions/loginActions';
 const axios = require("axios");
 
 
@@ -22,12 +23,13 @@ function UserProfile() {
 
 
 
-  const { username } = useParams();
+  const { userID } = useParams();
 
     
-  const [userprofile, setUserProfile] = useState();
+  const [userProfile, setUserProfile] = useState();
     
   const [userpfpURL, setUserPfp] = useState();
+  const [username, setUsername] = useState();
 
     const [content, setContent] = useState({
         postsVisible: true,
@@ -37,47 +39,58 @@ function UserProfile() {
 
     React.useEffect(() => {
         getUserProfile()
+        //console.log(userProfile)
         getUserPFP()
-  },[setUserProfile]);
+        getUsername()
+  });
 
     function getUserProfile() {
-    if (userprofile == undefined) {
-      let getProfileURL = 'getProfile?userid=' + username
-    //console.log(getProfileURL)
-    try {
-      axios
-        .get(getProfileURL)
-        .then (response => {
-          //console.log(response.data[0])
-          setUserProfile(response.data[0])
-        });
-    } catch (err) {
-      console.error (err.message);
-    }
-    }
+        if (userProfile == undefined) {
+        let getProfileURL = 'getProfile?userID=' + userID
+            console.log(getProfileURL)
+            try {
+            axios
+                .get(getProfileURL)
+                .then (response => {
+                //console.log(response.data[0])
+                setUserProfile(response.data[0])
+                });
+            } catch (err) {
+            console.error (err.message);
+            }
+        }
     }
     
     function getUserPFP() {
     //console.log("getpfp")
-      if (userpfpURL == undefined && userprofile != undefined) {
-        //console.log("getting pfp")
-        setUserPfp(userprofile.pfpURL)
+      if (userpfpURL == undefined && userProfile != undefined) {
+        console.log("getting pfp")
+        setUserPfp(userProfile.pfpURL)
       }
   }
+
+  function getUsername() {
+    if (userProfile != undefined && username == undefined) {
+        console.log(userProfile.username)
+        setUsername(userProfile.username)
+    }
+}
     
 
     const renderPosts = () => {
         if (!content.postsVisible) return '';
         return (
-            <UserPosts username={username}/>
+            <UserPosts userID={userID}/>
         );
     }
 
     const renderCollections = () => {
         if (content.collectionsVisible) return (
-            <CollectionsProfile userID={username}/>
+            <CollectionsProfile userID={userID}/>
         );
     }
+
+    
     // will render the individual images 
 /*
       const renderImages = () => {

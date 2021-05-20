@@ -73,7 +73,7 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
                     <Route path="/searchresults">
                       <SearchResults />
                     </Route>
-                    <Route path="/user/:username">
+                    <Route path="/user/:userID">
                       <UserProfile/>
                     </Route>
                     <Route path="/post/:postID">
