@@ -31,11 +31,11 @@ app.use(cors());
 const storagePost = multer.diskStorage({
 	destination: function(req, file, callback) {
 		if (file.fieldname === "contentURL") {
-			callback(null, path.resolve(__dirname, 'post-images'));
+			callback(null, path.resolve(__dirname, '../front_end/momentus/public/images/post-images'));
 		} else if (file.fieldname === "pfpURL") {
-			callback(null, path.resolve(__dirname, 'profile-images'));
+			callback(null, path.resolve(__dirname, '../front_end/momentus/public/images/profile-images'));
 		} else if (file.fieldname === "iconURL") {
-			callback(null, path.resolve(__dirname, 'collection-images'));
+			callback(null, path.resolve(__dirname, '../front_end/momentus/public/images/collection-images'));
 		}
 	},
 	filename: function(req, file, callback) {
@@ -171,7 +171,7 @@ router.post('/newUser', upload.single("pfpURL"), function (req, res) {
 	console.log("/newUser");
 	var filePath = "0";
 	if (req.file) {
-		filePath = "back_end/post-images/"+Date.now()+"-"+req.file.originalname;
+		filePath = "/front_end/momentus/public/images/profile-images"+Date.now()+"-"+req.file.originalname;
 	} else {
 		filePath = req.body.pfpURL;
 	}
@@ -304,6 +304,9 @@ router.post('/newPostText', function (req, res) {
 
 router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 	console.log("/newPostImage");
+	console.log(req.body)
+	console.log(JSON.stringify(req.file))
+	console.log(req.file.filename);
 	var uid = 0;
 	if (!req.session.uid) {
 		uid = req.body.uid
@@ -312,7 +315,7 @@ router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 	}
 	var filePath = "0";
 	if (req.file) {
-		filePath = "back_end/post-images/"+Date.now()+"-"+req.file.originalname;
+		filePath = "/images/post-images/"+req.file.filename;
 	} else {
 		filePath = req.body.contentURL;
 	}
@@ -659,7 +662,7 @@ router.post('/newCollection', upload.single("iconURL"), function (req, res) {
 	}
 	var filePath = "0";
 	if (req.file) {
-		filePath = "back_end/collection-images/"+Date.now()+"-"+req.file.originalname;
+		filePath = "/front_end/momentus/public/images/collection-images"+Date.now()+"-"+req.file.originalname;
 	} else {
 		filePath = req.body.iconURL;
 	}
