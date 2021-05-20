@@ -36,7 +36,9 @@ function TrendingSideBar() {
         <div class="trending-content-block">
           {posts.map (post => (
             <div className="trending-post" key={post.postID}>
-              <img src={post.contentURL} />
+              <a href ={"/post/"+post.postID}>
+                <img src={post.contentURL} />
+              </a>
             </div>
           ))}
         </div>
