@@ -1,4 +1,6 @@
 .NavBar {
+    --primary-color: #475754;
+    --before-hover: #7a9792;
     background-color: white;
     top: 0;
     width: 100vw;
@@ -14,7 +16,31 @@
 }
 
 .navimg {
+    margin-top: 5px;
     margin-left: 20px;
+    font-weight: 600;
+    width: 75px;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navimg a {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: -5px;
+}
+
+.icon-container img {
+    height: 30px;
 }
 
 .navlogo {
@@ -34,12 +60,12 @@
 
 .navigation-content a {
     border: 4px solid transparent;
-    color: #707070;
+    color: var(--before-hover);
     text-decoration: none;
 }
 
 .navigation-content a:hover {
-    color: #298554;
+    color: var(--primary-color);
     text-decoration: none;
 }
 
