@@ -1,69 +1,69 @@
 .landing-wrapper {
+    --primary-color: #475754;
+    font-size: 16px;
     height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e5e5e5;
-    background-image: url("https://images6.alphacoders.com/380/thumb-1920-380566.jpg");
+    background-color: white;
+    background-image: url("../../assets/homepage-background.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position-y: 100%;
 }
 
 .landing-box {
-    margin: 0 75px;
     text-align: center;
     width: 100%;
     max-width: 575px;
-    height: 400px;
+    height: 460px;
     background-color: white;
     border: 0px grey solid;
-    border-radius: 15%;
+    border-radius: 5%;
     box-sizing: border-box;
+    padding: 20px 30px;
+}
+
+.landing-box img {
+    margin: 20px 0;
+    width: 400px;
+}
+
+h3 {
+    margin: 20px 0;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.button-group {
+    box-sizing: border-box;
+    padding: 20px 120px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.login-text,
+.reg-text {
+    display: block;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
     padding: 10px;
-}
-
-h1 {
-    color: #00756C;
-    margin-top: 20px;
-}
-
-.login-text {
-    color: #00756C;
-    transition: background-color 0.3s ease, border 0.3s ease;
-    margin: 40px;
-    margin-right: 130px;
-    margin-left: 130px;
-    font-size: 20px;
-    background: #A9D8D4;
-    border: 10px solid #A9D8D4;
-    border-radius: 10px;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    transition: 0.2s;
 }
 
 .reg-text {
-    color: #00756C;
-    transition: background-color 0.3s ease, border 0.3s ease;
-    margin: 40px;
-    margin-right: 130px;
-    margin-left: 130px;
-    font-size: 20px;
-    background: #A9D8D4;
-    border: 10px solid #A9D8D4;
-    border-radius: 10px;
+    margin-bottom: 0;
 }
 
-.login-text:hover {
-    margin: 40px;
-    margin-right: 130px;
-    margin-left: 130px;
-    background: white;
-    border: 10px solid white;
-}
-
-.reg-text:hover {
-    margin: 40px;
-    margin-right: 130px;
-    margin-left: 130px;
-    background: white;
-    border: 10px solid white;
+.login-text:hover,
+.reg-text:hover{
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: white;
+    transition: 0.2s;
 }
 
 .login-text a {
@@ -74,8 +74,4 @@ h1 {
 .reg-text a {
     color: #00756C;
     text-decoration: none;
-}
-
-.landing-content {
-    margin: 60px;
 }

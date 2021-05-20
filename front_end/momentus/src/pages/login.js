@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './styles/login-reg.css';
-import logo from '../assets/momentuslogo.png';
+import logo from '../assets/momentus.png';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { createStore, applyMiddleware } from 'redux';
@@ -80,7 +80,7 @@ function Login() {
             <br />
           </div>
           <input type="submit" className="submit-login" value="Login" /><br />
-        </form><br />
+        </form>
         <a href="/register">New? Create an account!</a><br />
       </div>
     </div>

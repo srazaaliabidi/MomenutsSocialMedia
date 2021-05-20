@@ -1,11 +1,16 @@
 .login-reg-wrapper {
+    --primary-color: #475754;
+    --before-hover: #7a9792;
     height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e5e5e5;
-    background-image: url("https://images6.alphacoders.com/380/thumb-1920-380566.jpg");
+    background-color: white;
+    background-image: url("../../assets/homepage-background.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position-y: 100%;
 }
 
 .login-reg-box {
@@ -13,32 +18,34 @@
     text-align: center;
     width: 100%;
     max-width: 575px;
-    height: 700px;
+    min-height: 600px;
+    max-height: 800px;
     background-color: white;
-    border: 0px grey solid;
+    box-shadow: 0 0 5px 1px var(--primary-color);
     border-radius: 3%;
     box-sizing: border-box;
     padding: 10px;
 }
 
 .login-reg-box a {
-    color: #00756C;
+    color: var(--before-hover);
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .login-reg-box a:hover {
-    color: #00756C;
+    color: var(--primary-color);
     text-decoration: none;
 }
 
 .login-reg-box img {
     position: relative;
     top: 5px;
-    max-width: 128px;
-    max-height: 128px;
+    max-width: 256px;
 }
 
 .login-reg-box h1 {
-    color: #00756C;
+    color: var(--primary-color);
     font-size: 38px;
 }
 
@@ -48,7 +55,7 @@
     font-size: 24px;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 1px #A9D8D4 solid;
+    border: 1px solid var(--primary-color);
     border-radius: 8px;
     box-sizing: border-box;
     padding: 0 3%;
@@ -60,21 +67,58 @@
     font-size: 24px;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 1px #A9D8D4 solid;
-    background: #A9D8D4;
+    border: 1px solid var(--primary-color);
+    background: white;
     border-radius: 8px;
     box-sizing: border-box;
     padding: 0 3%;
+    transition: 0.2s;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.next-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transition: 0.2s;
 }
 
 .submit-login {
-    color: #00756C;
-    background-color: #A9D8D4;
+    color: var(--primary-color);
+    background-color: white;
     border: 10px #A9D8D4 solid;
     position: relative;
+    transition: 0.2s;
+    font-weight: bold;
+}
+
+.submit-login:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transition: 0.2s;
+}
+
+.DOB-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.DOB-box label {
+    font-size: 20px;
+    margin: 0;
 }
 
 .reg-input {
-    background: #A9D8D4;
-    border: 1px solid #A9D8D4;
+    background: white;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.reg-input:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transition: 0.2s;
 }
