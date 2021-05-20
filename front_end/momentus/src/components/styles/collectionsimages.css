@@ -1,0 +1,59 @@
+#gallery-pic {
+    object-fit: cover;
+    object-position: center;
+    height: 175px;
+    width: 175px;
+    border-radius: 10%;
+    margin: 5px;
+}
+
+.collections-images-stream {
+    margin: 20px 5px;
+    text-align: center;
+    justify-content: left;
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
+.image-wrapper {
+    margin: 20px;
+}
+
+.collection-header {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #00756C;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.back-button {
+    align-items: center;
+    display: flex;
+    margin-left: 10px;
+}
+
+.back-button a {
+    color: black;
+}
+
+tr {
+    font-size: 50px;
+}
+
+td {
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.no-weight {
+    color: black;
+}
+
+.no-weight:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.collections-images{}

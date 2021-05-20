@@ -82,7 +82,6 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
                     <Route path="/collection/:collectionID">
                       <CollectionsImages/>
                     </Route>
-                    <Route path="/collection/:collectionID"></Route>
                   </Switch>
                 </BrowserRouter>
               </Col>

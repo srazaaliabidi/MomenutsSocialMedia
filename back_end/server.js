@@ -743,7 +743,7 @@ router.post('post/getCollections', function (req, res) {
 
 router.post('/viewCollection', function (req, res) {
 	console.log("/viewCollection");
-	var query = "SELECT * FROM Post RIGHT JOIN (SELECT Collection_Content.postID AS useless, Collection_Content.dateAdded FROM Collection_Content WHERE collectionID = "+req.body.collectionID+") AS CC ON CC.useless = Post.postID;";
+	var query = "SELECT * FROM Post RIGHT JOIN (SELECT Collection_Content.postID AS useless, Collection_Content.dateAdded FROM Collection_Content WHERE collectionID = "+req.query.collectionID+") AS CC ON CC.useless = Post.postID;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log(error);

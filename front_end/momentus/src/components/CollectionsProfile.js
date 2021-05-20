@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 // import '../App.css';
 import './styles/collectionsprofile.css';
+
+import { Link } from 'react-router-dom';
 const axios = require('axios');
 
 /*
@@ -76,11 +78,13 @@ return (
      <div class="profile-collections">
        {(collections != undefined && collections.length > 0) ? 
         <div>
-          {collections.map(collection => (
+        {collections.map(collection => (
+          <Link to={`/collection/${collection.collectionID}`}>
             <div className="profile-single-collection" key={collection.collectionID}>
             <img src = {collection.iconURL} alt = "collection"/>
             <p>{collection.name}</p>
-              </div>
+            </div>
+            </Link>
           ))}
         </div>
        : 

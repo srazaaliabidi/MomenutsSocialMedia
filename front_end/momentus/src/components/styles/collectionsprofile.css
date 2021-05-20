@@ -1,0 +1,31 @@
+.profile-collections img {
+    object-fit: cover;
+    object-position: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 10%;
+}
+
+.profile-collections {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    max-width: 100%;
+    flex-wrap: wrap;
+    color: #00756C;
+    font-weight: bold;
+}
+
+.profile-collections a {
+    color: #00756C;
+    font-weight: bold;
+}
+
+.profile-collections a:hover {
+    color: white;
+    font-weight: bold;
+}
+
+.collection-wrapper {
+    margin: 20px;
+}

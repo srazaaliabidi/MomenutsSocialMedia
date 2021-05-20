@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Profiler } from "react";
 import ReactDOM from "react-dom";
 import { useDispatch, connect } from "react-redux";
 import {
@@ -18,11 +19,12 @@ function CollectionsImages() {
 
   const [collection, setCollection] = useState([]);
 
+
   React.useEffect(() => {
     getCollection()
   });
 
-function addCollection(newCollection) {
+  function addCollection(newCollection) {
     // first check if collection already loaded
     let collectionExists = collection.find(collection => collection.collectionID == newCollection.collectionID)
     //console.log(collectionExists)
@@ -31,32 +33,32 @@ function addCollection(newCollection) {
       console.log("adding collection")
       setCollection(state => [...state, newCollection]);
     }
-    
+
   }
 
 
   function getCollection() {
     if (collection.length == 0) {
-    let getCollectionURL = 'viewCollection?collectionID=' + collectionID
-    //console.log(getCollectionsURL)
-    try {
-      axios
-        .post(getCollectionURL)
-        .then (response => {
-          //console.log(response.data)
-          // if not empty 
-          if (response.data.length > 0) {
+      let getCollectionURL = 'viewCollection?collectionID=' + collectionID
+      console.log(getCollectionURL)
+      try {
+        axios
+          .post(getCollectionURL)
+          .then(response => {
             //console.log(response.data)
-            response.data.forEach (collection => {
-              console.log(collection)
-              addCollection(collection)
-            })
-          }
-        });
-    } 
-    catch (err) {
-      console.error (err.message);
-    }
+            // if not empty 
+            if (response.data.length > 0) {
+              //console.log(response.data)
+              response.data.forEach(collection => {
+                console.log(collection)
+                addCollection(collection)
+              })
+            }
+          });
+      }
+      catch (err) {
+        console.error(err.message);
+      }
     }
   }
   /*
@@ -76,10 +78,14 @@ function addCollection(newCollection) {
 
 
   return (
-    <div className="">
-      {collection.map(collection => (
-        collection.postID
-          ))}
+    <div className="collections-images-stream">
+      <div className="collections-header"><h1>{collectionID}</h1></div>
+      <div className="collections-images">
+      {collection.map(post => (
+          <img id="gallery-pic" src={post.contentURL} />
+      ))}
+        
+        </div>
     </div> /*
     <div className="collections-images-stream">
       {images.map(image => (
