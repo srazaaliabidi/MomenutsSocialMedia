@@ -10,6 +10,7 @@ import UserPosts from '../components/UserPosts';
 import {
   useParams,
 } from "react-router-dom";
+import { BsPrefixComponent } from 'react-bootstrap/esm/helpers';
 const axios = require("axios");
 
 
@@ -24,7 +25,9 @@ function UserProfile() {
   const { username } = useParams();
 
     
-  const [profile, setProfile] = useState();
+  const [userprofile, setUserProfile] = useState();
+    
+  const [userpfpURL, setUserPfp] = useState();
 
     const [content, setContent] = useState({
         postsVisible: true,
@@ -33,37 +36,46 @@ function UserProfile() {
     });
 
     React.useEffect(() => {
-    getProfile()
-  });
+        getUserProfile()
+        getUserPFP()
+  },[setUserProfile]);
 
-    function getProfile() {
-    if (profile == undefined) {
-      let getProfileURL = 'getProfileUsername?username=' + username
+    function getUserProfile() {
+    if (userprofile == undefined) {
+      let getProfileURL = 'getProfile?userid=' + username
     //console.log(getProfileURL)
     try {
       axios
         .get(getProfileURL)
         .then (response => {
           //console.log(response.data[0])
-          setProfile(response.data[0])
+          setUserProfile(response.data[0])
         });
     } catch (err) {
       console.error (err.message);
     }
     }
+    }
+    
+    function getUserPFP() {
+    //console.log("getpfp")
+      if (userpfpURL == undefined && userprofile != undefined) {
+        //console.log("getting pfp")
+        setUserPfp(userprofile.pfpURL)
+      }
   }
     
 
     const renderPosts = () => {
         if (!content.postsVisible) return '';
         return (
-            <UserPosts />
+            <UserPosts username={username}/>
         );
     }
 
     const renderCollections = () => {
         if (content.collectionsVisible) return (
-            <CollectionsProfile />
+            <CollectionsProfile userID={username}/>
         );
     }
     // will render the individual images 
@@ -92,7 +104,7 @@ function UserProfile() {
         <div class="userprofile">
             <div class="header-image"></div>
             <div class="user-pfp">
-                <img src="http://mattrbolles.com/bluecircle.png"/>
+                <img src={userpfpURL}/>
             </div>
             <div class="user-info">
                 <div class="follow-info">

@@ -6,12 +6,11 @@ import {
   Switch,
   useParams,
 } from "react-router-dom";
-
-import SearchResults from "../pages/searchresults";
-import NavigationBar from "./NavigationBar";
-import TrendingSideBar from "./TrendingSideBar";
-import CollectionSidebar from "./CollectionSidebar";
-import SinglePostComment from "./singlepostcomment";
+import SearchResults from '../pages/searchresults';
+import NavigationBar from './NavigationBar';
+import TrendingSideBar from './TrendingSideBar';
+import CollectionSidebar from './CollectionSidebar';
+import SinglePostComment from './singlepostcomment';
 import axios from "axios";
 
 import { createStore, applyMiddleware } from "redux";

@@ -10,7 +10,24 @@ Ultimately plan on showing image file folder icons with the name of the collecti
 or something.
 */
 
-function CollectionsProfile() {
+function CollectionsProfile(props) {
+
+  let userID = props.userID;
+
+    let postURL = "getCollections?userID=" + userID;
+    const [collections, setCollections] = useState([]);
+    const addCollection = newCollection => setCollections(state => [...state, newCollection]);
+    React.useEffect(() => {
+      try {
+        axios
+          .get(postURL)
+          .then(response => response.data.forEach(collection => addCollection(collection)));
+      }
+      catch (err) {
+        console.error(err.message);
+      }
+
+    }, []);
     /*
   const [collections, setCollections] = useState([]);
   const addCollection = newCollection => setCollections(state => [...state, newCollection]);
@@ -26,15 +43,15 @@ function CollectionsProfile() {
 
   }, []);*/
 
-return ( <div className="">collections test</div>
-      /*
-    <div className="profile-collections-stream">
-      {collections.map(collection => (
-        <div className="collections-stream" key={collection.collectionID}>
-          {collection.name}
+return ( 
+     <div class="profile-collections">
+          {collections.map(collection => (
+            <div className="profile-single-collection" key={collection.collectionID}>
+            <img src = {collection.iconURL} alt = "collection"/>
+            <p>{collection.name}</p>
+              </div>
+          ))}
         </div>
-      ))}
-    </div>*/
   );
 }
 

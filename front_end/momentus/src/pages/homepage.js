@@ -18,6 +18,7 @@ import NavigationBar from "../components/NavigationBar";
 import TrendingSideBar from "../components/TrendingSideBar";
 import CollectionSidebar from "../components/CollectionSidebar";
 import IndividualPost from "../components/IndividualPost";
+import CollectionsImages from "../components/CollectionsImages";
 
 // bootstrap
 import Container from "react-bootstrap/Container";
@@ -77,6 +78,9 @@ function Homepage({ isLoggedIn, username, _id, pfpURL }) {
                     </Route>
                     <Route path="/post/:postID">
                       <IndividualPost />
+                    </Route>
+                    <Route path="/collection/:collectionID">
+                      <CollectionsImages/>
                     </Route>
                     <Route path="/collection/:collectionID"></Route>
                   </Switch>
