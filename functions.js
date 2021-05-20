@@ -37,6 +37,31 @@ const postByUser = (id, next) => {
 	});
 }
 
+const getFavPost = (id, next) => {
+	var url = localStorage.getItem("host") + '/getPostFavorite?postID='+id;
+	getResponse(url, function(jason) {
+		next(jason);
+	});
+}
+
+const getAllFav = (id, next) => {
+	var url = localStorage.getItem("host") + '/getAllPostFavorite?uid='+id;
+	getResponse(url, function(jason) {
+		next(jason);
+	});
+}
+
+const favorite = (id, next) => {
+	var url = localStorage.getItem("host") + '/favorite?uid=2&postID='+id;
+	var data = JSON.stringify({});
+	postResponse(url, data, function(jason) {
+		if (jason == 0) { console.log("favorite not made"); next(jason); return; }
+		getFavPost(jason.id, function(jason2) {
+			next(jason2);
+		})
+	});
+}
+
 const getProfile = (id, next) => {
 	var url = localStorage.getItem("host") + '/getProfile?userID=self&uid='+id;
 	getResponse(url, function(jason) {
@@ -85,4 +110,4 @@ const newPostImageLink = (ttl, cpt, imageURL, next) => {
 	});
 }
 
-module.exports = {postById, register, login, newPostText, newPostImageLink, postByUser, getProfile};
+module.exports = {postById, register, login, newPostText, newPostImageLink, postByUser, getProfile, getFavPost, favorite, getAllFav};

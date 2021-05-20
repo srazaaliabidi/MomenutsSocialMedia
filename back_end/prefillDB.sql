@@ -14,3 +14,5 @@ INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('7', '1', 't
 INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('6', '1', 'test comment content 3', '1621461084254');
 INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('6', '1', 'test comment content 4', '1621461083254');
 INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('7', '1', 'test comment content 5', '1621461088254');
+INSERT INTO Favorites (postID, fuID, dateFavorite) VALUES ('6', '1', '1621461088254');
+INSERT INTO Favorites (postID, fuID, dateFavorite) VALUES ('6', '2', '1621461088254');

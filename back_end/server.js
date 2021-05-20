@@ -409,7 +409,45 @@ router.post('/getPostsFollow', function (req, res) {
 			console.log (error);
 			res.send("0");
 		} else {
-			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50) ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
+		}
+	});
+});
+
+router.get('/getAllPostFavorite', function (req, res) {
+	console.log("/getAllPostFavorite");
+	var uid = 0;
+	if (!req.session.uid) {
+		uid = req.query.uid
+	} else {
+		uid = req.session.uid
+	}
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID IN (SELECT Favorites.postID FROM Favorites WHERE fuID = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+			res.send("0");
+		} else {
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.postID IN (SELECT Favorites.postID FROM Favorites WHERE fuID = "+uid+") ORDER BY Post.dateCreated) ORDER BY Comments.postID, Comments.dateCommented DESC;";
 			connection.query (query, async function (error, result2) {
 				if (error) {
 					console.log (error);
@@ -592,22 +630,28 @@ router.post('/getFollow', function (req, res) {
 
 router.post('/favorite', function (req, res) {
 	console.log("/favorite");
+	var uid = 0;
+	if (!req.session.uid) {
+		uid = req.query.uid
+	} else {
+		uid = req.session.uid
+	}
 	var date = new Date();
 	var time = date.getTime();
-	var query = "INSERT INTO Favorites (postID, dateFavorite) VALUES ('"+req.query.postID+"', '"+time+"');";
+	var query = "INSERT INTO Favorites (postID, fuID, dateFavorite) VALUES ('"+req.query.postID+"', '"+uid+"', '"+time+"');";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
 			res.send("0");
 		} else {
-			res.send("1");
+			res.json({id: req.query.postID});
 		}
 	});
 });
 
-router.post('/getFavorite', function (req, res) {
-	console.log("/getFavorite");
-	var query = "SELECT * FROM Favorites WHERE postID = "+req.body.postID+";";
+router.get('/getPostFavorite', function (req, res) {
+	console.log("/getPostFavorite");
+	var query = "SELECT * FROM Favorites WHERE postID = "+req.query.postID+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);

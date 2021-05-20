@@ -64,7 +64,57 @@ test('Logs in User', done => {
 	});
 });
 /*
-
+test('Favorite', done => {
+	functions.favorite(7, function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						postID: 7
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+/*
+test('Get Favorite Post', done => {
+	functions.getFavPost(6, function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						postID: 6
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+*/
+test('Get ALL Favorite', done => {
+	functions.getAllFav(1, function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						userID: 2
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+/*
 test('Registers new User', done => {
 	functions.register("test@gmail.com", "testUName", "test", "testFirst", "testtLast", "testCity", "testState", "testDOB", "http://mattrbolles.com/bluecircle.png", function(jason) {
 		try {
