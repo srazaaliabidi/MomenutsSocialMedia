@@ -128,7 +128,7 @@ function IndividualPost({ isLoggedIn, username, _id, pfpURL }) {
                   <div className="post-content">
                       <p class="post-caption">{post.caption}</p>
                       <div className="post-photo">
-                          <img src={process.env.PUBLIC_URL + '/' + post.contentURL} />
+                          <img src={process.env.PUBLIC_URL + post.contentURL} />
                       </div>
                   </div>
               ):(

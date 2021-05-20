@@ -141,7 +141,7 @@ function Post({ post, _id }) {
 				<div class="post-content">
 					<p class="post-caption">{post.caption}</p>
 					<div className="post-photo">
-							<img src={post.contentURL} />
+							<img src={process.env.PUBLIC_URL + post.contentURL} />
 					</div>
 				</div>
  <div className="post-favorites">
