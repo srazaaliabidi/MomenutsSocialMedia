@@ -2,6 +2,68 @@ const functions = require("./functions");
 const expect = require('expect');
 const path = require("path");
 
+test('All User Collection', done => {
+	functions.allCollection(2, function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						userID: 2
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+
+test('New Collection', done => {
+	functions.newCollection("testlol", 2, function(jason) {
+		try {
+			expect(jason).toEqual([]);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+
+test('Append Collection', done => {
+	functions.appendCollection(2, 3, function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						postID: 3
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+
+test('View Collection', done => {
+	functions.viewCollection(2, function(jason) {
+		try {
+			expect(jason).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						postID: 7
+					})
+				])
+			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+
 test('Post By Id', done => {
 	functions.postById(7, function(jason) {
 		try {
@@ -173,5 +235,5 @@ test('Creates New Image Post Link', done => {
 		}
 	});
 });
-
+*/
 
