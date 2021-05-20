@@ -20,7 +20,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic';
 import axios from 'axios'
-let baseUrl = process.env.baseURL || "http://localhost:3000"
+const baseURL = process.env.baseURL || "http://localhost:3000"
 axios.defaults.baseURL = baseURL;
 
 const alertOptions = {
