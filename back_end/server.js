@@ -409,7 +409,7 @@ router.post('/getPostsFollow', function (req, res) {
 			console.log (error);
 			res.send("0");
 		} else {
-			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50) ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC) ORDER BY Comments.postID, Comments.dateCommented DESC;";
 			connection.query (query, async function (error, result2) {
 				if (error) {
 					console.log (error);
