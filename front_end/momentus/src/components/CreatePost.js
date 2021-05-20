@@ -5,7 +5,8 @@ import './styles/createPost.css';
 import axios from 'axios';
 import photoUploadIcon from '../assets/photouploadicon.png';
 import autosize from 'autosize';
-
+import FormData from 'form-data'
+import { useHistory } from "react-router-dom";
 
 /*
 Dynamically adjusts whether it's a photo or text post depending on whether a photo is uploaded
@@ -15,20 +16,46 @@ TODO: add tags
 TODO: make photo upload image change when you hover over it
 TODO: Add collection support
 */
+const select = appState => ({
+  isLoggedIn: appState.loginReducer.isLoggedIn,
+  username: appState.loginReducer.username,
+  _id: appState.loginReducer._id,
+  })
 
-function CreatePost () {
+function CreatePost ({_id}) {
+  const history = useHistory();
   var textAreas = document.querySelector('textarea');
   autosize(textAreas);
   const [postText, setPostText] = useState('');
-  const [postPhoto, setPostPhoto] = useState(null);
+  const [postPhoto, setPostPhoto] = useState();
   const [postTitle, setPostTitle] = useState(''); 
+  
   // 2 types: text, photo
   const [postType, setPostType] = useState('none');
 
   // upon image upload, we will change the type to photo
   function fileChangeHandler (event) {
-    setPostPhoto(event.target.files[0]);
+    console.log(event.target.files[0])
+    let file = event.target.files[0]
+    let postData = new FormData();
+    postData.append('title', postTitle)
+    postData.append('caption', postText)
+    postData.append('contentURL', file, file.name);
     setPostType('photo');
+    try {
+      axios
+        .post ('/newPostImage', postData)
+        .then (response => {
+          console.log(response.data.id)
+          let newPostID = response.data.id
+          console.log(newPostID)
+          console.log ('photo post uploaded!');
+          history.push(`post/${response.data.id}`);
+        });
+    } catch (err) {
+      console.error (err.message);
+    }
+    
   }
 
   function updateText (e) {
@@ -74,14 +101,17 @@ function CreatePost () {
 
   function uploadPhoto (e) {
     e.preventDefault ();
+    console.log(postPhoto)
     try {
       axios
         .post ('/newPostImage', {
           title: postText,
           contentURL: postPhoto,
-          caption: postText
+          caption: postText,
+          uid: _id
         })
         .then (response => {
+          console.log(response)
           console.log ('photo post uploaded!');
         });
     } catch (err) {
@@ -132,9 +162,9 @@ function CreatePost () {
       
         <div className="image-upload">
           <label htmlFor="file-input" class="file-input-label"><img src = {photoUploadIcon} alt = "Photo  Upload"></img></label>
-          <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {fileChangeHandler}/>
+          <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {e => fileChangeHandler(e)}/>
           
-          {postType == 'photo' ? <div className = "post-photo-remove">
+          {(postPhoto != undefined && postType == 'photo') ? <div className = "post-photo-remove">
           <button type="button" onClick={e => setPostType('text')}>
             Remove Image
           </button>
@@ -168,4 +198,4 @@ Dynamically display photo after upload... doesn't work yet
             <img src = {postPhoto} alt = "Your photo"></img></div>
             : null} */
 
-export default CreatePost;
+export default connect(select)(CreatePost);
