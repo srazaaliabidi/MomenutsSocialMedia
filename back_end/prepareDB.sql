@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS Comments (
 );
 
 CREATE TABLE IF NOT EXISTS Favorites (
-  favoriteID int NOT NULL AUTO_INCREMENT,
   postID int NOT NULL,
+  fuID int NOT NULL,
   dateFavorite BIGINT NOT NULL,
-  FOREIGN KEY (favoriteID) REFERENCES Users(userID),
+  FOREIGN KEY (fuID) REFERENCES Users(userID),
   FOREIGN KEY (postID) REFERENCES Post(postID)
 );
 
