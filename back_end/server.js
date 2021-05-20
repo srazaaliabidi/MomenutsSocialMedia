@@ -651,7 +651,7 @@ router.post('/newCollection', upload.single("iconURL"), function (req, res) {
 	if (req.file) {
 		filePath = "back_end/collection-images/"+Date.now()+"-"+req.file.originalname;
 	} else {
-		filePath = req.body.pfpURL;
+		filePath = req.body.iconURL;
 	}
 	console.log(">"+filePath);
 	var date = new Date();
