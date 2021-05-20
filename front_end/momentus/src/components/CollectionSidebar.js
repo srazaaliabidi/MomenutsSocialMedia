@@ -38,13 +38,11 @@ const history = useHistory();
   const [images, setImages] = useState ({}); */
 
   React.useEffect(() => {
-    console.log(_id)
     getProfile()
     //console.log(profile)
     getPFP()
     // get collections
     getCollections()
-    console.log(collections)
   });
 
 
@@ -55,7 +53,7 @@ const history = useHistory();
     //console.log(collectionExists)
     // if no results
     if (collectionExists == undefined) {
-      console.log("adding collection")
+      //console.log("adding collection")
       setCollections(state => [...state, newCollection]);
     }
     
@@ -94,7 +92,7 @@ const history = useHistory();
   function getCollections() {
     if (collections.length == 0) {
     let getCollectionsURL = 'getCollections?userID=' + _id
-    console.log(getCollectionsURL)
+    //console.log(getCollectionsURL)
     try {
       axios
         .post(getCollectionsURL)
@@ -104,7 +102,7 @@ const history = useHistory();
           if (response.data.length > 0) {
             //console.log(response.data)
             response.data.forEach (collection => {
-              console.log(collection)
+              //console.log(collection)
               addCollection(collection)
             })
           }

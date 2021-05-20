@@ -334,7 +334,7 @@ router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
 router.post('/getPosts', function (req, res) {
 	console.log("/getPosts");
 	var uid = 0;
-	if (req.body.userID == "self") {
+	/* if (req.body.userID == "self") {
 		if (!req.session.uid) {
 			uid = req.body.uid
 		} else {
@@ -342,7 +342,8 @@ router.post('/getPosts', function (req, res) {
 		}
 	} else {
 		uid = req.body.userID;
-	}
+	} */
+	uid = req.query.userID;
 	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
