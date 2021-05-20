@@ -120,9 +120,13 @@ const history = useHistory();
       <div class="collection-sidebar-container">
         <div class="profileinfobar">
           {pfpURL != undefined ? 
-          <ProfileInfo username={username} pfpURL={pfpURL} />
+          <ProfileInfo username={username}
+                       userID = {_id}
+                       pfpURL={pfpURL} />
           : 
-          <ProfileInfo username={username} pfpURL="http://mattrbolles.com/bluecircle.png" />
+          <ProfileInfo username={username}
+                       userID = {_id}
+                       pfpURL="http://mattrbolles.com/bluecircle.png" />
           }
         </div>
         <div class="collectionstext">
