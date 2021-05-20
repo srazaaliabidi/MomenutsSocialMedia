@@ -18,7 +18,8 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { PersistGate } from 'redux-persist/integration/react';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
+import AlertTemplate from 'react-alert-template-basic';
+import axios from 'axios'
 
 const alertOptions = {
   // you can also just use 'bottom center'
@@ -46,7 +47,7 @@ const select = appState => ({
 const store = createStore(persistedReducer);
 export const history = createBrowserHistory();
 const persistor = persistStore(store);
-
+axios.defaults.baseURL = 'http://localhost:3000';
 ReactDOM.render (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>

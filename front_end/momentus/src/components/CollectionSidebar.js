@@ -66,7 +66,7 @@ const history = useHistory();
   
   function getProfile() {
     if (profile == undefined) {
-      let getProfileURL = 'getProfile?userID=' + _id
+      let getProfileURL = '/getProfile?userID=' + _id
     //console.log(getProfileURL)
     try {
       axios

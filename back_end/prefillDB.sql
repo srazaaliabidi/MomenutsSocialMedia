@@ -1,4 +1,4 @@
-INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('test@test.com', 'test', 'n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=', 'Frederick', 'Test', 'San Francisco', 'CA', '1995-01-01', 'http://mattrbolles.com/bluecircle.png');
+INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('test@test.com', 'test', 'n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=', 'Frederick', 'Test', 'San Francisco', 'CA', '1995-01-01', 'https://i.pinimg.com/564x/7d/30/af/7d30af5fab847c50dbc1964f4f26b8cf.jpg');
 INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL) VALUES ('cd@gmail.com', 'cd', 'Iechw1pYI/20UvovnwphLHT7lS4GknSJxrJ6Q7gXvtQ=', 'Frederick', 'Test', 'San Francisco', 'CA', '1998-01-01', 'http://mattrbolles.com/bluecircle.png');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'test photo post', 'photo', 'http://mattrbolles.com/charles.jpg', 'none', '1620690153133');
 INSERT INTO Post (userID, caption, type, contentURL, content, dateCreated) VALUES ('1', 'none', 'text', 'none', 'This is a test text post. Yeehaw!', '1617700253133');
@@ -19,7 +19,7 @@ INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('6', '1', 't
 INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('7', '1', 'test comment content 5', '1621461088254');
 INSERT INTO Favorites (postID, fuID, dateFavorite) VALUES ('6', '1', '1621461088254');
 INSERT INTO Favorites (postID, fuID, dateFavorite) VALUES ('6', '2', '1621461088254');
-INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('2', 'My Collection2', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '1621461088254', '1621461088254');
+INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('1', 'My Collection2', 'https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png', '1621461088254', '1621461088254');
 INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('7', '2', '000');
 INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('7', '1', 'test comment content', '1621461085254');
 INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('7', '2', '000');

@@ -233,15 +233,22 @@ router.post('/logout', function (req, res) {
 router.get('/getProfile', function (req, res) {
 	console.log("/getProfile");
 	var uid = 0;
-	if (req.query.userID == "self") {
-		if (!req.session.uid) {
-			uid = req.query.uid
-		} else {
-			uid = req.session.uid
-		}
-	} else {
 		uid = req.query.userID;
-	}
+	var query = "SELECT * FROM Users WHERE userID = "+uid+";";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+			res.send("0");
+		} else {
+			res.json(result);
+		}
+	});
+});
+
+router.get('post/getProfile', function (req, res) {
+	console.log("/getProfile");
+	var uid = 0;
+		uid = req.query.userID;
 	var query = "SELECT * FROM Users WHERE userID = "+uid+";";
 	connection.query (query, function (error, result) {
 		if (error) {
@@ -605,6 +612,8 @@ router.post('/getFollow', function (req, res) {
 
 router.post('/favorite', function (req, res) {
 	console.log("/favorite");
+	console.log(req.body)
+	console.log(req.query)
 	var uid = 0;
 	if (!req.session.uid) {
 		uid = req.query.uid
@@ -687,15 +696,37 @@ router.post('/getCollections', function (req, res) {
 	console.log(req.body)
 	console.log(req.query)
 	var uid = 0;
-	if (req.query.userID == "self") {
+	/* if (req.query.userID == "self") {
 		if (!req.session.uid) {
 			uid = req.query.uid
 		} else {
 			uid = req.session.uid
 		}
-	} else {
-		uid = req.query.userID;
-	}
+	} else { */
+	uid = req.query.userID;
+	var query = "SELECT * FROM Collections WHERE userID = "+uid+";";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+		} else {
+			res.send (JSON.stringify (result));
+		}
+	});
+});
+
+router.post('post/getCollections', function (req, res) {
+	console.log("/getCollections");
+	console.log(req.body)
+	console.log(req.query)
+	var uid = 0;
+	/* if (req.query.userID == "self") {
+		if (!req.session.uid) {
+			uid = req.query.uid
+		} else {
+			uid = req.session.uid
+		}
+	} else { */
+	uid = req.query.userID;
 	var query = "SELECT * FROM Collections WHERE userID = "+uid+";";
 	connection.query (query, function (error, result) {
 		if (error) {
