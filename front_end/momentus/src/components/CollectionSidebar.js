@@ -3,6 +3,9 @@ import { useDispatch, connect } from 'react-redux';
 import App from '../App';
 import './styles/sidebar.css';
 import ProfileInfo from './ProfileInfo';
+
+import { useHistory } from "react-router-dom";
+
 const axios = require ('axios');
 
 /*
@@ -15,7 +18,9 @@ const select = appState => ({
   _id: appState.loginReducer._id,
   })
 
-function CollectionSidebar({username, _id}) {
+function CollectionSidebar({ username, _id }) {
+
+const history = useHistory();
   /*
   const [collections, setCollections] = React.useState ({
     collectionName: 'Birthday 2020',

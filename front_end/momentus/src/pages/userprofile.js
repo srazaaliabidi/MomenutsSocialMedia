@@ -7,6 +7,11 @@ import './styles/userprofile.css'
 import CollectionsProfile from '../components/CollectionsProfile';
 import CollectionsImages from '../components/CollectionsImages';
 import UserPosts from '../components/UserPosts';
+import {
+  useParams,
+} from "react-router-dom";
+const axios = require("axios");
+
 
 /*
 TO DO: working on conditional rendering for the posts and collections pages. 
@@ -14,11 +19,39 @@ TO DO: working on conditional rendering for the posts and collections pages.
 
 function UserProfile() {
 
+
+
+  const { username } = useParams();
+
+    
+  const [profile, setProfile] = useState();
+
     const [content, setContent] = useState({
         postsVisible: true,
         collectionsVisible: false,
         imagesVisible: false
     });
+
+    React.useEffect(() => {
+    getProfile()
+  });
+
+    function getProfile() {
+    if (profile == undefined) {
+      let getProfileURL = 'getProfileUsername?username=' + username
+    //console.log(getProfileURL)
+    try {
+      axios
+        .get(getProfileURL)
+        .then (response => {
+          //console.log(response.data[0])
+          setProfile(response.data[0])
+        });
+    } catch (err) {
+      console.error (err.message);
+    }
+    }
+  }
     
 
     const renderPosts = () => {
@@ -70,10 +103,10 @@ function UserProfile() {
                     </tr>
             </div>
                 <div class="displayname">
-                    ThisIsAUser
-                <div class="username">@HiIt'sMe</div>
+                    ///
+                <div class="username">@{username}</div>
                 </div>
-                <div class="displaytext">hello?</div>
+                <div class="displaytext"></div>
             </div>
             <div class="profile-links">
                 <table cellspacing="14">
