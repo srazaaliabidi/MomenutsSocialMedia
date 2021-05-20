@@ -93,7 +93,7 @@ function CreatePost () {
   return (
     <div className="create-post-wrapper">
       <form id="postForm">
-      <div className="create-post-box">
+      <div className="create-post-box-title">
           <input
             id="postTitle"
             type="text"
@@ -104,7 +104,7 @@ function CreatePost () {
           />
         </div>
 
-        {postType == 'photo' ? <div className="create-post-box">
+        {postType == 'photo' ? <div className="create-post-box-caption">
           <textarea
             id="caption"
             type="text"
@@ -116,7 +116,7 @@ function CreatePost () {
           />
         </div>
         : 
-        <div className="create-post-box">
+        <div className="create-post-box-caption">
           <textarea
             id="textContent"
             type="text"

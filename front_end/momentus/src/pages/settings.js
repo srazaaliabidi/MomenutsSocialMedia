@@ -6,7 +6,8 @@ function Settings() {
     usernameChange: '',
     emailChange: '',
     passwordChange: '',
-    passChangeConfirm: ''
+    passChangeConfirm: '',
+    pfpChange: ''
   })
 
   const handleChange = (e) => {

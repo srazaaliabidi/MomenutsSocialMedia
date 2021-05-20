@@ -154,7 +154,7 @@ router.get('/getTrending', function (req, res) {
 	var date = new Date();
 	date.setDate(date.getDate() - 7);
 	var time = date.getTime();
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.dateCreated > "+time+" ORDER BY numFav DESC LIMIT 20;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.dateCreated > "+time+" ORDER BY numFav DESC LIMIT 10;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -176,6 +176,7 @@ router.post('/newUser', upload.single("pfpURL"), function (req, res) {
 		filePath = req.body.pfpURL;
 	}
 	console.log("> "+filePath); 
+	var filePath = "http://mattrbolles.com/bluecircle.png"
 	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+encodePass(req.body.password)+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '"+filePath+"', '0');";
 	connection.query(query, function (error, result) {
 		if (error) {
@@ -206,19 +207,24 @@ router.post('/testRegister', function (req, res) {
 
 router.post('/verifyUser', function (req, res) {
 	console.log("/verifyUser");
+	console.log(req.body);
+	console.log(req.body.username);
+	console.log(req.body.password);
 	var encodedPass = encodePass(req.body.password);
 	var query = "SELECT userID FROM Users WHERE username = \'"+req.body.username+"\' AND password = \'"+encodedPass+"\';";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
-			res.send("0");
+			res.send("error in /verifyUser");
 		} else {
 			if (result.length > 0) {
 				req.session.username = req.body.username;
 				req.session.uid = result[0].userID;
-				res.send("1");
+				let userID = {_id: result[0].userID}
+				console.log(userID)
+				res.send(userID);
 	  		} else {
-				res.send("0");
+				res.send("error in /verifyUser");
 			}
 		}
 	}); 
@@ -391,6 +397,8 @@ router.post('/getPosts', function (req, res) {
 	});
 });
 
+
+
 router.post('/getPostsFollow', function (req, res) {
 	console.log("/getPostsFollow");
 	var uid = 0;
@@ -533,7 +541,7 @@ router.post('/getMessage', function (req, res) {
 /*----------------------COMMENT---------------------------*/
 
 router.post('/addComment', function (req, res) {
-	console.log("/sendMessage");
+	console.log("/addComment");
 	var uid = 0;
 	if (!req.session.uid) {
 		uid = req.body.uid
@@ -767,5 +775,3 @@ router.get('/*', function(req, res) {
 app.use("/", router);
 var server = app.listen(process.env.PORT || 3001)
 console.log("> server online\n> listening port "+port+"\n");
-
-

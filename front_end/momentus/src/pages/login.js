@@ -35,8 +35,8 @@ function Login() {
   function submit(e) {
     e.preventDefault();
     axios.post('/verifyUser', {
-      usernameToSubmit: usernameToSubmit,
-      passwordToSubmit: passwordToSubmit,
+      username: usernameToSubmit,
+      password: passwordToSubmit,
     })
       /* .then(response => {
         console.log("Logged in")
@@ -44,12 +44,14 @@ function Login() {
       }); */
       .then(res => {
         console.log("logged in");
-        console.log(res);
+        console.log(res.data);
+        let userID = res.data._id
+        dispatch(userLogin(usernameToSubmit, userID));
     })
     .catch(function (error) {
       console.log(error);
     });
-    dispatch(userLogin(usernameToSubmit));
+    
     history.push('/');
     //history.go (0);
   }
