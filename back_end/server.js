@@ -20,6 +20,7 @@ const cors = require('cors');
 
 if (process.env.NODE_ENV === "production") {
 	app.use (express.static (path.resolve (__dirname, '../front_end/momentus/build')));
+	app.use(express.static(path.join(__dirname, 'public')));
 }
 app.use (
 	session ({secret: 'CSC648csc!', resave: false, saveUninitialized: false})
