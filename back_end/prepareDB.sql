@@ -38,14 +38,14 @@ CREATE TABLE IF NOT EXISTS Comments (
 );
 
 CREATE TABLE IF NOT EXISTS Favorites (
-  favoriteID int NOT NULL,
   postID int NOT NULL,
+  fuID int NOT NULL,
   dateFavorite BIGINT NOT NULL,
-  FOREIGN KEY (favoriteID) REFERENCES Users(userID),
+  FOREIGN KEY (fuID) REFERENCES Users(userID),
   FOREIGN KEY (postID) REFERENCES Post(postID)
 );
 
-CREATE TABLE IF NOT EXISTS Following (
+CREATE TABLE IF NOT EXISTS Follow (
   userIDFollowing int NOT NULL,
   userIDFollowed int NOT NULL,
   dateFollowed BIGINT NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Messages (
 );
 
 CREATE TABLE IF NOT EXISTS Collections (
-  collectionID int NOT NULL,
+  collectionID int NOT NULL AUTO_INCREMENT,
   userID int NOT NULL,
   name varchar(255) NOT NULL,
   iconURL varchar(225),

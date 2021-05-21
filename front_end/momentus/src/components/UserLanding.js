@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import './styles/userlanding.css';
+import Logo from '../assets/momentus.png';
 
 // only display if not logged in
 
@@ -9,19 +11,24 @@ const select = appState => ({
     _id: appState.loginReducer._id,
 });
 
-function UserLanding({isLoggedIn}) {
+function UserLanding({ isLoggedIn }) {
     return (
         <div>
-        {!isLoggedIn ? 
-            <div>
-            <h1>Welcome to Momentus.</h1>
-            <a href = "/login">Login</a>
-            <a href = "/register">Register</a>
-            </div>
-        :
-        <div>
-        </div>
-        }   
+            {!isLoggedIn ?
+                <div className="landing-wrapper">
+                    <div className="landing-box">
+                        <img src={Logo} />
+                        <h3>A platform that puts your passions first</h3>
+                        <div className="button-group">
+                            <a href="/login" className="login-text">Login</a>
+                            <a href="/register" className="reg-text">Register</a>
+                        </div>
+                    </div>
+                </div>
+                :
+                <div>
+                </div>
+            }
         </div>
     );
 }

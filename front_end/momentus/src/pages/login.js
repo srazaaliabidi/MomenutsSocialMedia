@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './styles/login-reg.css';
-import logo from '../assets/momentuslogo.png';
+import logo from '../assets/momentus.png';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { createStore, applyMiddleware } from 'redux';
@@ -35,8 +35,8 @@ function Login() {
   function submit(e) {
     e.preventDefault();
     axios.post('/verifyUser', {
-      usernameToSubmit: usernameToSubmit,
-      passwordToSubmit: passwordToSubmit,
+      username: usernameToSubmit,
+      password: passwordToSubmit,
     })
       /* .then(response => {
         console.log("Logged in")
@@ -44,12 +44,15 @@ function Login() {
       }); */
       .then(res => {
         console.log("logged in");
-        console.log(res);
+        console.log(res.data[0]);
+        let userID = res.data[0].userID
+        console.log(userID)
+        dispatch(userLogin(usernameToSubmit, userID));
     })
     .catch(function (error) {
       console.log(error);
     });
-    dispatch(userLogin(usernameToSubmit));
+    
     history.push('/');
     //history.go (0);
   }
@@ -78,7 +81,7 @@ function Login() {
             <br />
           </div>
           <input type="submit" className="submit-login" value="Login" /><br />
-        </form><br />
+        </form>
         <a href="/register">New? Create an account!</a><br />
       </div>
     </div>

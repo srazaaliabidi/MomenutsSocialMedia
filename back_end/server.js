@@ -20,6 +20,7 @@ const cors = require('cors');
 
 if (process.env.NODE_ENV === "production") {
 	app.use (express.static (path.resolve (__dirname, '../front_end/momentus/build')));
+	app.use(express.static(path.join(__dirname, '../front_end/momentus/public')));
 }
 app.use (
 	session ({secret: 'CSC648csc!', resave: false, saveUninitialized: false})
@@ -31,11 +32,11 @@ app.use(cors());
 const storagePost = multer.diskStorage({
 	destination: function(req, file, callback) {
 		if (file.fieldname === "contentURL") {
-			callback(null, path.resolve(__dirname, 'post-images'));
+			callback(null, path.resolve(__dirname, '../front_end/momentus/public/images/post-images'));
 		} else if (file.fieldname === "pfpURL") {
-			callback(null, path.resolve(__dirname, 'profile-images'));
+			callback(null, path.resolve(__dirname, '../front_end/momentus/public/images/profile-images'));
 		} else if (file.fieldname === "iconURL") {
-			callback(null, path.resolve(__dirname, 'collection-images'));
+			callback(null, path.resolve(__dirname, '../front_end/momentus/public/images/collection-images'));
 		}
 	},
 	filename: function(req, file, callback) {
@@ -94,7 +95,7 @@ function prepareTables() {
 }
 
 function resetDatabase() {
-	var query = "SET FOREIGN_KEY_CHECKS = 0; DROP TABLE Post; DROP TABLE Users; DROP TABLE Comments; DROP TABLE Favorites; DROP TABLE Following; DROP TABLE Messages; DROP TABLE Collections; DROP TABLE Collection_Content; SET FOREIGN_KEY_CHECKS = 1;"
+	var query = "SET FOREIGN_KEY_CHECKS = 0; DROP TABLE Post; DROP TABLE Users; DROP TABLE Comments; DROP TABLE Favorites; DROP TABLE Follow; DROP TABLE Messages; DROP TABLE Collections; DROP TABLE Collection_Content; SET FOREIGN_KEY_CHECKS = 1;"
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
@@ -119,13 +120,32 @@ router.get('/', function (req, res) {
 
 router.get('/getHome', function (req, res) {
 	console.log("/getHome");
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID ORDER BY Post.dateCreated DESC LIMIT 20;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
 			res.send("0");
 		} else {
-			res.send(JSON.stringify(result));
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post ORDER BY Post.dateCreated DESC) ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
 		}
 	});
 });
@@ -135,7 +155,7 @@ router.get('/getTrending', function (req, res) {
 	var date = new Date();
 	date.setDate(date.getDate() - 7);
 	var time = date.getTime();
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.dateCreated > "+time+" ORDER BY numFav DESC LIMIT 20;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.dateCreated > "+time+" ORDER BY numFav DESC LIMIT 10;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -148,12 +168,15 @@ router.get('/getTrending', function (req, res) {
 
 /*----------------------PROFILE---------------------------*/
 // OLD VERSION:
-// router.post('/newUser', upload.single("pfpURL"), function (req, res) {
-router.post('/newUser', function (req, res) {
+router.post('/newUser', upload.single("pfpURL"), function (req, res) {
 	console.log("/newUser");
-	// we will possibly reimplement this later, for now we will use a placeholder
-	/* var filePath = "../back_end/profile-images/"+Date.now()+"-"+req.file.originalname;
-	console.log("> "+filePath); */
+	var filePath = "0";
+	if (req.file) {
+		filePath = "/front_end/momentus/public/images/profile-images"+Date.now()+"-"+req.file.originalname;
+	} else {
+		filePath = req.body.pfpURL;
+	}
+	console.log("> "+filePath); 
 	var filePath = "http://mattrbolles.com/bluecircle.png"
 	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, pfpURL, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+encodePass(req.body.password)+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '"+filePath+"', '0');";
 	connection.query(query, function (error, result) {
@@ -163,42 +186,31 @@ router.post('/newUser', function (req, res) {
 		} else {
 			req.session.username = req.body.username;
 			req.session.uid = result.insertId;
-			res.send("1");
-		}
-	});
-});
-
-router.post('/testRegister', function (req, res) {
-	console.log("/testRegister");
-	var query = "INSERT INTO Users (email, username, password, firstName, lastName, city, state, DOB, privacy) VALUES ('"+req.body.email+"', '"+req.body.username+"', '"+encodePass(req.body.password)+"', '"+req.body.firstName+"', '"+req.body.lastName+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.DOB+"', '0');";
-	connection.query(query, function (error, result) {
-		if (error) {
-			console.log(error);
-			res.send("0");
-		} else {
-			req.session.username = req.body.username;
-			req.session.uid = result.insertId;
-			res.send("1");
+			res.json({id: result.insertId});
 		}
 	});
 });
 
 router.post('/verifyUser', function (req, res) {
 	console.log("/verifyUser");
+	console.log(req.body);
+	console.log(req.body.username);
+	console.log(req.body.password);
 	var encodedPass = encodePass(req.body.password);
 	var query = "SELECT userID FROM Users WHERE username = \'"+req.body.username+"\' AND password = \'"+encodedPass+"\';";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
-			res.send("0");
+			res.send("error in /verifyUser");
 		} else {
 			if (result.length > 0) {
 				req.session.username = req.body.username;
 				req.session.uid = result[0].userID;
-				res.send("1");
-				console.log("user logged in");
+				let userID = {_id: result[0].userID}
+				console.log(userID)
+				res.json(result);
 	  		} else {
-				res.send("0");
+				res.send("error in /verifyUser");
 			}
 		}
 	}); 
@@ -219,69 +231,45 @@ router.post('/logout', function (req, res) {
 	res.end();
 });
 
-router.post('/getProfile', function (req, res) {
+router.get('/getProfile', function (req, res) {
 	console.log("/getProfile");
 	var uid = 0;
-	if (req.body.userID === "self") {
-		uid = req.session.uid;
-	} else {
-		uid = req.body.userID;
-	}
+		uid = req.query.userID;
 	var query = "SELECT * FROM Users WHERE userID = "+uid+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.send(JSON.stringify (result));
+			res.json(result);
+		}
+	});
+});
+
+router.get('post/getProfile', function (req, res) {
+	console.log("/getProfile");
+	var uid = 0;
+		uid = req.query.userID;
+	var query = "SELECT * FROM Users WHERE userID = "+uid+";";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+			res.send("0");
+		} else {
+			res.json(result);
 		}
 	});
 });
 
 router.post('/changePrivacy', function (req, res) {
 	console.log("/changePrivacy");
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.body.uid
 	} else {
-		var query = "UPDATE Users SET privacy='"+req.body.privacy+"' WHERE userID="+req.session.uid+";";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		}); 
+		uid = req.session.uid
 	}
-});
-
-/*----------------------POSTS---------------------------*/
-
-router.post('/newPostText', function (req, res) {
-	console.log("/newPostText");
-	if (!req.session.uid) {
-		console.log("no uid");
-		res.end("0");
-	} else {
-		var date = Date.now();
-		var time = date.getTime();
-		var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+req.session.uid+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
-	}
-});
-
-router.post('/testNewPostText', function (req, res) {
-	console.log("/testNewPostText");
-	var date = Date.now();
-	var time = date.getTime();
-	var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+1+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
+	var query = "UPDATE Users SET privacy='"+req.body.privacy+"' WHERE userID="+uid+";";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
@@ -289,42 +277,60 @@ router.post('/testNewPostText', function (req, res) {
 		} else {
 			res.send("1");
 		}
-	});
+	}); 
 });
 
-router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
-	console.log("/newPostImage");
+/*----------------------POSTS---------------------------*/
+
+router.post('/newPostText', function (req, res) {
+	console.log("/newPostText");
+	var uid = 0;
 	if (!req.session.uid) {
-		console.log("no uid");
-		res.end("0");
+		uid = req.body.uid
 	} else {
-		var filePath = "../back_end/post-images/"+Date.now()+"-"+req.file.originalname;
-		console.log("> "+filePath);
-		var date = Date.now();
-		var time = date.getTime();
-		var query = "INSERT INTO Post (userID, title, type, contentURL, caption, dateCreated) VALUES ('"+req.session.uid+"', '"+req.body.title+"', 'photo', '"+filePath+"', '"+req.body.caption+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
-});
-
-router.post('/testNewPostImage', function (req, res) {
-	console.log("/testNewPostImage");
-	var date = Date.now();
+	var date = new Date();
 	var time = date.getTime();
-	var query = "INSERT INTO Post (userID, title, type, caption, dateCreated) VALUES ('"+1+"', '"+req.body.title+"', 'photo', '"+req.body.caption+"', '"+time+"');";
+	var query = "INSERT INTO Post (userID, title, type, content, dateCreated) VALUES ('"+uid+"', '"+req.body.title+"', 'text', '"+req.body.content+"', '"+time+"');";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);
 			res.send("0");
 		} else {
-			res.send("1");
+			res.json({id: result.insertId});
+		}
+	});
+});
+
+router.post('/newPostImage', upload.single("contentURL"), function (req, res) {
+	console.log("/newPostImage");
+	console.log(req.body)
+	console.log(JSON.stringify(req.file))
+	console.log(req.file.filename);
+	var uid = 0;
+	if (!req.session.uid) {
+		uid = req.body.uid
+	} else {
+		uid = req.session.uid
+	}
+	var filePath = "0";
+	if (req.file) {
+		filePath = "/images/post-images/"+req.file.filename;
+	} else {
+		filePath = req.body.contentURL;
+	}
+	console.log("> "+filePath);
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Post (userID, title, type, contentURL, caption, dateCreated) VALUES ('"+uid+"', '"+req.body.title+"', 'photo', '"+filePath+"', '"+req.body.caption+"', '"+time+"');";
+	console.log(query);
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: result.insertId});
 		}
 	});
 });
@@ -332,18 +338,42 @@ router.post('/testNewPostImage', function (req, res) {
 router.post('/getPosts', function (req, res) {
 	console.log("/getPosts");
 	var uid = 0;
-	if (req.body.userID === "self") {
-		uid = req.session.uid;
+	/* if (req.body.userID == "self") {
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
 		uid = req.body.userID;
-	}
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
+	} */
+	uid = req.query.userID;
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID = "+uid+" ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.send(JSON.stringify (result));
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID = "+uid+") ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
 		}
 	});
 });
@@ -351,18 +381,101 @@ router.post('/getPosts', function (req, res) {
 router.post('/getPostsFollow', function (req, res) {
 	console.log("/getPostsFollow");
 	var uid = 0;
-	if (req.body.userID === "self") {
-		uid = req.session.uid;
+	if (req.body.userID == "self") {
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, Comments.comment, Comments.dateCommented, Comments.cuID, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN Comments ON Comments.postID = Post.postID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
 			res.send("0");
 		} else {
-			res.send(JSON.stringify (result));
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.userID IN (SELECT userIDFollowed FROM Following WHERE userIDFollowing = "+uid+") ORDER BY Post.dateCreated DESC) ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
+		}
+	});
+});
+
+router.get('/getAllPostFavorite', function (req, res) {
+	console.log("/getAllPostFavorite");
+	var uid = 0;
+	if (!req.session.uid) {
+		uid = req.query.uid
+	} else {
+		uid = req.session.uid
+	}
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID IN (SELECT Favorites.postID FROM Favorites WHERE fuID = "+uid+") ORDER BY Post.dateCreated DESC LIMIT 50;";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+			res.send("0");
+		} else {
+			query = "SELECT * FROM Comments WHERE Comments.postID IN (SELECT Post.postID From Post WHERE Post.postID IN (SELECT Favorites.postID FROM Favorites WHERE fuID = "+uid+") ORDER BY Post.dateCreated) ORDER BY Comments.postID, Comments.dateCommented DESC;";
+			connection.query (query, async function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					await result.forEach((item) => {
+						item["comments"] = [];
+					})
+					await result2.forEach((item, index) => {
+						for (var i = result.length - 1; i >= 0; i--) {
+							if (item.postID == result[i]["postID"]) {
+								result[i]["comments"].push(item);
+								break;
+							}
+						}
+					})
+					res.json(result);
+				}
+			});
+		}
+	});
+});
+
+router.post('/getPostByID', function (req, res) {
+	console.log("/getPostByID");
+	var query = "SELECT Post.postID, Post.userID, Post.title, Post.caption, Post.type, Post.contentURL, Post.content, Post.dateCreated, Users.username, Users.pfpURL, A.numFav FROM Post LEFT JOIN Users ON Users.userID = Post.userID LEFT JOIN (SELECT postID, COUNT(*) AS numFav FROM Favorites GROUP BY Favorites.postID) AS A ON A.postID = Post.postID WHERE Post.postID = "+req.query.postID+";";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+			res.send("0");
+		} else {
+			query = "SELECT * FROM Comments WHERE Comments.postID = "+req.query.postID+" ORDER BY Comments.dateCommented DESC;";
+			connection.query (query, function (error, result2) {
+				if (error) {
+					console.log (error);
+					res.send("0");
+				} else {
+					result[0]["comments"] = result2;
+					res.json(result);
+				}
+			});
 		}
 	});
 });
@@ -371,22 +484,24 @@ router.post('/getPostsFollow', function (req, res) {
 
 router.post('/sendMessage', function (req, res) {
 	console.log("/sendMessage");
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.body.uid
 	} else {
-		//socket.io for messaging service
-		var date = Date.now();
-		var time = date.getTime();
-		var query = "INSERT INTO Messages (userIDReceiver, userIDSender, content, dateSent) VALUES ('"+req.body.receiver+"', '"+req.session.uid+"', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
+		//socket.io for messaging service
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Messages (userIDReceiver, userIDSender, content, dateSent) VALUES ('"+req.body.receiver+"', '"+uid+"', '"+req.body.content+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.send("1");
+		}
+	});
 });
 
 router.post('/getMessage', function (req, res) {
@@ -405,29 +520,35 @@ router.post('/getMessage', function (req, res) {
 /*----------------------COMMENT---------------------------*/
 
 router.post('/addComment', function (req, res) {
-	console.log("/sendMessage");
+	console.log("/addComment");
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.body.uid
 	} else {
-		var date = Date.now();
-		var time = date.getTime();
-		var query = "INSERT INTO Comments (postID, userID, content, dateCreated) VALUES ('"+req.body.postID+"', '"+req.session.uid+"', '"+req.body.content+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Comments (postID, cuID, comment, dateCommented) VALUES ('"+req.body.postID+"', '"+uid+"', '"+req.body.comment+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: result.insertId});
+		}
+	});
 });
 
 router.post('/getComments', function (req, res) {
 	console.log("/getComments");
 	var uid = 0;
-	if (req.body.userID === "self") {
-		uid = req.session.uid;
+	if (req.body.userID == "self") {
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
 		uid = req.body.userID;
 	}
@@ -446,32 +567,42 @@ router.post('/getComments', function (req, res) {
 
 router.post('/follow', function (req, res) {
 	console.log("/follow");
-	if (!req.session.uid) {
-		res.end("0");
+	var uid = 0;
+	if (req.body.userID == "self") {
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
-		var date = Date.now();
-		var time = date.getTime();
-		var query = "INSERT INTO Following (userIDFollowing, userIDFollowed, dateFollowed) VALUES ('"+req.session.uid+"', '"+req.body.followed+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.body.userID;
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Follow (userIDFollowing, userIDFollowed, dateFollowed) VALUES ('"+uid+"', '"+req.body.followed+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.send("1");
+		}
+	});
 });
 
 router.post('/getFollow', function (req, res) {
 	console.log("/getFollow");
 	var uid = 0;
-	if (req.body.userID === "self") {
-		uid = req.session.uid;
+	if (req.body.userID == "self") {
+		if (!req.session.uid) {
+			uid = req.body.uid
+		} else {
+			uid = req.session.uid
+		}
 	} else {
 		uid = req.body.userID;
 	}
-	var query = "SELECT * FROM Following WHERE userIDFollowing = "+uid+";";
+	var query = "SELECT * FROM Follow WHERE userIDFollowing = "+uid+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -486,26 +617,30 @@ router.post('/getFollow', function (req, res) {
 
 router.post('/favorite', function (req, res) {
 	console.log("/favorite");
+	console.log(req.body)
+	console.log(req.query)
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.query.uid
 	} else {
-		var date = Date.now();
-		var time = date.getTime();
-		var query = "INSERT INTO Favorites (postID, dateFavorite) VALUES ('"+req.body.postID+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Favorites (postID, fuID, dateFavorite) VALUES ('"+req.query.postID+"', '"+uid+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: req.query.postID});
+		}
+	});
 });
 
-router.post('/getFavorite', function (req, res) {
-	console.log("/getFavorite");
-	var query = "SELECT * FROM Favorites WHERE postID = "+req.body.postID+";";
+router.get('/getPostFavorite', function (req, res) {
+	console.log("/getPostFavorite");
+	var query = "SELECT * FROM Favorites WHERE postID = "+req.query.postID+";";
 	connection.query (query, function (error, result) {
 		if (error) {
 			console.log (error);
@@ -519,81 +654,107 @@ router.post('/getFavorite', function (req, res) {
 /*----------------------COLLECTIONS---------------------------*/
 
 router.post('/newCollection', upload.single("iconURL"), function (req, res) {
+	console.log(req.body)
+	console.log(req.query)
 	console.log("/newCollection");
+	var uid = 0;
 	if (!req.session.uid) {
-		res.end("0");
+		uid = req.query.uid
 	} else {
-		var filePath = "../back/collection-images/"+Date.now()+"-"+req.file.originalname;
-		console.log(">"+filePath);
-		var date = Date.now();
-		var time = date.getTime();
-		var query = "INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('"+req.session.uid+"', '"+req.body.name+"', '"+filePath+"', '"+time+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
+		uid = req.session.uid
 	}
+	var filePath = "0";
+	if (req.file) {
+		filePath = "/front_end/momentus/public/images/collection-images"+Date.now()+"-"+req.file.originalname;
+	} else {
+		filePath = "https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png";
+	}
+	console.log(">"+filePath);
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('"+uid+"', '"+req.query.name+"', '"+filePath+"', '"+time+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: result.insertId});
+		}
+	});
 });
 
 router.post('/appendCollection', function (req, res) {
 	console.log("/appendCollection");
-	if (!req.session.uid) {
-		res.end("0");
-	} else {
-		var date = Date.now();
-		var time = date.getTime();
-		var query = "INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('"+req.body.postID+"', '"+req.body.collectionID+"', '"+time+"');";
-		connection.query(query, function (error, result) {
-			if (error) {
-				console.log(error);
-				res.send("0");
-			} else {
-				res.send("1");
-			}
-		});
-	}
+	var date = new Date();
+	var time = date.getTime();
+	var query = "INSERT INTO Collection_Content (postID, collectionID, dateAdded) VALUES ('"+req.body.postID+"', '"+req.body.collectionID+"', '"+time+"');";
+	connection.query(query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json({id: req.body.collectionID});
+		}
+	});
 });
 
 router.post('/getCollections', function (req, res) {
 	console.log("/getCollections");
-	if (!req.session.uid) {
-		res.end("0");
-	} else {
-		var uid = 0;
-		if (req.body.userID === "self") {
-			uid = req.session.uid;
+	console.log(req.body)
+	console.log(req.query)
+	var uid = 0;
+	/* if (req.query.userID == "self") {
+		if (!req.session.uid) {
+			uid = req.query.uid
 		} else {
-			uid = req.body.userID;
+			uid = req.session.uid
 		}
-		var query = "SELECT * FROM Collections WHERE userID = "+uid+";";
-		connection.query (query, function (error, result) {
-			if (error) {
-				console.log (error);
-			} else {
-				res.send (JSON.stringify (result));
-			}
-		});
-	}
+	} else { */
+	uid = req.query.userID;
+	var query = "SELECT * FROM Collections WHERE userID = "+uid+";";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+		} else {
+			res.send (JSON.stringify (result));
+		}
+	});
+});
+
+router.post('post/getCollections', function (req, res) {
+	console.log("/getCollections");
+	console.log(req.body)
+	console.log(req.query)
+	var uid = 0;
+	/* if (req.query.userID == "self") {
+		if (!req.session.uid) {
+			uid = req.query.uid
+		} else {
+			uid = req.session.uid
+		}
+	} else { */
+	uid = req.query.userID;
+	var query = "SELECT * FROM Collections WHERE userID = "+uid+";";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log (error);
+		} else {
+			res.json(result);
+		}
+	});
 });
 
 router.post('/viewCollection', function (req, res) {
 	console.log("/viewCollection");
-	if (!req.session.uid) {
-		res.end("0");
-	} else {
-		var query = "SELECT * FROM Post NATURAL JOIN (SELECT * FROM Collection_Content WHERE collectionID = "+req.body.collectionID+");";
-		connection.query (query, function (error, result) {
-			if (error) {
-				console.log (error);
-			} else {
-				res.send(JSON.stringify (result));
-			}
-		});
-	}
+	var query = "SELECT * FROM Post RIGHT JOIN (SELECT Collection_Content.postID AS useless, Collection_Content.dateAdded FROM Collection_Content WHERE collectionID = "+req.query.collectionID+") AS CC ON CC.useless = Post.postID;";
+	connection.query (query, function (error, result) {
+		if (error) {
+			console.log(error);
+			res.send("0");
+		} else {
+			res.json(result);
+		}
+	});
 });
 
 router.get ('/search', function (req, res) {
@@ -622,5 +783,3 @@ router.get('/*', function(req, res) {
 app.use("/", router);
 var server = app.listen(process.env.PORT || 3001)
 console.log("> server online\n> listening port "+port+"\n");
-
-

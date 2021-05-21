@@ -1,0 +1,77 @@
+.landing-wrapper {
+    --primary-color: #475754;
+    font-size: 16px;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    background-image: url("../../assets/homepage-background.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position-y: 100%;
+}
+
+.landing-box {
+    text-align: center;
+    width: 100%;
+    max-width: 575px;
+    height: 460px;
+    background-color: white;
+    border: 0px grey solid;
+    border-radius: 5%;
+    box-sizing: border-box;
+    padding: 20px 30px;
+}
+
+.landing-box img {
+    margin: 20px 0;
+    width: 400px;
+}
+
+h3 {
+    margin: 20px 0;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.button-group {
+    box-sizing: border-box;
+    padding: 20px 120px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.login-text,
+.reg-text {
+    display: block;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    transition: 0.2s;
+}
+
+.reg-text {
+    margin-bottom: 0;
+}
+
+.login-text:hover,
+.reg-text:hover{
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: white;
+    transition: 0.2s;
+}
+
+.login-text a {
+    color: #00756C;
+    text-decoration: none;
+}
+
+.reg-text a {
+    color: #00756C;
+    text-decoration: none;
+}

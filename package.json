@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/CSC648-Team4/CSC648GroupProject#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "axios": "^0.21.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -27,8 +28,10 @@
     "expect": "^26.6.2",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "form-data": "^4.0.0",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
     "query-string": "^7.0.0",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",

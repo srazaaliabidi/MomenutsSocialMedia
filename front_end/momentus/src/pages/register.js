@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './styles/login-reg.css';
-import logo from '../assets/momentuslogo.png';
+import logo from '../assets/momentus.png';
 import './styles/home.css';
 import axios from "axios";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { useAlert } from 'react-alert';
 import CryptoJS from 'crypto-js';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userLogin } from '../redux/actions/loginActions';
 
@@ -17,7 +17,7 @@ TODO: Fix fields so they fit our requirements (length, etc)
 Make it so you can't skip fields, currently you can click to end with blank fields 
 */
 function Register() {
-  const history = useHistory ();
+  const history = useHistory();
   const dispatch = useDispatch();
   const alert = useAlert();
   const [form, setForm] = useState({
@@ -38,7 +38,7 @@ function Register() {
   function submit(e) {
     var hash = CryptoJS.SHA256(form.password);
     e.preventDefault();
-    var newUserURL = "/newUser?email="+form.email+"&username="+form.username+"&password="+hash.toString(CryptoJS.enc.Base64)+"&firstName="+form.firstName+"&lastName="+form.lastName+"&city="+form.city+"&state="+form.state+"&DOB="+form.birthdate
+    var newUserURL = "/newUser?email=" + form.email + "&username=" + form.username + "&password=" + hash.toString(CryptoJS.enc.Base64) + "&firstName=" + form.firstName + "&lastName=" + form.lastName + "&city=" + form.city + "&state=" + form.state + "&DOB=" + form.birthdate
     console.log(newUserURL)
     axios.post(newUserURL)
       .then(result => {
@@ -59,15 +59,15 @@ function Register() {
       username: form.username,
       password: form.password,
     })
-    .then(res => {
-      console.log("logged in");
-      console.log(res);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-  dispatch(userLogin(form.username));
-  history.push('/');
+      .then(res => {
+        console.log("logged in");
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    dispatch(userLogin(form.username));
+    history.push('/');
   }
 
   function updateForm(e) {
@@ -107,26 +107,25 @@ function Register() {
     console.log(fullDOB)
     updateDate(fullDOB)
   }
-  
+
   function nextStep() {
     // checks to see if first part of the form is filled out before moving to next
-    if ((form.email != "") && (form.username != "") && (form.password != "") && (form.confirmPass != ""))
-      {
-        // check if passwords match
-        if (form.password == form.confirmPass) {
-          // move to next step
-          setStep(step + 1)
-        }
-        
-        else {
-          alert.show('Passwords do not match.')
-        }
+    if ((form.email != "") && (form.username != "") && (form.password != "") && (form.confirmPass != "")) {
+      // check if passwords match
+      if (form.password == form.confirmPass) {
+        // move to next step
+        setStep(step + 1)
       }
-    else{
+
+      else {
+        alert.show('Passwords do not match.')
+      }
+    }
+    else {
       alert.show('Please fill out all fields before continuing.')
     }
-    
-    
+
+
   }
 
   return (
@@ -229,8 +228,9 @@ function Register() {
                   onChange={(e) => updateForm(e)}
                 />
                 <br />
-                <label htmlFor="DOB">Date of birth</label><br />
-                {/* <input
+                <div className="DOB-box">
+                  <label htmlFor="DOB">Date of birth</label>
+                  {/* <input
                   type="date"
                   value={form.birthdate}
                   name="birthdate"
@@ -238,25 +238,26 @@ function Register() {
                   id="DOB"
                   onChange={(e) => updateForm(e)}
                 /> */}
-                <DatePicker
-                        id="DOB"
-                        name="DOB"
-                        selected={birthdate} onChange={date => handleDate(date)}
-                    />
-                <br />
-                <input type="submit" value="Register" /><br />
+                  <DatePicker
+                    id="DOB"
+                    name="DOB"
+                    selected={birthdate} onChange={date => handleDate(date)}
+                  />
+                </div>
+                <input className="reg-input" type="submit" value="Register" /><br />
               </div>
             ) : null}
             {step === 1 ? (
               <button type="button" className="next-button" onClick={nextStep}>Next</button>
             ) : null}
           </form>
-          <br />
         </div>
-        <a href="/login">Log in instead</a><br />
+        <a href="/login">Log in instead</a>
+        <br />
+        <br />
 
-        
-          {/* ------- Data check -------
+
+        {/* ------- Data check -------
           <p>email: {form.email}</p>
           <p>username: {form.username}</p>
           <p>password: {form.password}</p>
@@ -266,7 +267,7 @@ function Register() {
           <p>city: {form.city}</p>
           <p>state: {form.state}</p>
           <p>DOB: {form.birthdate}</p> */}
-         
+
       </div>
     </div>
   );

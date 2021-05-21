@@ -16,7 +16,11 @@
 }
 
 .user-pfp img {
+    object-fit: cover;
+    object-position: center;
     height: 160px;
+    width: 160px;
+    border-radius: 50%;
 }
 
 .user-info {

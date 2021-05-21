@@ -18,7 +18,10 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { PersistGate } from 'redux-persist/integration/react';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
+import AlertTemplate from 'react-alert-template-basic';
+import axios from 'axios';
+const baseURL = process.env.baseURL || "http://localhost:3000";
+axios.defaults.baseURL = '';
 
 const alertOptions = {
   // you can also just use 'bottom center'

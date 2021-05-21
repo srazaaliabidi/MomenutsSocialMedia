@@ -5,7 +5,15 @@ import Post from '../components/Post';
 import CreatePost from '../components/CreatePost'
 import './styles/userprofile.css'
 import CollectionsProfile from '../components/CollectionsProfile';
+import CollectionsImages from '../components/CollectionsImages';
 import UserPosts from '../components/UserPosts';
+import {
+  useParams,
+} from "react-router-dom";
+import { BsPrefixComponent } from 'react-bootstrap/esm/helpers';
+import { getUserID } from '../redux/actions/loginActions';
+const axios = require("axios");
+
 
 /*
 TO DO: working on conditional rendering for the posts and collections pages. 
@@ -13,40 +21,103 @@ TO DO: working on conditional rendering for the posts and collections pages.
 
 function UserProfile() {
 
+
+
+  const { userID } = useParams();
+
+    
+  const [userProfile, setUserProfile] = useState();
+    
+  const [userpfpURL, setUserPfp] = useState();
+  const [username, setUsername] = useState();
+
     const [content, setContent] = useState({
         postsVisible: true,
-        collectionsVisible: false
+        collectionsVisible: false,
+        imagesVisible: false
+    });
+
+    React.useEffect(() => {
+        getUserProfile()
+        //console.log(userProfile)
+        getUserPFP()
+        getUsername()
   });
 
-    function renderPosts() {
+    function getUserProfile() {
+        if (userProfile == undefined) {
+        let getProfileURL = 'getProfile?userID=' + userID
+            console.log(getProfileURL)
+            try {
+            axios
+                .get(getProfileURL)
+                .then (response => {
+                //console.log(response.data[0])
+                setUserProfile(response.data[0])
+                });
+            } catch (err) {
+            console.error (err.message);
+            }
+        }
+    }
+    
+    function getUserPFP() {
+    //console.log("getpfp")
+      if (userpfpURL == undefined && userProfile != undefined) {
+        console.log("getting pfp")
+        setUserPfp(userProfile.pfpURL)
+      }
+  }
+
+  function getUsername() {
+    if (userProfile != undefined && username == undefined) {
+        console.log(userProfile.username)
+        setUsername(userProfile.username)
+    }
+}
+    
+
+    const renderPosts = () => {
         if (!content.postsVisible) return '';
         return (
-            <UserPosts />
+            <UserPosts userID={userID}/>
         );
     }
 
-    function renderCollections() {
-        if (!content.collectionsVisible) return (
-            <UserPosts />
-        );
+    const renderCollections = () => {
         if (content.collectionsVisible) return (
-            <CollectionsProfile />
+            <CollectionsProfile userID={userID} />
         );
     }
+
+    
+    // will render the individual images 
+/*
+      const renderImages = () => {
+        if (content.imagesVisible) return (
+            <CollectionsImages />
+        );
+
+        // {renderImages()} = add to html with other routes //
+    }*/
 
     function handleClickPosts() {
-        setContent(true, false);
+        setContent({postsVisible: true, collectionsVisible: false /*,imagesVisible: false*/});
     }
     
     function handleClickCollections() {
-        setContent(false, true);
+        setContent({postsVisible: false, collectionsVisible: true /*, imagesVisible: false*/});
     }
+/*
+    function handleClickCollectionsImages() {
+        setContent({postsVisible: false, collectionsVisible: false, imagesVisible: true});
+    }*/
     
     return (
         <div class="userprofile">
             <div class="header-image"></div>
             <div class="user-pfp">
-                <img src="http://mattrbolles.com/bluecircle.png"/>
+                <img src={userpfpURL}/>
             </div>
             <div class="user-info">
                 <div class="follow-info">
@@ -57,10 +128,10 @@ function UserProfile() {
                     </tr>
             </div>
                 <div class="displayname">
-                    ThisIsAUser
-                <div class="username">@HiIt'sMe</div>
+                    ///
+                <div class="username">@{username}</div>
                 </div>
-                <div class="displaytext">hello?</div>
+                <div class="displaytext"></div>
             </div>
             <div class="profile-links">
                 <table cellspacing="14">
@@ -71,8 +142,8 @@ function UserProfile() {
                     </table>
             </div>
             <div class="profile-body">
-                <renderCollections />
-                <renderPosts/>
+                {renderCollections()}
+                {renderPosts()}
             </div>
         </div>
     );

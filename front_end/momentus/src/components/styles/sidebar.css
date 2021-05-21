@@ -40,14 +40,15 @@
 }
 
 .trending-content-block {
-    padding: 10px 20px;
+    padding-bottom: 50px;
     box-sizing: border-box;
     border-top: 2px #e5e5e5 solid;
     border-bottom: none;
+    max-height: 100%;
+    overflow: auto;
 }
 
 .trending-content-block img {
-    min-width: 90px;
     margin-top: 7px;
     margin-bottom: 7px;
 }
@@ -105,6 +106,7 @@
     height: 340px;
     overflow: auto;
     padding-bottom: 5px;
+    padding: 10px;
 }
 
 ::-webkit-scrollbar {
@@ -115,8 +117,11 @@
 
 .collectionsimages img {
     height: auto;
-    width: 25%;
+    width: 60px;
+    height: 60px;
     margin: 4px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .profileinfobar {
@@ -132,4 +137,14 @@
 
 .mediacount {
     font-size: 11px;
+}
+
+.trending-post {}
+
+.trending-post img {
+    object-fit: cover;
+    object-position: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 10%;
 }
