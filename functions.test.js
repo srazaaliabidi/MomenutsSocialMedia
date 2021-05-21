@@ -48,12 +48,12 @@ test('Append Collection', done => {
 });
 
 test('View Collection', done => {
-	functions.viewCollection(2, function(jason) {
+	functions.viewCollection(1, function(jason) {
 		try {
 			expect(jason).toEqual(
 				expect.arrayContaining([
 					expect.objectContaining({
-						postID: 7
+						postID: 6
 					})
 				])
 			);
@@ -108,6 +108,17 @@ test('Get Profile', done => {
 					})
 				])
 			);
+			done();
+		} catch (error) {
+			done(error);
+		}
+	});
+});
+
+test('Logs out User', done => {
+	functions.logout(function(jason) {
+		try {
+			expect(jason).toEqual(1);
 			done();
 		} catch (error) {
 			done(error);
@@ -235,5 +246,5 @@ test('Creates New Image Post Link', done => {
 		}
 	});
 });
-*/
+
 

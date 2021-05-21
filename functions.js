@@ -101,8 +101,15 @@ const favorite = (id, next) => {
 }
 
 const getProfile = (id, next) => {
-	var url = localStorage.getItem("host") + '/getProfile?userID=self&uid='+id;
+	var url = localStorage.getItem("host") + '/getProfile?userID='+id;
 	getResponse(url, function(jason) {
+		next(jason);
+	});
+}
+
+const logout = (next) => {
+	var url = localStorage.getItem("host") + '/logout';
+	postResponse(url, JSON.stringify({}), function(jason) {
 		next(jason);
 	});
 }
@@ -148,4 +155,4 @@ const newPostImageLink = (ttl, cpt, imageURL, next) => {
 	});
 }
 
-module.exports = {postById, register, login, newPostText, newPostImageLink, postByUser, getProfile, getFavPost, favorite, getAllFav, viewCollection, newCollection, appendCollection, allCollection};
+module.exports = {postById, register, login, newPostText, newPostImageLink, postByUser, getProfile, getFavPost, favorite, getAllFav, viewCollection, newCollection, appendCollection, allCollection, logout};
