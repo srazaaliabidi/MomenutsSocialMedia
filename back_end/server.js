@@ -654,10 +654,12 @@ router.get('/getPostFavorite', function (req, res) {
 /*----------------------COLLECTIONS---------------------------*/
 
 router.post('/newCollection', upload.single("iconURL"), function (req, res) {
+	console.log(req.body)
+	console.log(req.query)
 	console.log("/newCollection");
 	var uid = 0;
 	if (!req.session.uid) {
-		uid = req.body.uid
+		uid = req.query.uid
 	} else {
 		uid = req.session.uid
 	}
@@ -665,12 +667,12 @@ router.post('/newCollection', upload.single("iconURL"), function (req, res) {
 	if (req.file) {
 		filePath = "/front_end/momentus/public/images/collection-images"+Date.now()+"-"+req.file.originalname;
 	} else {
-		filePath = req.body.iconURL;
+		filePath = "https://cdn2.iconfinder.com/data/icons/files-and-folders-15/48/11-512.png";
 	}
 	console.log(">"+filePath);
 	var date = new Date();
 	var time = date.getTime();
-	var query = "INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('"+uid+"', '"+req.body.name+"', '"+filePath+"', '"+time+"', '"+time+"');";
+	var query = "INSERT INTO Collections (userID, name, iconURL, dateCreated, lastUpdated) VALUES ('"+uid+"', '"+req.query.name+"', '"+filePath+"', '"+time+"', '"+time+"');";
 	connection.query(query, function (error, result) {
 		if (error) {
 			console.log(error);

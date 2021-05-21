@@ -117,10 +117,10 @@ function CollectionSidebar({ username, _id }) {
     try {
       axios
           .post("/newCollection", {
-            name:newCollection,
-
+            name: newCollection,
           })
           .then((response) => {
+            console.log(response)
             console.log("collection created");
           });
     } catch (err) {
@@ -128,6 +128,7 @@ function CollectionSidebar({ username, _id }) {
     }
     history.go(0)
   }
+
   function updateNewCollection(e) {
     setNewCollection(e.target.value);
   }
@@ -159,6 +160,7 @@ function CollectionSidebar({ username, _id }) {
                         </div>
                       </Link>
                   ))}
+                  Create a collection!
                   <form onSubmit={(e) => handleCollection(e)}>
                     <input
                         id="newCollection"
